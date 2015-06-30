@@ -33,6 +33,7 @@ class Episode(models.Model):
     published = models.DateField()
     duration = models.CharField(max_length=64, null=True, blank=True)
     panel = models.ManyToManyField(Panelist)
+    tags = models.ManyToManyField(Tag)
 
     def __str__(self):
         return self.title
