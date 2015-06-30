@@ -6,12 +6,12 @@ from django.utils.encoding import python_2_unicode_compatible
 @python_2_unicode_compatible
 class Panelist(models.Model):
     name = models.CharField(max_length=128)
-    alias = models.CharField(max_length=128)
-    about = models.TextField()
-    picture = models.ImageField(upload_to="panel")
-    twitter = models.CharField(max_length=64)
-    facebook = models.CharField(max_length=128)
-    url = models.CharField(max_length=128)
+    alias = models.CharField(max_length=128, blank=True, null=True)
+    about = models.TextField(null=True, blank=True)
+    picture = models.ImageField(upload_to="panel", null=True, blank=True)
+    twitter = models.CharField(max_length=64, null=True, blank=True)
+    facebook = models.CharField(max_length=128, null=True, blank=True)
+    url = models.CharField(max_length=128, null=True, blank=True)
 
     def __str__(self):
         return self.name
