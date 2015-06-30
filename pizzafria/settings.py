@@ -58,7 +58,7 @@ ROOT_URLCONF = 'pizzafria.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(PROJECT_PATH, 'templates/')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -118,6 +118,3 @@ STATICFILES_DIRS = (
 )
 
 MEDIA_ROOT = os.path.join(PROJECT_PATH, 'templates/media/')
-
-TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__),
-                              '..', 'templates').replace('\\', '/'),)

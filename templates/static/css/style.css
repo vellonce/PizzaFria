@@ -1,0 +1,7 @@
+body{
+    background: #26181b;
+}
+header {
+    background: url("../images/logo_slogan.png") no-repeat 50%;
+    height: 315px;
+}
