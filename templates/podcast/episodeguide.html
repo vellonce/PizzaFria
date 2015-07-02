@@ -1,7 +1,10 @@
 {% extends "base.html" %}
 {% block title %}Gu&iacute;a de Episodios{% endblock %}
 {% block content %}
-    {% for episode in object_list %}
-        {{ episode.title }}
-    {% endfor %}
+    <div class="posts">
+        {% for episode in object_list %}
+            <h2>{{ episode.title }}</h2>
+        {% endfor %}
+    </div>
+
 {% endblock %}

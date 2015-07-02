@@ -9,9 +9,38 @@
 </head>
 <body>
 <header class="col-sm-12 col-lg-12">
+    <div class="row header_desc">
+        <div class="col-md-6 col-sm-12 logo">&nbsp;</div>
+        <div class="col-md-6 col-sm-12">
+            <h1>Conversaciones que nunca pierden sabor</h1>
+            <p class="description">
+                Amantes de la pizza, sabrán, que incluso fría, es sensacional. <br/>
+                Igual los temas de conversación, hay algunos que en la boca, jamás pierden sabor.
+                </p>
+            <p class="description">
+                PizzaFr&iacute;a es un podcast semanal acerca de pel&iacute;culas,
+                series, videojuegos y todos aquellos temas de los que los peculiares integrantes del panel disfrutan platicar.
+            </p>
 
+            <form action="." method="post" class="row">
+                <h2>SUSCR&Iacute;BETE</h2>
+                <span class="col-sm-12">Entérate de cuándo sale el episodio más nuevo</span>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <input type="email" class="form-control" placeholder="Email"/>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <button class="button" type="submit">Suscribirse</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </header>
-{% block content %}{% endblock %}
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
