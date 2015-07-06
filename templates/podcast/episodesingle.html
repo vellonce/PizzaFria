@@ -1,4 +1,7 @@
 {% extends "base.html" %}
+{% block title %}
+{{ episode.title }}
+{% endblock %}
 {% block content %}
 
     <div class="episode row">
@@ -36,6 +39,22 @@
               <source src="/media/{{ object.file }}" type="audio/mpeg">
             Your browser does not support the audio element.
             </audio>
+        </div>
+        <div class="row comments">
+            <div id="disqus_thread"></div>
+            <script type="text/javascript">
+                /* * * CONFIGURATION VARIABLES * * */
+                var disqus_shortname = 'pizzafra';
+                var disqus_title = '{{ episode.title }}';
+
+                /* * * DON'T EDIT BELOW THIS LINE * * */
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
         </div>
     </div>
 {% endblock %}
