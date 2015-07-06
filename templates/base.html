@@ -9,11 +9,66 @@
 </head>
 <body>
 <header class="col-sm-12 col-lg-12">
+    <div class="row header_desc">
+        <div class="col-md-6 col-sm-12 logo">&nbsp;</div>
+        <div class="col-md-6 col-sm-12">
+            <h1>Conversaciones que nunca pierden sabor</h1>
+            <p class="description">
+                Amantes de la pizza, sabrán, que incluso fría, es sensacional. <br/>
+                Igual los temas de conversación, hay algunos que en la boca, jamás pierden sabor.
+                </p>
+            <p class="description">
+                PizzaFr&iacute;a es un podcast semanal acerca de pel&iacute;culas,
+                series, videojuegos y todos aquellos temas de los que los peculiares integrantes del panel disfrutan platicar.
+            </p>
 
+            <form action="{% url "suscribe" %}" method="post" class="row">
+                {% csrf_token %}
+                <h2>SUSCR&Iacute;BETE</h2>
+                <span class="col-sm-12 description">Entérate de cuándo sale el episodio más nuevo</span>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        {{ suscribe.email }}
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <button class="button" type="submit">Suscribirse</button>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-sm-12 text-center suscribe_buttons">
+                    <a href="#itunes" class="button">ITUNES</a>
+                    <a href="#rss" class="button">RSS</a>
+                </div>
+            </form>
+        </div>
+    </div>
 </header>
-{% block content %}{% endblock %}
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+<script type="text/javascript">
+    $(document).on('ready', function(){
+        $('.close_message').on('click', function(e){
+            e.preventDefault();
+            $(this).parent().parent().remove();
+            window.history.replaceState("/", "Pizza Fria", "/")
+        });
+    });
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-64698957-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
 </body>
 </html>
