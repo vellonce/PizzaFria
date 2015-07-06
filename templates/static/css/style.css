@@ -13,6 +13,17 @@
 body{
     background: #26181b;
 }
+a{
+    text-decoration: none;
+    color: white;
+}
+a:hover{
+    text-decoration: underline;
+    color: white;
+}
+a:visited{
+    text-decoration: none;
+}
 header {
     background: url("../images/fondo.png") no-repeat;
     background-size: cover;
@@ -30,11 +41,14 @@ header .logo{
     margin-top: 50px;
 }
 
-h1, h2, h3 {
+h1, h2, h3, .episodenumber {
     color: white;
     font-family: neigaregular;
     text-shadow: 0 0 0.2em white ;
 
+}
+.episodenumber{
+    font-size: 55px;
 }
 .description{
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -54,5 +68,30 @@ h1, h2, h3 {
     text-decoration: none;
 }
 .container{
-
+    width: 900px;
+}
+.message{
+    background: #66afe9;
+    color: white;
+    border-radius: 5px;
+    border: solid 1px white;
+    font-weight: 700;
+    height: 30px;
+    padding-top: 3px;
+}
+.close_message{
+    float: right;
+}
+.suscribe_buttons{
+    margin-top: 10px;
+    margin-bottom: 50px;
+}
+.container{
+    color: white;
+}
+.labl{
+    font-weight: 700;
+}
+.episode{
+    border-bottom: solid 1px white;
 }

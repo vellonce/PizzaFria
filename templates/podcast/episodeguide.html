@@ -1,10 +1,62 @@
 {% extends "base.html" %}
 {% block title %}Gu&iacute;a de Episodios{% endblock %}
 {% block content %}
+    {% if message %}
+        <div class="row messages text-center">
+            <span class="message col-lg-12">{{ message }} <a href="#" class="close_message">cerrar</a></span>
+        </div>
+    {% endif %}
+
     <div class="posts">
         {% for episode in object_list %}
-            <h2>{{ episode.title }}</h2>
+            <div class="episode row">
+                <div class="col-sm-1 episodenumber">{{ episode.number_of_episode }}</div>
+                <div class="col-sm-11 episodeinfo">
+                    <h2><a href="{% url "episode_detail" episode.slug %}">{{ episode.title }}</a></h2>
+                    <div class="row info">
+                        <div class="published col-lg-3">
+                            <span class="labl">Publicado el:</span>
+                            <span>{{ episode.published|date:"Y-m-d" }}</span>
+                        </div>
+
+                        <div class="duration col-lg-3">
+                            <span class="labl">
+                                Duraci&oacute;n:
+                            </span>
+                            <span>{{ episode.duration }}</span>
+                        </div>
+                    </div>
+                    <div class="row info">
+                        <div class="published col-lg-12">
+
+                        <span class="labl panelist">Panel:</span>
+                        {% for panelist in episode.panel.all %}
+                            {{ panelist.name }}
+                            {% if not forloop.last %}
+                                |
+                            {% endif %}
+                        {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         {% endfor %}
+        {% if is_paginated %}
+            <div class="pagination">
+                <span class="page-links">
+                    {% if page_obj.has_previous %}
+                        <a href="/?page={{ page_obj.previous_page_number }}">Anterior</a>
+                    {% endif %}
+                    <span class="page-current">
+                        P&aacute;gina {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                    </span>
+                    {% if page_obj.has_next %}
+                        <a href="/?page={{ page_obj.next_page_number }}">Siguiente</a>
+                    {% endif %}
+                </span>
+            </div>
+        {% endif %}
     </div>
 
 {% endblock %}
