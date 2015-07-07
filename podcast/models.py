@@ -36,6 +36,8 @@ class Episode(models.Model):
     duration = models.CharField(max_length=64, null=True, blank=True)
     panel = models.ManyToManyField(Panelist)
     tags = models.ManyToManyField(Tag)
+    image = models.ImageField(
+        upload_to="episodes_cover", null=True, blank=True)
 
     def __str__(self):
         return self.title
@@ -44,6 +46,9 @@ class Episode(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
         super(Episode, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return "/%i/" % self.slug
 
 
 @python_2_unicode_compatible

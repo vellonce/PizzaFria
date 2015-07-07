@@ -39,7 +39,11 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'podcast',
+    'licenses',
+    'easy_thumbnails',
+    'podcasting'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -118,3 +122,20 @@ STATICFILES_DIRS = (
 )
 
 MEDIA_ROOT = os.path.join(PROJECT_PATH, 'templates/media/')
+
+SITE_ID = 2
+
+THUMBNAIL_ALIASES = {
+    "podcasting.Show.original_image": {
+        "sm": {"size": (120, 120)},
+        "lg": {"size": (550, 550)},
+        "itunes_sm": {"size": (144, 144)},
+        "itunes_lg": {"size": (1400, 1400)},
+    },
+    "podcasting.Episode.original_image": {
+        "sm": {"size": (120, 120)},
+        "lg": {"size": (550, 550)},
+        "itunes_sm": {"size": (144, 144)},
+        "itunes_lg": {"size": (1400, 1400)},
+    },
+}
