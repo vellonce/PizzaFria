@@ -2,6 +2,7 @@
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from slugify import slugify
+from podcasting.models import Episode as EpisodePodcasting
 
 
 @python_2_unicode_compatible
@@ -27,17 +28,9 @@ class Tag(models.Model):
 
 @python_2_unicode_compatible
 class Episode(models.Model):
-    title = models.CharField(max_length=128)
+    episode = models.ForeignKey(EpisodePodcasting)
     number_of_episode = models.CharField(max_length=10, default='00')
-    slug = models.SlugField(max_length=140, blank=True)
-    description = models.TextField(null=True, blank=True)
-    file = models.FileField(upload_to="episodes", null=True, blank=True)
-    published = models.DateField()
-    duration = models.CharField(max_length=64, null=True, blank=True)
     panel = models.ManyToManyField(Panelist)
-    tags = models.ManyToManyField(Tag)
-    image = models.ImageField(
-        upload_to="episodes_cover", null=True, blank=True)
 
     def __str__(self):
         return self.title

@@ -43,7 +43,9 @@ INSTALLED_APPS = (
     'podcast',
     'licenses',
     'easy_thumbnails',
-    'podcasting'
+    'podcasting',
+    'imagekit',
+    'sorl.thumbnail'
 )
 
 MIDDLEWARE_CLASSES = (
