@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
 
 # Create your views here.
 from podcast.forms import SuscriptionForm
-from podcast.models import Episode, Suscriptor
+from podcast.models import EpisodePodcast, Suscriptor
 
 
 class EpisodeList(ListView):
-    model = Episode
+    model = EpisodePodcast
     paginate_by = 10
     template_name = "podcast/episodeguide.html"
 
     def get_queryset(self):
-        return Episode.objects.all().order_by('-published')
+        return EpisodePodcast.objects.all().order_by('-published')
 
     def get_context_data(self, **kwargs):
         context = super(EpisodeList, self).get_context_data(**kwargs)
@@ -22,19 +22,6 @@ class EpisodeList(ListView):
         context['message'] = self.request.GET.get('message', None)
 
         return context
-
-
-class EpisodeSingle(DetailView):
-    model = Episode
-    template_name = "podcast/episodesingle.html"
-
-    def get_context_data(self, **kwargs):
-        context = super(EpisodeSingle, self).get_context_data(**kwargs)
-        context['suscribe'] = SuscriptionForm(None)
-        context['message'] = self.request.GET.get('message', None)
-
-        return context
-
 
 def suscribe(request):
     if request.method != 'POST':

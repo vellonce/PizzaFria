@@ -125,7 +125,8 @@ STATICFILES_DIRS = (
 
 MEDIA_ROOT = os.path.join(PROJECT_PATH, 'templates/media/')
 
-SITE_ID = 2
+SITE_URL = 'pizzafria.com'
+SITE_ID = 1
 
 THUMBNAIL_ALIASES = {
     "podcasting.Show.original_image": {

@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
+from django.conf import settings
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from slugify import slugify
-from podcasting.models import Episode as EpisodePodcasting
+from podcasting.models import Episode as EpisodePodcasting, EmbedMedia
 
 
 @python_2_unicode_compatible
@@ -27,21 +28,28 @@ class Tag(models.Model):
 
 
 @python_2_unicode_compatible
-class Episode(models.Model):
+class EpisodePodcast(models.Model):
     episode = models.ForeignKey(EpisodePodcasting)
     number_of_episode = models.CharField(max_length=10, default='00')
+    file = models.FileField(upload_to="episodes", null=True, blank=True)
     panel = models.ManyToManyField(Panelist)
 
     def __str__(self):
-        return self.title
+        return self.episode.title
 
     def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.title)
-        super(Episode, self).save(*args, **kwargs)
-
-    def get_absolute_url(self):
-        return "/%i/" % self.slug
+        super(EpisodePodcast, self).save(*args, **kwargs)
+        if self.file:
+            url = 'http://{0}{1}'.format(settings.SITE_URL, self.file.url)
+            em = EmbedMedia.objects.filter(episode=self.episode)
+            if not em:
+                em = EmbedMedia(
+                    episode=self.episode,
+                    url=url
+                )
+            elif em.url != url:
+                em.url = url
+            em.save()
 
 
 @python_2_unicode_compatible

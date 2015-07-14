@@ -6,7 +6,6 @@ django-autoslug==1.8.0
 django-imagekit==3.2.6
 django-licenses==0.2.5
 django-model-utils==2.2
-django-podcasting==0.10.1
 django-taggit==0.16.0
 easy-thumbnails==2.2
 pilkit==1.1.12
