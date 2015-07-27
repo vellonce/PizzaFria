@@ -25,20 +25,24 @@ a:visited{
     text-decoration: none;
 }
 header {
-    background: url("../images/fondo.png") no-repeat;
     background-size: cover;
-    background-position: center center;
+    background: url("../images/fondo.jpg") no-repeat center center;
     min-height: 315px;
 }
 
 header .logo{
-    background: url("../images/logo-sinfondo.png") no-repeat;
     height: 300px;
     background-size: cover;
-    background-position: center center;
+    background: url("../images/logo-sinfondo.png") no-repeat center center;
+    cursor: pointer;
 }
 .header_desc{
     margin-top: 50px;
+}
+
+footer{
+  color: #aaa;
+  margin-top: 50px;
 }
 
 h1, h2, h3, .episodenumber {

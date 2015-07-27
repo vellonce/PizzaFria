@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse
 from django.utils.feedgenerator import rfc2822_date, Rss201rev2Feed, Atom1Feed
 from django.shortcuts import get_object_or_404
 
-from django.contrib.sites.models import get_current_site
+from django.contrib.sites.models import get_current_site, Site
 from django.contrib.syndication.views import Feed
 from django.views.generic.base import RedirectView
 
@@ -37,7 +37,7 @@ try:
 except ImportError:
     licenses = False
 
-from podcasting.models import Enclosure, Show
+from podcasting.models import Enclosure, Show, Episode
 from podcasting.conf import settings as settings2
 
 
@@ -73,9 +73,17 @@ class ITunesElements(object):
                 itunes_sm_url = show.original_image.url
                 itunes_lg_url = show.original_image.url
             if itunes_sm_url and itunes_lg_url:
-                handler.addQuickElement("itunes:image", attrs={"href": itunes_lg_url})
+                handler.addQuickElement("itunes:image",
+                                        attrs={
+                                            "href": "http://{0}{1}".format(
+                                                Site.objects.get_current(),
+                                                itunes_lg_url)
+                                        })
                 handler.startElement("image", {})
-                handler.addQuickElement("url", itunes_sm_url)
+                handler.addQuickElement("url",
+                                        "http://{0}{1}".format(
+                                            Site.objects.get_current(),
+                                            itunes_sm_url))
                 handler.addQuickElement("title", self.feed["title"])
                 handler.addQuickElement("link", self.feed["link"])
                 handler.endElement("image")
@@ -135,9 +143,17 @@ class ITunesElements(object):
                 itunes_sm_url = episode.original_image.url
                 itunes_lg_url = episode.original_image.url
             if itunes_sm_url and itunes_lg_url:
-                handler.addQuickElement("itunes:image", attrs={"href": itunes_lg_url})
+                handler.addQuickElement("itunes:image",
+                                        attrs={
+                                            "href": "http://{0}{1}".format(
+                                                Site.objects.get_current(),
+                                                itunes_lg_url)
+                                        })
                 handler.startElement("image", {})
-                handler.addQuickElement("url", itunes_sm_url)
+                handler.addQuickElement("url",
+                                        "http://{0}{1}".format(
+                                            Site.objects.get_current(),
+                                            itunes_sm_url))
                 handler.addQuickElement("title", episode.title)
                 handler.addQuickElement("link", episode.get_absolute_url())
                 handler.endElement("image")
@@ -190,7 +206,7 @@ class ShowFeed(Feed):
         return show.link
 
     def categories(self, show):
-        return ("Music",)
+        return ("TV & Film",)
 
     def feed_copyright(self, show):
         if licenses:
@@ -203,7 +219,11 @@ class ShowFeed(Feed):
         return show.ttl
 
     def items(self, show):
-        return show.episode_set.published()[:settings2.PODCASTING_FEED_ENTRIES]
+        ep_list = Episode.objects.exclude(
+            published=None
+        ).order_by("-published")[:settings.PODCASTING_FEED_ENTRIES]
+        print("ep_list", ep_list)
+        return ep_list
 
     def get_object(self, request, *args, **kwargs):
         self.mime = [mc[0] for mc in Enclosure.MIME_CHOICES if mc[0] == kwargs["mime_type"]][0]
@@ -219,8 +239,8 @@ class ShowFeed(Feed):
         return episode.description
 
     def item_link(self, episode):
-        return reverse("podcasting_episode_detail",
-                       kwargs={"show_slug": self.show.slug, "slug": episode.slug})
+        return reverse("episode_detail",
+                       kwargs={"slug": episode.slug})
 
     # def item_author_link(self, episode):
     #     return "todo" #this one doesn't add anything in atom or rss

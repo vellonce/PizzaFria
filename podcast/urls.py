@@ -9,11 +9,9 @@ urlpatterns = patterns(
     '',
     url(r'^$', EpisodeList.as_view(),
         name='episode_list'),
-    url(r'^(?P<slug>[-\w]+)$', EpisodeSingle.as_view(),
+    url(r'^episode/(?P<slug>[-\w]+)$', EpisodeSingle.as_view(),
         name='episode_detail'),
-
-    url(r"^podcasts/", include("podcasting.urls")),
-    url(r"^feeds/podcasts/", include("podcasting.urls_feeds")),
+    url(r"^feed/", include("podcasting.urls_feeds")),
     url(r'^suscribe$', suscribe,
         name='suscribe'),
 )

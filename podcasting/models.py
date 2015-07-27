@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 import json
 import os
+
 try:
     from urllib2 import urlopen
 except ImportError:
@@ -40,6 +41,7 @@ except ImportError:
 
 try:
     from easy_thumbnails.fields import ThumbnailerImageField as ImageField
+
     custom_image_field = True
 except ImportError:
     custom_image_field = False
@@ -47,6 +49,7 @@ except ImportError:
 if not custom_image_field:
     try:
         from sorl.thumbnail import ImageField  # noqa
+
         custom_image_field = True
     except ImportError:
         custom_image_field = False
@@ -93,7 +96,6 @@ def get_episode_upload_folder(instance, pathname):
     )
 
 
-
 @python_2_unicode_compatible
 class Show(models.Model):
     """
@@ -106,9 +108,11 @@ class Show(models.Model):
     )
     uuid = UUIDField(_("id"), unique=True)
 
-    created = models.DateTimeField(_("created"), auto_now_add=True, editable=False)
+    created = models.DateTimeField(_("created"), auto_now_add=True,
+                                   editable=False)
     updated = models.DateTimeField(_("updated"), auto_now=True, editable=False)
-    published = models.DateTimeField(_("published"), null=True, blank=True, editable=False)
+    published = models.DateTimeField(_("published"), null=True, blank=True,
+                                     editable=False)
 
     sites = models.ManyToManyField(Site, verbose_name=_('Sites'))
 
@@ -120,25 +124,30 @@ class Show(models.Model):
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL, related_name="podcast_shows",
         verbose_name=_("owner"),
-        help_text=_("""Make certain the user account has a name and e-mail address."""))
+        help_text=_(
+            """Make certain the user account has a name and e-mail address."""))
 
     editor_email = models.EmailField(
         _("editor email"), blank=True,
-        help_text=_("Email address of the person responsible for the feed's content."))
+        help_text=_(
+            "Email address of the person responsible for the feed's content."))
     webmaster_email = models.EmailField(
         _("webmaster email"), blank=True,
-        help_text=_("Email address of the person responsible for channel publishing."))
+        help_text=_(
+            "Email address of the person responsible for channel publishing."))
 
     if 'licenses' in settings.INSTALLED_APPS:
         license = models.ForeignKey(License, verbose_name=_("license"))
     else:
         license = models.CharField(
             _("license"), max_length=255,
-            help_text=_("To publish a podcast to iTunes it is required to set a license type."))
+            help_text=_(
+                "To publish a podcast to iTunes it is required to set a license type."))
 
     organization = models.CharField(
         _("organization"), max_length=255,
-        help_text=_("Name of the organization, company or Web site producing the podcast."))
+        help_text=_(
+            "Name of the organization, company or Web site producing the podcast."))
     link = models.URLField(_("link"), help_text=_("""URL of either the main website or the
         podcast section of the main website."""))
 
@@ -243,7 +252,8 @@ class Show(models.Model):
 
     twitter_tweet_prefix = models.CharField(
         _("Twitter tweet prefix"), max_length=80,
-        help_text=_("Enter a short ``tweet_text`` prefix for new episodes on this show."),
+        help_text=_(
+            "Enter a short ``tweet_text`` prefix for new episodes on this show."),
         blank=True)
 
     objects = PassThroughManager.for_queryset_class(ShowManager)()
@@ -258,7 +268,8 @@ class Show(models.Model):
         return self.title
 
     def get_share_url(self):
-        return "http://{0}{1}".format(Site.objects.get_current(), self.get_absolute_url())
+        return "http://{0}{1}".format(Site.objects.get_current(),
+                                      self.get_absolute_url())
 
     def get_absolute_url(self):
         return reverse("podcasting_show_detail", kwargs={"slug": self.slug})
@@ -279,15 +290,18 @@ class Episode(models.Model):
     SIXTY_CHOICES = tuple((x, x) for x in range(60))
     uuid = UUIDField("ID", unique=True)
 
-    created = models.DateTimeField(_("created"), auto_now_add=True, editable=False)
+    created = models.DateTimeField(_("created"), auto_now_add=True,
+                                   editable=False)
     updated = models.DateTimeField(_("updated"), auto_now=True, editable=False)
-    published = models.DateTimeField(_("published"), null=True, blank=True, editable=False)
+    published = models.DateTimeField(_("published"), null=True, blank=True,
+                                     editable=False)
 
     shows = models.ForeignKey(Show, verbose_name=_("Podcasts"))
 
     enable_comments = models.BooleanField(default=True)
 
-    author_text = models.CharField(_("author text"), max_length=255, blank=True, help_text=_("""
+    author_text = models.CharField(_("author text"), max_length=255, blank=True,
+                                   help_text=_("""
         The person or musician name(s) featured on this specific episode.
         The suggested format is: 'email@example.com (Full Name)' but 'Full Name' only,
         is acceptable. Multiple authors should be comma separated."""))
@@ -311,12 +325,15 @@ class Episode(models.Model):
             itunes:keywords tags. This field can be up to 4000 characters."""))
     tracklist = models.TextField(
         _("tracklist"), blank=True,
-        help_text=_("""One track per line, machine will automatically add the numbers."""))
+        help_text=_(
+            """One track per line, machine will automatically add the numbers."""))
 
-    tweet_text = models.CharField(_("tweet text"), max_length=140, editable=False)
+    tweet_text = models.CharField(_("tweet text"), max_length=140,
+                                  editable=False)
 
     original_image = ImageField(
-        _("image"), upload_to=get_episode_upload_folder, blank=True, help_text=_("""
+        _("image"), upload_to=get_episode_upload_folder, blank=True,
+        help_text=_("""
             A podcast must have 1400 x 1400 pixel cover art in JPG or PNG
             format using RGB color space. See our technical spec for
             details. To be eligible for featuring on iTunes Stores,
@@ -353,15 +370,18 @@ class Episode(models.Model):
 
     # iTunes specific fields
     hours = models.SmallIntegerField(_("hours"), default=0)
-    minutes = models.SmallIntegerField(_("minutes"), default=0, choices=SIXTY_CHOICES)
-    seconds = models.SmallIntegerField(_("seconds"), default=0, choices=SIXTY_CHOICES)
+    minutes = models.SmallIntegerField(_("minutes"), default=0,
+                                       choices=SIXTY_CHOICES)
+    seconds = models.SmallIntegerField(_("seconds"), default=0,
+                                       choices=SIXTY_CHOICES)
     keywords = models.CharField(
         _("keywords"), max_length=255, blank=True,
         help_text=_("A comma-delimited list of words for searches, up to 12; "
                     "perhaps include misspellings."))
     explicit = models.PositiveSmallIntegerField(
         _("explicit"), choices=Show.EXPLICIT_CHOICES,
-        help_text=_("``Clean`` will put the clean iTunes graphic by it."), default=1)
+        help_text=_("``Clean`` will put the clean iTunes graphic by it."),
+        default=1)
     block = models.BooleanField(
         _("block"), default=False,
         help_text=_("Check to block this episode from iTunes because <br />its "
@@ -417,7 +437,8 @@ class Episode(models.Model):
             return 0
 
     def get_share_url(self):
-        return "http://{0}{1}".format(Site.objects.get_current(), self.get_absolute_url())
+        return "http://{0}{1}".format(Site.objects.get_current(),
+                                      self.get_absolute_url())
 
     def get_share_title(self):
         return self.title
@@ -463,16 +484,18 @@ class Enclosure(models.Model):
             scaled down to 50x50 pixels at smallest in iTunes."""))
 
     size = models.PositiveIntegerField(
-        _("size"), help_text=_("The length attribute is the file size in bytes. "
-                               "Find this information in the files properties "
-                               "(on a Mac, ``Get Info`` and refer to the size row)"))
+        _("size"),
+        help_text=_("The length attribute is the file size in bytes. "
+                    "Find this information in the files properties "
+                    "(on a Mac, ``Get Info`` and refer to the size row)"))
     mime = models.CharField(
         _("mime format"), max_length=4, choices=MIME_CHOICES,
         help_text=_("Supports mime types of: {0}".format(
             ", ".join([mime[0] for mime in MIME_CHOICES]))))
     bitrate = models.CharField(
         _("bit rate"), max_length=5, default="192",
-        help_text=_("Measured in kilobits per second (kbps), often 128 or 192."))
+        help_text=_(
+            "Measured in kilobits per second (kbps), often 128 or 192."))
     sample = models.CharField(
         _("sample rate"), max_length=5, default="44.1",
         help_text=_("Measured in kilohertz (kHz), often 44.1."))
@@ -481,7 +504,8 @@ class Enclosure(models.Model):
         help_text=_("Number of channels; 2 for stereo, 1 for mono."))
     duration = models.IntegerField(
         _("duration"),
-        help_text=_("Duration of the audio file, in seconds (always as integer)."))
+        help_text=_(
+            "Duration of the audio file, in seconds (always as integer)."))
 
     class Meta:
         ordering = ("url", "mime",)
