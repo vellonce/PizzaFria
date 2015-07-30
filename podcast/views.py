@@ -51,3 +51,10 @@ class EpisodeSingle(DetailView):
         slug = self.kwargs.get(self.slug_field, None)
         if slug:
             EpisodePodcast.objects.get(episode__slug=slug)
+
+    def get_context_data(self, **kwargs):
+        context = super(EpisodeSingle, self).get_context_data(**kwargs)
+        context['suscribe'] = SuscriptionForm(None)
+        context['message'] = self.request.GET.get('message', None)
+
+        return context
