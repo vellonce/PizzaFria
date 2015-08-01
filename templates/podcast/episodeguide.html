@@ -12,7 +12,7 @@
             <div class="episode row">
                 <div class="col-sm-1 episodenumber">{{ episode.number_of_episode }}</div>
                 <div class="col-sm-11 episodeinfo">
-                    <h2><a href="{% url "episode_detail" episode.episode.slug %}">{{ episode.episode.title }}</a>&nbsp;<span class="fa fa-play-circle-o"></span></h2>
+                    <h2><a href="{% url "episode_detail" episode.episode.slug %}">{{ episode.episode.title }}&nbsp;<span class="fa fa-play-circle-o"></span></a></h2>
                     <div class="row info">
                         <div class="published col-lg-3">
                             <span class="labl">Publicado el:</span>
