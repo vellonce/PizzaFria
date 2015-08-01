@@ -23,7 +23,7 @@
                             <span class="labl">
                                 Duraci&oacute;n:
                             </span>
-                            <span>{{ episode.episode.minutes }}:{{ episode.episode.seconds }}</span>
+                            <span>{% if episode.episode.hours %}{{ episode.episode.hours }}:{% endif %}{{ episode.episode.minutes }}:{{ episode.episode.seconds }}</span>
                         </div>
                     </div>
                     <div class="row info">
