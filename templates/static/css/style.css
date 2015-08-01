@@ -99,3 +99,10 @@ h1, h2, h3, .episodenumber {
 .episode{
     border-bottom: solid 1px white;
 }
+.player{
+    margin-top: 10px;
+}
+.podcast-description{
+    margin-top: 30px;
+    margin-bottom: 30px;
+}

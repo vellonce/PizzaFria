@@ -6,6 +6,7 @@
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/reset.css' %}"/>
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}"/>
+<link rel="stylesheet" href="{% static 'font-awesome-4.4.0/css/font-awesome.min.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
 </head>
 <body>
@@ -36,8 +37,8 @@
                     </div>
                 </div>
                 <div class="col-lg-6 col-sm-12 text-center suscribe_buttons">
-                    <a href="#itunes" class="button">ITUNES</a>
-                    <a href="http://pizzafria.com/feed/pizza-fria/mp3/rss/" class="button">RSS</a>
+                    <a href="{{ itunes_url }}" class="button">ITUNES</a>
+                    <a href="{% url 'podcasts_show_feed_rss' show feed_type %}" class="button">RSS</a>
                 </div>
             </form>
         </div>

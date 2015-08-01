@@ -47,9 +47,9 @@ class EpisodePodcast(models.Model):
                     episode=self.episode,
                     url=url
                 )
-            elif em.url != url:
-                em.url = url
-            em.save()
+            elif em[0].url != url:
+                em[0].url = url
+            em[0].save()
 
 
 @python_2_unicode_compatible

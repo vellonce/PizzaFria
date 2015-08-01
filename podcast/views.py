@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
+from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
 
 # Create your views here.
+from podcasting.models import Show
 from podcast.forms import SuscriptionForm
 from podcast.models import EpisodePodcast, Suscriptor
 
@@ -17,6 +19,9 @@ class EpisodeList(ListView):
         context = super(EpisodeList, self).get_context_data(**kwargs)
         context['suscribe'] = SuscriptionForm(None)
         context['message'] = self.request.GET.get('message', None)
+        context['show'] = Show.objects.first().slug
+        context['feed_type'] = 'mp3'
+        context['itunes_url'] = settings.ITUNES_URL
 
         return context
 
@@ -50,11 +55,14 @@ class EpisodeSingle(DetailView):
     def get_object(self, queryset=None):
         slug = self.kwargs.get(self.slug_field, None)
         if slug:
-            EpisodePodcast.objects.get(episode__slug=slug)
+            return EpisodePodcast.objects.get(episode__slug=slug)
 
     def get_context_data(self, **kwargs):
         context = super(EpisodeSingle, self).get_context_data(**kwargs)
         context['suscribe'] = SuscriptionForm(None)
         context['message'] = self.request.GET.get('message', None)
+        context['show'] = Show.objects.first().slug
+        context['feed_type'] = 'mp3'
+        context['itunes_url'] = settings.ITUNES_URL
 
         return context

@@ -12,10 +12,12 @@ urlpatterns = patterns(
     "",
 
     # Episode list feed by show (RSS 2.0 and iTunes)
-    url(r"^(?P<show_slug>[-\w]+)/(?P<mime_type>{mimes})/rss/$".format(mimes=MIMES),
+    url(r"^(?P<show_slug>[-\w]+)/(?P<mime_type>{mimes})/rss/$".format(
+        mimes=MIMES),
         RssShowFeed(), name="podcasts_show_feed_rss"),
 
     # Episode list feed by show (Atom)
-    url(r"^(?P<show_slug>[-\w]+)/(?P<mime_type>{mimes})/atom/$".format(mimes=MIMES),
+    url(r"^(?P<show_slug>[-\w]+)/(?P<mime_type>{mimes})/atom/$".format(
+        mimes=MIMES),
         AtomShowFeed(), name="podcasts_show_feed_atom"),
 )
