@@ -53,6 +53,9 @@ class EpisodePodcast(models.Model):
                     em.url = url
             em.save()
 
+    class Meta:
+        ordering = ["-episode__published"]
+
 
 @python_2_unicode_compatible
 class Suscriptor(models.Model):
