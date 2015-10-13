@@ -142,5 +142,5 @@ THUMBNAIL_ALIASES = {
         "itunes_lg": {"size": (1400, 1400)},
     },
 }
-PODCASTING_FEED_ENTRIES = 10
+PODCASTING_FEED_ENTRIES = 100
 ITUNES_URL = "https://itunes.apple.com/mx/podcast/pizza-fria/id1024808184?l=en"
