@@ -24,7 +24,7 @@
                 series, videojuegos y todos aquellos temas de los que los peculiares integrantes del panel disfrutan platicar.
             </p>
 
-            <form action="{% url "suscribe" %}" method="post" class="row">
+            <!-- <form action="{% url "suscribe" %}" method="post" class="row">
                 {% csrf_token %}
                 <h2>SUSCR&Iacute;BETE</h2>
                 <span class="col-sm-12 description">Entérate de cuándo sale el episodio más nuevo</span>
@@ -40,7 +40,8 @@
                     <a href="{{ itunes_url }}" class="button">ITUNES</a>
                     <a href="http://feeds.feedburner.com/PizzaFra" class="button">RSS</a>
                 </div>
-            </form>
+            </form>-->
+            <form style="border:1px solid #ccc;padding:3px;text-align:center;" action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open('https://feedburner.google.com/fb/a/mailverify?uri=PizzaFra', 'popupwindow', 'scrollbars=yes,width=550,height=520');return true"><p>Enter your email address:</p><p><input type="text" style="width:140px" name="email"/></p><input type="hidden" value="PizzaFra" name="uri"/><input type="hidden" name="loc" value="en_US"/><input type="submit" value="Subscribe" /><p>Delivered by <a href="https://feedburner.google.com" target="_blank">FeedBurner</a></p></form>
         </div>
     </div>
 </header>
