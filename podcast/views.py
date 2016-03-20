@@ -22,6 +22,7 @@ class EpisodeList(ListView):
         context['show'] = Show.objects.first().slug
         context['feed_type'] = 'mp3'
         context['itunes_url'] = settings.ITUNES_URL
+        context['domain'] = settings.PODCAST_DOMAIN
 
         return context
 
@@ -64,5 +65,6 @@ class EpisodeSingle(DetailView):
         context['show'] = Show.objects.first().slug
         context['feed_type'] = 'mp3'
         context['itunes_url'] = settings.ITUNES_URL
+        context['domain'] = settings.PODCAST_DOMAIN
 
         return context

@@ -144,3 +144,4 @@ THUMBNAIL_ALIASES = {
 }
 PODCASTING_FEED_ENTRIES = 100
 ITUNES_URL = "https://itunes.apple.com/mx/podcast/pizza-fria/id1024808184?l=en"
+PODCAST_DOMAIN = 'http://pizzafria.com'
