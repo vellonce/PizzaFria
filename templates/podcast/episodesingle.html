@@ -1,11 +1,12 @@
 {% extends "site_base.html" %}
+{% load staticfiles %}
 {% block title %}
 {{ object.title }}
 {% endblock %}
 {% block ogtitle %}{{ object.episode.title }}{% endblock %}
 {% block ogurl %}{{ domain }}{{ request.get_full_path }}{% endblock %}
 {% block ogdescription %}{{ object.episode.description }}{% endblock %}
-
+{% block ogimage %}{{ domain }}{% static 'images/logo.jpg' %}{% endblock %}
 {% block content %}
 
     <div class="episode row">
