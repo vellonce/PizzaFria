@@ -3,11 +3,17 @@
 <html>
 <head lang="es">
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/reset.css' %}"/>
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}"/>
-<link rel="stylesheet" href="{% static 'font-awesome-4.4.0/css/font-awesome.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'font-awesome-4.4.0/css/font-awesome.min.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+    <meta property="og:url"                content="{% block ogurl %}{% endblock %}" />
+    <meta property="og:type"               content="article" />
+    <meta property="og:title"              content="{% block ogtitle %}{% endblock %}" />
+    <meta property="og:description"        content="{% block ogdescription %}{% endblock %}" />
+    <meta property="og:image"              content="{% static 'images/logo.jpg' %}" />
 </head>
 <body>
 <header class="col-sm-12 col-lg-12">
@@ -45,15 +51,15 @@
                 method="post" target="popupwindow" 
                 onsubmit="window.open('https://feedburner.google.com/fb/a/mailverify?uri=PizzaFra', 'popupwindow', 'scrollbars=yes,width=550,height=520');return true"
                 class="row">
-                <h2>SUSCR&Iacute;BETE</h2>
+                <h2 class="text-center">SUSCR&Iacute;BETE</h2>
                 <span class="col-sm-12 description">Entérate de cuándo sale el episodio más nuevo</span>
                 <div class="row">
-                    <div class="col-sm-6 col-md-6">
+                    <div class="col-md-9 col-lg-9 col-xs-12 col-sm-12">
                         <input class="form-control" id="id_email" maxlength="128" name="email" placeholder="eMail" type="email">
                     </div>
                     <input type="hidden" value="PizzaFra" name="uri"/><input type="hidden" name="loc" value="es_ES"/>
-                    <input type="submit" value="Suscribirse" class="button" />
-                    <p>Delivered by <a href="https://feedburner.google.com" target="_blank">FeedBurner</a></p>
+                    <input type="submit" value="Suscribirse" class="button col-sm-12 col-xs-12 col-md-3 col-lg-3" />
+                    <p class="description col-sm-12 text-center">Delivered by <a href="https://feedburner.google.com" target="_blank">FeedBurner</a></p>
                 </div>
                 <div class="col-lg-6 col-sm-12 text-center suscribe_buttons">
                     <a href="{{ itunes_url }}" class="button">ITUNES</a>

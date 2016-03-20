@@ -2,6 +2,10 @@
 {% block title %}
 {{ object.title }}
 {% endblock %}
+{% block ogtitle %}{{ object.episode.title }}{% endblock %}
+{% block ogurl %}{{ request.get_full_path }}{% endblock %}
+{% block ogdescription %}{{ object.episode.description }}{% endblock %}
+
 {% block content %}
 
     <div class="episode row">
@@ -31,6 +35,9 @@
                         |
                     {% endif %}
                 {% endfor %}
+                </div>
+                <div class="published col-lg-3">
+                    <span class="labl"><a href="/media/{{ object.file }}" download>Descargar</a></span>
                 </div>
             </div>
         </div>

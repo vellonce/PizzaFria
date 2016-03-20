@@ -1,5 +1,8 @@
 {% extends "site_base.html" %}
 {% block title %}Gu&iacute;a de Episodios{% endblock %}
+{% block ogtitle %}Gu&iacute;a de Episodios{% endblock %}
+{% block ogurl %}{{ request.get_full_path }}{% endblock %}
+{% block ogdescription %}Un podcast sobre viajes en el tiempo. PizzaFr&iacute;a es un podcast semanal acerca de pel&iacute;culas, series, videojuegos y todos aquellos temas de los que los peculiares integrantes del panel disfrutan platicar.{% endblock %}
 {% block content %}
     {% if message %}
         <div class="row messages text-center">
