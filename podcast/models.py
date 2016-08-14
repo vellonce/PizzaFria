@@ -1,9 +1,14 @@
 # -*- coding: utf-8 -*-
+import os
+
+import audiotools
 from django.conf import settings
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
+from pymediainfo import MediaInfo
 from slugify import slugify
-from podcasting.models import Episode as EpisodePodcasting, EmbedMedia
+from podcasting.models import Episode as EpisodePodcasting, EmbedMedia, \
+    Enclosure
 
 
 @python_2_unicode_compatible
@@ -52,6 +57,33 @@ class EpisodePodcast(models.Model):
                 if em.url != url:
                     em.url = url
             em.save()
+
+            size = os.path.getsize(self.file.path)
+            file_ext = self.file.name.split('.')[-1].lower().strip()
+            if file_ext in Enclosure.ALLOWEWD_MIMES:
+                audiofile = audiotools.open(self.file.path)
+                info = MediaInfo.parse(self.file.path)
+                # Just guessing here, usig this as default if cannot get
+                # the bitrate
+                bitrate = 192
+                for track in info.tracks:
+                    if track.track_type == 'General':
+                        pass
+                    if track.track_type == 'Audio':
+                        bitrate = track.bit_rate / 1000
+                enclosure = Enclosure(
+                    url=url,
+                    size=size,
+                    mime=file_ext,
+                    bitrate=bitrate,
+                    sample=audiofile.sample_rate(),
+                    channel=audiofile.channels(),
+                    duration=int(audiofile.seconds_length()),
+                )
+                enclosure.save()
+                enclosure.episodes.add(self.episode)
+            else:
+                raise TypeError("File not supported for podcasting")
 
     class Meta:
         ordering = ["-episode__published"]

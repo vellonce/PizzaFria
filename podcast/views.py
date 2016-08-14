@@ -66,5 +66,12 @@ class EpisodeSingle(DetailView):
         context['feed_type'] = 'mp3'
         context['itunes_url'] = settings.ITUNES_URL
         context['domain'] = settings.PODCAST_DOMAIN
+        if settings.TRACKING_PREPHIX:
+            episode = self.object.episode
+            url = e.url.replace('http://', '')
+            url = settings.TRACKING_PREPHIX + url
+        else:
+            url = e.url
+        return url
 
         return context

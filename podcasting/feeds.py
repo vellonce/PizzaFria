@@ -258,7 +258,12 @@ class ShowFeed(Feed):
     def item_enclosure_url(self, episode):
         try:
             e = episode.enclosure_set.get(mime=self.mime)
-            return e.url
+            if settings.TRACKING_PREPHIX:
+                url = e.url.replace('http://', '')
+                url = settings.TRACKING_PREPHIX+url
+            else:
+                url = e.url
+            return url
         except Enclosure.DoesNotExist:
             pass
 

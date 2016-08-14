@@ -457,17 +457,24 @@ class Enclosure(models.Model):
     """
     An enclosure is one, of possibly many, files/filetypes of an episode.
     """
+    DEFAULT_MIME = "mp3"
+    MP3 = DEFAULT_MIME
+    AIFF = "aiff"
+    FLAC = "flac"
+    MP4 = "mp4"
+    OGG = "ogg"
+    WAV = "wav"
+    ALLOWEWD_MIMES = [MP3, AIFF, FLAC, MP4, OGG, WAV]
     try:
         MIME_CHOICES = settings.PODCASTING_MIME_CHOICES
     except AttributeError:
         MIME_CHOICES = (
-            ("aiff", "audio/aiff"),
-            ("flac", "audio/flac"),
-            ("mp3", "audio/mpeg"),
-            ("mp4", "audio/mp4"),
-            ("ogg", "audio/ogg"),
-            ("flac", "audio/flac"),
-            ("wav", "audio/wav"),
+            (AIFF, "audio/aiff"),
+            (FLAC, "audio/flac"),
+            (MP3, "audio/mpeg"),
+            (MP4, "audio/mp4"),
+            (OGG, "audio/ogg"),
+            (WAV, "audio/wav"),
         )
 
     episodes = models.ManyToManyField(Episode, verbose_name=_("Episodes"))
