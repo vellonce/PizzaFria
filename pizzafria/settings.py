@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import json
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_PATH = os.path.abspath(
@@ -21,9 +22,9 @@ PROJECT_PATH = os.path.abspath(
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '9bvy9kndaj(dn11vmp4u7f^ngn6mt$)xaq@-9c_-f=%5cc@*-b'
-
+# SECURITY WARNING: keep the secret secretkey.txt used in production secret!
+with open(os.path.join(BASE_DIR, 'secretkey.txt')) as f:
+    SECRET_KEY = f.read().strip()
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -83,16 +84,23 @@ WSGI_APPLICATION = 'pizzafria.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'pizza_db',
-        'USER': 'pizza_user',
-        'PASSWORD': 'A8d32e08.',
-        'HOST': 'localhost',
-        'PORT': '3306'
-    }
-}
+# DATABASES readed from database.json containing the complete configuration
+# The file contains the folowing json
+#{
+#    "default": {
+#        "ENGINE": "django.db.backends.mysql",
+#        "NAME": "podcast_db",
+#        "USER": "podcast_dbuser",
+#        "PASSWORD": "dbpass",
+#        "HOST": "localhost",
+#        "PORT": "3306"
+#    }
+#}
+with open(PROJECT_PATH + '/database.json') as f:
+    db = [line.rstrip('\n') for line in f]
+    db = ''.join(db)
+
+DATABASES = json.loads(db)
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/

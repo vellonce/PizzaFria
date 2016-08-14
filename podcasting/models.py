@@ -25,7 +25,6 @@ if not hasattr(settings, "AUTH_USER_MODEL"):
 
 # required external dependencies
 from autoslug import AutoSlugField
-from model_utils.managers import PassThroughManager
 
 # optional external dependencies
 try:
@@ -256,7 +255,7 @@ class Show(models.Model):
             "Enter a short ``tweet_text`` prefix for new episodes on this show."),
         blank=True)
 
-    objects = PassThroughManager.for_queryset_class(ShowManager)()
+    objects = ShowManager()
     tags = TaggableManager(blank=True)
 
     class Meta:
@@ -387,7 +386,7 @@ class Episode(models.Model):
         help_text=_("Check to block this episode from iTunes because <br />its "
                     "content might cause the entire show to be <br />removed from iTunes."""))
 
-    objects = PassThroughManager.for_queryset_class(EpisodeManager)()
+    objects = EpisodeManager()
     tags = TaggableManager(blank=True)
 
     class Meta:
