@@ -1,0 +1,67 @@
+{% extends "site_base.html" %}
+{% load staticfiles %}
+{% block title %}Gu&iacute;a de Episodios{% endblock %}
+{% block ogtitle %}Gu&iacute;a de Episodios{% endblock %}
+{% block ogurl %}{{ domain }}{{ request.get_full_path }}{% endblock %}
+{% block ogdescription %}Un podcast sobre viajes en el tiempo. PizzaFr&iacute;a es un podcast semanal acerca de pel&iacute;culas, series, videojuegos y todos aquellos temas de los que los peculiares integrantes del panel disfrutan platicar.{% endblock %}
+{% block ogimage %}{{ domain }}{% static 'images/logo.jpg' %}{% endblock %}
+{% block content %}
+    {% if message %}
+        <div class="row messages text-center">
+            <span class="message col-lg-12">{{ message }} <a href="#" class="close_message">cerrar</a></span>
+        </div>
+    {% endif %}
+
+    <div class="posts">
+        {% for episode in object_list %}
+            <div class="episode row">
+                <div class="col-sm-1 episodenumber">{{ episode.number_of_episode }}</div>
+                <div class="col-sm-11 episodeinfo">
+                    <h2><a href="{% url "episode_detail" episode.episode.slug %}">{{ episode.episode.title }}&nbsp;<span class="fa fa-play-circle-o"></span></a></h2>
+                    <div class="row info">
+                        <div class="published col-lg-3">
+                            <span class="labl">Publicado el:</span>
+                            <span>{{ episode.episode.published|date:"Y-m-d" }}</span>
+                        </div>
+
+                        <div class="duration col-lg-3">
+                            <span class="labl">
+                                Duraci&oacute;n:
+                            </span>
+                            <span>{% if episode.episode.hours %}{{ episode.episode.hours|stringformat:"02d" }}:{% endif %}{{ episode.episode.minutes|stringformat:"02d" }}:{{ episode.episode.seconds|stringformat:"02d" }}</span>
+                        </div>
+                    </div>
+                    <div class="row info">
+                        <div class="published col-lg-12">
+
+                        <span class="labl panelist">Panel:</span>
+                        {% for panelist in episode.panel.all %}
+                            {{ panelist.alias }}
+                            {% if not forloop.last %}
+                                |
+                            {% endif %}
+                        {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
+        {% if is_paginated %}
+            <div class="pagination">
+                <span class="page-links">
+                    {% if page_obj.has_previous %}
+                        <a href="/?page={{ page_obj.previous_page_number }}">Anterior</a>
+                    {% endif %}
+                    <span class="page-current">
+                        P&aacute;gina {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                    </span>
+                    {% if page_obj.has_next %}
+                        <a href="/?page={{ page_obj.next_page_number }}">Siguiente</a>
+                    {% endif %}
+                </span>
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}
