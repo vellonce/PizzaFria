@@ -46,7 +46,7 @@
           rel='stylesheet' type='text/css'>
 
     <!-- FONT AWESOME -->
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"
           rel="stylesheet"/>
 
     <!-- =================================== -->
@@ -140,7 +140,7 @@
 <body itemscope itemtype="http://schema.org/WebSite">
 
 <!-- ===== HEADER ===== -->
-<header class="header absolute" itemscope
+<header class="header static" itemscope
         itemtype="http://schema.org/Organization">
     <div class="container">
 
@@ -168,37 +168,8 @@
 </header>
 
 <!-- ===== LASTEST PODCAST (HERO) ===== -->
-<section class="podcast-hero"
-         style="background-image: url(assets/img/podcast-hero.jpg)">
-    <div class="podcast-hero-inner">
-
-        <!-- ===== PODCAST INFO ===== -->
-        <div class="container">
-            <div class="podcast-hero-content">
-                <span class="podcast-hero-date">December 22, 2015</span>
-                <h2 class="podcast-hero-title"><a href="podcast.html">Episode
-                    #08 - Our vacations have been so amazing!</a></h2>
-                <ul class="podcast-hero-meta">
-                    <li class="item"><a href="#" class="podcast-hero-tag"
-                                        rel="tag">Lifestyle</a></li>
-                    <li class="item"><i class="fa fa-clock-o"></i> 45 mins.</li>
-                    <li class="item"><a href="#"
-                                        class="podcast-hero-download"><i
-                            class="fa fa-download"></i> Download</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- ===== PODCAST PLAYER ===== -->
-        <div class="podcast-hero-player-content">
-            <div class="container">
-                <!-- ===== CUSTOM PLAYER ===== -->
-                <audio src="assets/audio/emotional.mp3"></audio>
-            </div>
-        </div>
-
-    </div>
-</section>
+{% block main_header %}
+{% endblock %}
 
 <!-- ===== MAIN ===== -->
 <main id="main" class="main">
@@ -207,157 +178,8 @@
 
     {% endblock %}
 
-    <!-- ===== ABOUT US ===== -->
-    <section id="about-us" class="section-negative">
-        <div class="container">
-
-            <!-- ===== SECTION TITLE ===== -->
-            <h2 class="title-default text-center">Behind the mic...</h2>
-
-            <div class="row mb-30">
-
-                <!-- ===== TEAM CARD ===== -->
-                <div class="col-lg-4 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-12 mb-40">
-                    <div class="team-card">
-                        <figure class="team-card-image"><img
-                                src="assets/img/team/team-1.jpg" alt="John Doe"
-                                title="John Doe"/></figure>
-                        <div class="team-card-content">
-                            <h2 class="team-card-title">John Doe</h2>
-                            <p class="team-card-job">Main Caster / Web
-                                Developer</p>
-                            <p class="team-card-description">Lorem ipsum dolor
-                                sit amet, consectetur adipisicing elit. Placeat
-                                itaque optio minus perferendis tempora, libero
-                                in fugiat, quisquam molestiae.</p>
-                            <ul class="team-card-social">
-                                <li class="social-item"><a href="#"
-                                                           target="_blank"><i
-                                        class="fa fa-facebook"></i></a></li>
-                                <li class="social-item"><a href="#"
-                                                           target="_blank"><i
-                                        class="fa fa-twitter"></i></a></li>
-                                <li class="social-item"><a href="#"
-                                                           target="_blank"><i
-                                        class="fa fa-google-plus"></i></a></li>
-                                <li class="social-item"><a href="#"
-                                                           target="_blank"><i
-                                        class="fa fa-soundcloud"></i></a></li>
-                                <li class="social-item"><a href="#"
-                                                           target="_blank"><i
-                                        class="fa fa-linkedin"></i></a></li>
-                                <li class="social-item"><a href="#"
-                                                           target="_blank"><i
-                                        class="fa fa-link"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ===== TEAM CARD ===== -->
-                <div class="col-lg-4 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-12 mb-40">
-                    <div class="team-card">
-                        <figure class="team-card-image"><img
-                                src="assets/img/team/team-2.jpg" alt="Jana Doe"
-                                title="Jana Doe"/></figure>
-                        <div class="team-card-content">
-                            <h2 class="team-card-title">Jana Doe</h2>
-                            <p class="team-card-job">Main Caster / Designer</p>
-                            <p class="team-card-description">Lorem ipsum dolor
-                                sit amet, consectetur adipisicing elit. Placeat
-                                itaque optio minus perferendis tempora.</p>
-                            <ul class="team-card-social">
-                                <li class="social-item"><a href="#"
-                                                           target="_blank"><i
-                                        class="fa fa-facebook"></i></a></li>
-                                <li class="social-item"><a href="#"
-                                                           target="_blank"><i
-                                        class="fa fa-twitter"></i></a></li>
-                                <li class="social-item"><a href="#"
-                                                           target="_blank"><i
-                                        class="fa fa-google-plus"></i></a></li>
-                                <li class="social-item"><a href="#"
-                                                           target="_blank"><i
-                                        class="fa fa-link"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ===== TEAM CARD ===== -->
-                <div class="col-lg-4 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-12 mb-40">
-                    <div class="team-card">
-                        <figure class="team-card-image"><img
-                                src="assets/img/team/team-3.jpg" alt="Joe Blow"
-                                title="Joe Blow"/></figure>
-                        <div class="team-card-content">
-                            <h2 class="team-card-title">Joe Blow</h2>
-                            <p class="team-card-job">Supporter / Actor</p>
-                            <p class="team-card-description">Lorem ipsum dolor
-                                sit amet, consectetur adipisicing elit. Placeat
-                                itaque optio minus perferendis tempora, libero
-                                in fugiat, quisquam molestiae.</p>
-                            <ul class="team-card-social">
-                                <li class="social-item"><a href="#"
-                                                           target="_blank"><i
-                                        class="fa fa-facebook"></i></a></li>
-                                <li class="social-item"><a href="#"
-                                                           target="_blank"><i
-                                        class="fa fa-twitter"></i></a></li>
-                                <li class="social-item"><a href="#"
-                                                           target="_blank"><i
-                                        class="fa fa-google-plus"></i></a></li>
-                                <li class="social-item"><a href="#"
-                                                           target="_blank"><i
-                                        class="fa fa-linkedin"></i></a></li>
-                                <li class="social-item"><a href="#"
-                                                           target="_blank"><i
-                                        class="fa fa-link"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-    </section>
-
-    <!-- ===== NEWSLETTER ===== -->
-    <section class="section-positive text-center">
-        <div class="container">
-
-            <!-- ===== SECTION TITLE ===== -->
-            <h2 class="title-default">No te pierdas ning&uacute;n episodio</h2>
-            <p class="section-description">Suscr&iacute;bete y recibe un correo cada vez que haya un nuevo episodio</p>
-
-            <!-- ===== FORM NEWSLETTER ===== -->
-            <form action="https://feedburner.google.com/fb/a/mailverify"
-                  method="post" target="popupwindow"
-                  onsubmit="window.open('https://feedburner.google.com/fb/a/mailverify?uri=PizzaFra', 'popupwindow', 'scrollbars=yes,width=550,height=520');return true"
-                  class="form-newsletter validate">
-                <fieldset class="row">
-                    <div class="col-md-9 nopadding">
-                        <input type="email" name="email"
-                               class="form-control form-negative"
-                               id="email-newsletter" placeholder="Your email"
-                               required/>
-                    </div>
-                    <input type="hidden" value="PizzaFra" name="uri"/><input
-                        type="hidden" name="loc" value="es_ES"/>
-                    <div class="col-md-3 nopadding">
-                        <button class="btn btn-success btn-lg btn-block"
-                                type="submit"><i class="fa fa-paper-plane"></i>
-                        </button>
-                    </div>
-                </fieldset>
-            </form>
-
-        </div>
-    </section>
-
     <!-- ===== DONATE ===== -->
-    <section id="donate" class="section-highlight text-center">
+    {% comment %}<section id="donate" class="section-highlight text-center">
         <div class="container">
 
             <!-- ===== SECTION TITLE ===== -->
@@ -396,7 +218,8 @@
             </div>
 
         </div>
-    </section>
+    </section>{% endcomment %}
+
 
 </main>
 
@@ -411,7 +234,7 @@
 
                 <!-- ===== SITEMAP ===== -->
                 <div class="col-sm-3 mb-40">
-                    <h2 class="title-separator white">Sitemap</h2>
+                    <h2 class="title-separator white">Mapa del sitio</h2>
                     <ul class="footer-list">
                         <li><a href="index.html">Home</a></li>
                         <li><a href="podcasts.html">Podcasts</a></li>
@@ -421,23 +244,37 @@
                 </div>
 
                 <!-- ===== PODCASTS EPISODES ===== -->
-                <div class="col-sm-3 mb-40">
+                <div class="col-sm-6 mb-40">
                     <h2 class="title-separator white">&Uacute;ltimos episodios</h2>
                     <ul class="footer-complement">
                         <li>
-                            <a href="podcast.html">#08 - Our vacations have been
-                                so amazing!</a>
-                            <span>December 22, 2015</span>
+                            <a href="{% url "episode_detail" latest.episode.slug %}">
+                                {{ latest.episode.title }}
+                            </a>
+                            <span>{{ latest.episode.published|date:"Y-m-d" }}</span>
                         </li>
                         <li>
-                            <a href="podcast-soundcloud.html">#07 - Podcast
-                                embed from SoundCloud</a>
-                            <span>December 21, 2015</span>
+                            {% if object_list %}
+                            {% for episode in object_list %}
+                                {% if forloop.first %}
+                                    <a href="{% url "episode_detail" episode.episode.slug %}">
+                                        {{ episode.episode.title }}
+                                    </a>
+                                    <span>{{ episode.episode.published|date:"Y-m-d" }}</span>
+                                {% endif %}
+                            {% endfor %}
+                            {% else %}
+                                <a href="{% url "episode_detail" second.episode.slug %}">
+                                    {{ second.episode.title }}
+                                </a>
+                                <span>{{ second.episode.published|date:"Y-m-d" }}</span>
+                            {% endif %}
                         </li>
                     </ul>
                 </div>
 
                 <!-- ===== PODCASTS EPISODES ===== -->
+                {% comment %}
                 <div class="col-sm-3 mb-40">
                     <h2 class="title-separator white">Who is helping?</h2>
                     <ul class="footer-complement">
@@ -454,11 +291,11 @@
                             <span>Donation - U$ 50</span>
                         </li>
                     </ul>
-                </div>
+                </div>{% endcomment %}
 
                 <!-- ===== SOCIAL CONNECTION ===== -->
                 <div class="col-sm-3 mb-40">
-                    <h2 class="title-separator white">We are social</h2>
+                    <h2 class="title-separator white">Somos sociales</h2>
                     <ul class="social-list">
                         <li class="social-item"><a href="https://www.facebook.com/PizzaFriaQro/" target="_blank"><i
                                 class="fa fa-facebook"></i></a></li>

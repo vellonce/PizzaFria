@@ -12,17 +12,35 @@ from podcasting.models import Episode as EpisodePodcasting, EmbedMedia, \
 
 
 @python_2_unicode_compatible
+class MediaAccount(models.Model):
+    SOCIAL_MEDIA = (
+        ('fa-facebook', 'Facebook'),
+        ('fa-twitter', 'Twitter'),
+        ('fa-snapchat-ghost', 'Snapchat'),
+        ('fa-instagram', 'Instagram'),
+        ('fa-link', 'Otro'),
+    )
+    social_network = models.CharField(max_length=64, choices=SOCIAL_MEDIA)
+    user_url = models.URLField()
+
+    def __str__(self):
+        return self.user_url
+
+
+@python_2_unicode_compatible
 class Panelist(models.Model):
     name = models.CharField(max_length=128)
     alias = models.CharField(max_length=128, blank=True, null=True)
     about = models.TextField(null=True, blank=True)
+    short_bio = models.TextField(null=True, blank=True)
+    role = models.CharField(null=True, blank=True, max_length=64)
     picture = models.ImageField(upload_to="panel", null=True, blank=True)
-    twitter = models.CharField(max_length=64, null=True, blank=True)
-    facebook = models.CharField(max_length=128, null=True, blank=True)
-    url = models.CharField(max_length=128, null=True, blank=True)
+    social_media = models.ManyToManyField(MediaAccount)
+    status = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
+
 
 @python_2_unicode_compatible
 class Tag(models.Model):
@@ -38,12 +56,21 @@ class EpisodePodcast(models.Model):
     number_of_episode = models.CharField(max_length=10, default='00')
     file = models.FileField(upload_to="episodes", null=True, blank=True)
     panel = models.ManyToManyField(Panelist)
+    tags = models.ManyToManyField(Tag)
 
     def __str__(self):
         return self.episode.title
 
     def save(self, *args, **kwargs):
         super(EpisodePodcast, self).save(*args, **kwargs)
+        tags = self.episode.keywords
+        tags = tags.split(',')
+        self.tags.clear()
+        for tag in tags:
+            tag = tag.strip()
+            tag, created = Tag.objects.get_or_create(tag=tag)
+            self.tags.add(tag)
+
         if self.file:
             url = 'http://{0}{1}'.format(settings.SITE_URL, self.file.url)
             em = EmbedMedia.objects.filter(episode=self.episode)

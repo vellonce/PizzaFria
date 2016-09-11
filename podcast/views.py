@@ -7,22 +7,34 @@ from django.views.generic import ListView, DetailView
 # Create your views here.
 from podcasting.models import Show
 from podcast.forms import SuscriptionForm
-from podcast.models import EpisodePodcast, Suscriptor
+from podcast.models import EpisodePodcast, Suscriptor, Panelist, Tag
 
 
-class EpisodeList(ListView):
+class HomeEpisodeList(ListView):
     model = EpisodePodcast
     paginate_by = 10
-    template_name = "podcast/episodeguide.html"
+    template_name = "podcast/home.html"
+
+    def get_queryset(self):
+        last = EpisodePodcast.objects.exclude(
+            episode__published__isnull=True).first()
+        episodes = EpisodePodcast.objects.exclude(
+            pk=last.pk).exclude(episode__published=None)[:7]
+        return episodes
 
     def get_context_data(self, **kwargs):
-        context = super(EpisodeList, self).get_context_data(**kwargs)
+        context = super(HomeEpisodeList, self).get_context_data(**kwargs)
         context['suscribe'] = SuscriptionForm(None)
         context['message'] = self.request.GET.get('message', None)
         context['show'] = Show.objects.first().slug
         context['feed_type'] = 'mp3'
         context['itunes_url'] = settings.ITUNES_URL
         context['domain'] = settings.PODCAST_DOMAIN
+        context['latest'] = EpisodePodcast.objects.exclude(
+            episode__published__isnull=True).first()
+        context['main_tags'] = context['latest'].episode.keywords.split(',')
+        context['panelists'] = Panelist.objects.filter(status=True)
+
 
         return context
 
@@ -51,12 +63,19 @@ def custom_redirect(url_name, *args, **kwargs):
 
 
 class EpisodeSingle(DetailView):
-    template_name = "podcast/episodesingle.html"
+    template_name = "podcast/episode_single.html"
 
     def get_object(self, queryset=None):
         slug = self.kwargs.get(self.slug_field, None)
         if slug:
             return EpisodePodcast.objects.get(episode__slug=slug)
+
+    def get_queryset(self):
+        last = EpisodePodcast.objects.exclude(
+            episode__published__isnull=True).first()
+        episodes = EpisodePodcast.objects.exclude(
+            pk=last.pk).exclude(episode__published=None)[:7]
+        return episodes
 
     def get_context_data(self, **kwargs):
         context = super(EpisodeSingle, self).get_context_data(**kwargs)
@@ -66,12 +85,24 @@ class EpisodeSingle(DetailView):
         context['feed_type'] = 'mp3'
         context['itunes_url'] = settings.ITUNES_URL
         context['domain'] = settings.PODCAST_DOMAIN
-        if settings.TRACKING_PREPHIX:
-            episode = self.object.episode
-            url = e.url.replace('http://', '')
-            url = settings.TRACKING_PREPHIX + url
-        else:
-            url = e.url
-        return url
-
+        context['latest'] = EpisodePodcast.objects.exclude(
+            episode__published__isnull=True).first()
+        context['second'] = EpisodePodcast.objects.exclude(
+            episode__published__isnull=True
+        ).exclude(
+            pk=context['latest'].pk).first()
         return context
+
+
+def generate_tags():
+    episodes = EpisodePodcast.objects.exclude(
+        episode__published__isnull=True)
+    for episode in episodes:
+        tags = episode.episode.keywords
+        tags = tags.split(',')
+        episode.tags.clear()
+        for tag in tags:
+            tag = tag.strip()
+            tag, created = Tag.objects.get_or_create(tag=tag)
+            episode.tags.add(tag)
+        print episode.tags.all()

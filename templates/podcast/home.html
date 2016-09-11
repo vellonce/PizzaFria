@@ -1,0 +1,220 @@
+{% extends "site_base.html" %}
+{% load staticfiles %}
+{% block main_header %}
+    <section class="podcast-hero"
+             style="background-image: url({{ latest.episode.original_image.url }})">
+    <div class="podcast-hero-inner">
+    <!-- ===== PODCAST INFO ===== -->
+    <div class="container">
+        <div class="podcast-hero-content">
+            <span class="podcast-hero-date">{{ latest.episode.published|date:"Y-m-d" }}</span>
+            <h2 class="podcast-hero-title"><a href="{% url "episode_detail" latest.episode.slug %}">{{ latest.episode.title }}</a></h2>
+            <ul class="podcast-hero-meta">
+                <li class="item"><a href="#" class="podcast-hero-tag"
+                                    rel="tag">{% for tag in latest.tags.all %}{% if forloop.first %}{{ tag }}{% endif %}{% endfor %}</a></li>
+                <li class="item"><i class="fa fa-clock-o"></i>
+                    {% if latest.episode.hours %}{{ latest.episode.hours|stringformat:"02d" }}:{% endif %}{{ latest.episode.minutes|stringformat:"02d" }}:{{ latest.episode.seconds|stringformat:"02d" }}</li>
+                <li class="item"><a
+                        href="http://dts.podtrac.com/redirect.mp3/pizzafria.com/media/{{ latest.file }}"
+                        download class="podcast-hero-download"><i
+                        class="fa fa-download"></i> Descargar</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ===== PODCAST PLAYER ===== -->
+    <div class="podcast-hero-player-content">
+        <div class="container">
+            <!-- ===== CUSTOM PLAYER ===== -->
+            <audio src="http://dts.podtrac.com/redirect.mp3/pizzafria.com/media/{{ latest.file }}"></audio>
+        </div>
+    </div>
+    </div>
+    </section>
+{% endblock %}
+{% block content %}
+    <!-- ===== PODCAST LIST ===== -->
+    <section id="#episodes" class="section-positive">
+        <div class="container">
+
+            <!-- ===== SECTION TITLE ===== -->
+            <h2 class="title-default">M&aacute;s Episodios</h2>
+
+            <div class="row">
+                {% for episode in object_list %}
+                    {% if forloop.first %}
+                        <!-- ===== PODCAST CARD FULL ===== -->
+                        <div class="col-sm-12 mb-40">
+                            <div class="podcast-card full">
+                                <figure class="podcast-image"><a
+                                        href="{% url "episode_detail" episode.episode.slug %}"><img
+                                        src="{{ episode.episode.original_image.url }}"
+                                        alt="{{ episode.episode.title }}" title="{{ episode.episode.title }}"/></a>
+                                </figure>
+                                <div class="podcast-content">
+                                    <span class="podcast-date">{{ episode.episode.published|date:"Y-m-d" }}</span>
+                                    <h2 class="podcast-title"><a
+                                            href="{% url "episode_detail" episode.episode.slug %}">Episodio
+                                        #{{ episode.number_of_episode }} -
+                                        {{ episode.episode.title }}</a></h2>
+                                    <p class="podcast-excerpt"><a
+                                            href="{% url "episode_detail" episode.episode.slug %}">
+                                        {{ episode.episode.description|safe }}
+                                    </a></p>
+                                    <ul class="podcast-meta">
+                                        <li class="item">
+                                            {% for tag in episode.tags.all %}
+                                                <a href="#" class="podcast-tag"
+                                                   rel="tag">
+                                                    {{ tag }}{% if not forloop.last %},&nbsp;{% endif %}
+                                                </a>
+                                            {% endfor %}
+                                        </li>
+                                        <li class="item"><i
+                                                class="fa fa-clock-o"></i>
+                                            {% if episode.episode.hours %}
+                                                {{ episode.episode.hours|stringformat:"02d" }}
+                                                :{% endif %}{{ episode.episode.minutes|stringformat:"02d" }}:{{ episode.episode.seconds|stringformat:"02d" }}
+                                        </li>
+                                        <li class="item"><a
+                                                href="{% url "episode_detail" episode.episode.slug %}"
+                                                class="podcast-play"><i
+                                                class="fa fa-play"></i> Reproducir Episodio</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <!-- ===== PODCAST CARD BOXED ===== -->
+                        <div class="col-sm-6 mb-40">
+                            <div class="podcast-card boxed">
+                                <figure class="podcast-image"><a
+                                        href="{% url "episode_detail" episode.episode.slug %}"><img
+                                        src="{{ episode.episode.original_image.url }}"
+                                        alt="{{ episode.episode.title }}" title="{{ episode.episode.title }}"/></a>
+                                </figure>
+                                <div class="podcast-content">
+                                    <span class="podcast-date">{{ episode.episode.published|date:"Y-m-d" }}</span>
+                                    <h2 class="podcast-title"><a
+                                            href="{% url "episode_detail" episode.episode.slug %}">Episodio
+                                        #{{ episode.number_of_episode }} - {{ episode.episode.title }}</a></h2>
+                                    <p class="podcast-excerpt"><a
+                                            href="{% url "episode_detail" episode.episode.slug %}">
+                                        {{ episode.episode.description|safe|truncatewords:14 }}
+                                    </a></p>
+                                    <ul class="podcast-meta">
+                                        <li class="item">
+                                            {% for tag in episode.tags.all %}
+                                                <a href="#" class="podcast-tag"
+                                                   rel="tag">
+                                                    {{ tag }}{% if not forloop.last %},&nbsp;{% endif %}
+                                                </a>
+                                            {% endfor %}
+
+                                        </li>
+                                        <li class="item"><i
+                                                class="fa fa-clock-o"></i>
+                                            {% if episode.episode.hours %}
+                                                {{ episode.episode.hours|stringformat:"02d" }}
+                                                :{% endif %}{{ episode.episode.minutes|stringformat:"02d" }}
+                                            :{{ episode.episode.seconds|stringformat:"02d" }}
+                                        </li>
+                                        <li class="item"><a
+                                                href="{% url "episode_detail" episode.episode.slug %}"
+                                                class="podcast-play"><i
+                                                class="fa fa-play"></i> Reproducir Episodio</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                {% endfor %}
+
+                <!-- ===== CHECK MORE ===== -->
+                <div class="col-sm-12 mb-50">
+                    <a href="podcasts.html"
+                       class="btn btn-primary btn-block btn-lg">Ver m&aacute;s episodios</a>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+    <!-- ===== ABOUT US ===== -->
+    <section id="about-us" class="section-negative">
+        <div class="container">
+
+            <!-- ===== SECTION TITLE ===== -->
+            <h2 class="title-default text-center">Detr&aacute;s del micr&oacute;fono...</h2>
+
+            <div class="row mb-30">
+
+                {% for panelist in panelists %}
+                    <!-- ===== TEAM CARD ===== -->
+                    <div class="col-lg-3 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-12 mb-40">
+                        <div class="team-card">
+                            <figure class="team-card-image"><img
+                                    src="{{ panelist.picture.url }}"
+                                    alt="{{ panelist.alias }}"
+                                    title="{{ panelist.alias }}"/></figure>
+                            <div class="team-card-content">
+                                <h2 class="team-card-title">{{ panelist.alias }}</h2>
+                                <p class="team-card-job">Main Caster
+                                    / {{ panelist.role }}</p>
+                                <p class="team-card-description">{{ panelist.short_bio|safe }}</p>
+                                <ul class="team-card-social">
+                                    {% for sm in panelist.social_media.all %}
+                                        <li class="social-item"><a
+                                                href="{{ sm.user_url }}"
+                                                target="_blank"><i
+                                                class="fa {{ sm.social_network }}"></i></a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===== NEWSLETTER ===== -->
+    <section class="section-positive text-center">
+        <div class="container">
+
+            <!-- ===== SECTION TITLE ===== -->
+            <h2 class="title-default">No te pierdas ning&uacute;n episodio</h2>
+            <p class="section-description">Suscr&iacute;bete y recibe un correo
+                cada vez que haya un nuevo episodio</p>
+
+            <!-- ===== FORM NEWSLETTER ===== -->
+            <form action="https://feedburner.google.com/fb/a/mailverify"
+                  method="post" target="popupwindow"
+                  onsubmit="window.open('https://feedburner.google.com/fb/a/mailverify?uri=PizzaFra', 'popupwindow', 'scrollbars=yes,width=550,height=520');return true"
+                  class="form-newsletter validate">
+                <fieldset class="row">
+                    <div class="col-md-9 nopadding">
+                        <input type="email" name="email"
+                               class="form-control form-negative"
+                               id="email-newsletter" placeholder="Tu email"
+                               required/>
+                    </div>
+                    <input type="hidden" value="PizzaFra" name="uri"/><input
+                        type="hidden" name="loc" value="es_ES"/>
+                    <div class="col-md-3 nopadding">
+                        <button class="btn btn-success btn-lg btn-block"
+                                type="submit"><i class="fa fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </fieldset>
+            </form>
+
+        </div>
+    </section>
+{% endblock %}
