@@ -70,13 +70,6 @@ class EpisodeSingle(DetailView):
         if slug:
             return EpisodePodcast.objects.get(episode__slug=slug)
 
-    def get_queryset(self):
-        last = EpisodePodcast.objects.exclude(
-            episode__published__isnull=True).first()
-        episodes = EpisodePodcast.objects.exclude(
-            pk=last.pk).exclude(episode__published=None)[:7]
-        return episodes
-
     def get_context_data(self, **kwargs):
         context = super(EpisodeSingle, self).get_context_data(**kwargs)
         context['suscribe'] = SuscriptionForm(None)
@@ -91,6 +84,47 @@ class EpisodeSingle(DetailView):
             episode__published__isnull=True
         ).exclude(
             pk=context['latest'].pk).first()
+
+        next_episode = EpisodePodcast.objects.filter(
+            pk__gt=self.object.pk
+        ).exclude(
+            episode__published__isnull=True
+        ).order_by('pk')
+
+        next_episode = next_episode.first()
+
+        prev_episode = EpisodePodcast.objects.filter(
+            pk__lt=self.object.pk
+        ).exclude(
+            episode__published__isnull=True
+        ).order_by('-pk')
+        prev_episode = prev_episode.first()
+
+        context['next'] = next_episode
+        context['prev'] = prev_episode
+
+        # Time marks
+        time_marks = []
+        timemarks = self.object.episode.tracklist
+        if timemarks:
+            timemarks = timemarks.splitlines()
+            for timemark in timemarks:
+                timemark = timemark.split('-')
+                try:
+                    seconds = timemark[0]
+                    mark = timemark[1]
+                except ValueError:
+                    print 'malformed timemark', timemark
+                    continue
+                m, s = divmod(int(seconds), 60)
+                h, m = divmod(m, 60)
+                if h:
+                    human_time = "%d:%02d:%02d" % (h, m, s)
+                else:
+                    human_time = "%02d:%02d" % (m, s)
+                time_marks.append(dict(human_time=human_time,
+                                       seconds=seconds, mark=mark))
+        context['time_marks'] = time_marks
         return context
 
 

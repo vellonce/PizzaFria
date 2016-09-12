@@ -325,7 +325,7 @@ class Episode(models.Model):
     tracklist = models.TextField(
         _("tracklist"), blank=True,
         help_text=_(
-            """One track per line, machine will automatically add the numbers."""))
+            """One track per line, machine will automatically add the numbers. Format: seconds-description"""))
 
     tweet_text = models.CharField(_("tweet text"), max_length=140,
                                   editable=False)

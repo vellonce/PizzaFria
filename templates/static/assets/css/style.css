@@ -314,8 +314,8 @@ li {
 
 .btn-success:hover,
 .btn-success:focus {
-	background: #29b765;
-	border: #29b765;
+	background: #c7001a;
+	border: #c7001a;
 }
 
 .btn-primary {
@@ -2229,7 +2229,7 @@ form .form-callback.error {
 }
 
 .podcast-links a.podcast-link-cite {
-	color: #7ee2a8;
+	color: #ee7583;
 }
 
 .podcast-links a.podcast-link-cite:hover,
