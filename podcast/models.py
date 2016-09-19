@@ -6,7 +6,8 @@ from django.conf import settings
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from pymediainfo import MediaInfo
-from slugify import slugify
+
+from blog.models import Tag
 from podcasting.models import Episode as EpisodePodcasting, EmbedMedia, \
     Enclosure
 
@@ -40,14 +41,6 @@ class Panelist(models.Model):
 
     def __str__(self):
         return self.name
-
-
-@python_2_unicode_compatible
-class Tag(models.Model):
-    tag = models.CharField(max_length=64)
-
-    def __str__(self):
-        return self.tag
 
 
 @python_2_unicode_compatible
