@@ -1,0 +1,101 @@
+{% extends "site_base.html" %}
+{% load staticfiles %}
+{% block title %}
+    PizzaFr&iacute;a - Un podcast sobre viajes en el tiempo
+{% endblock %}
+{% block ogtitle %}PizzaFría{% endblock %}
+{% block ogurl %}{{ domain }}{{ request.get_full_path }}{% endblock %}
+{% block ogdescription %}Un podcast sobre viajes en el tiempo. PizzaFr&iacute;a
+    es un podcast semanal acerca de pel&iacute;culas, series, videojuegos y
+    todos aquellos temas de los que los peculiares integrantes del panel
+    disfrutan platicar.{% endblock %}
+{% block ogimage %}{{ domain }}
+    {% static 'assets/img/logo_pf.png' %}{% endblock %}
+
+{% block siteurl %}{{ domain }}{{ request.get_full_path }}{% endblock %}
+{% block twitter_handle %}pizzafriamx{% endblock %}
+{% block twtitle %}PizzaFría{% endblock %}
+{% block twdescription %}Un podcast sobre viajes en el tiempo. PizzaFr&iacute;a
+    es un podcast semanal acerca de pel&iacute;culas, series, videojuegos y
+    todos aquellos temas de los que los peculiares integrantes del panel
+    disfrutan platicar.{% endblock %}
+{% block twimage %}{{ domain }}
+    {{ domain }}{% static 'assets/img/logo_pf.png' %}
+{% endblock %}
+{% block menu %}
+    <ul class="menu">
+        <li class="menuitem"><a href="{% url 'home' %}">The Ark</a></li>
+        <li class="menuitem"><a href="podcasts.html">Podcast</a></li>
+        <li class="menuitem"><a href="podcasts.html">Video</a></li>
+        <li class="menuitem"><a href="podcasts.html">Blog</a></li>
+        <li class="menuitem active"><a href="{% url 'about' %}">Nosotros</a>
+        </li>
+        <li class="menuitem"><a href="{% url 'contact_us' %}">Contacto</a></li>
+    </ul>
+{% endblock %}
+{% block main_header %}
+    <header class="page-header-podcast"
+            style="background-image: url({% static 'assets/img/pf_cover.jpg' %})">
+        <div class="page-header-inner">
+            <div class="container">
+
+                <!-- ===== BREADCRUMB ===== -->
+                <ol class="breadcrumb" itemscope
+                    itemtype="http://schema.org/BreadcrumbList">
+                    <li itemprop="itemListElement"><a href="{% url 'home' %}">The
+                        Ark</a>
+                    </li>
+                    <li itemprop="itemListElement"><a href="#">Nosotros</a></li>
+                </ol>
+
+                <!-- ===== PAGE HEADER CONTENT ===== -->
+                <div class="page-header-content text-center">
+                    <h2>Nosotros</h2>
+                </div>
+
+            </div>
+        </div>
+    </header>
+{% endblock %}
+{% block content %}
+    <!-- ===== ABOUT US ===== -->
+    <section id="about-us" class="section-negative">
+        <div class="container">
+
+            <!-- ===== SECTION TITLE ===== -->
+            <h2 class="title-default text-center">Detr&aacute;s del micr&oacute;fono...</h2>
+
+            <div class="row mb-30">
+
+                {% for panelist in panelists %}
+                    <!-- ===== TEAM CARD ===== -->
+                    <div class="col-lg-3 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-12 mb-40">
+                        <div class="team-card">
+                            <figure class="team-card-image"><img
+                                    src="{{ panelist.picture.url }}"
+                                    alt="{{ panelist.alias }}"
+                                    title="{{ panelist.alias }}"/></figure>
+                            <div class="team-card-content">
+                                <h2 class="team-card-title">{{ panelist.alias }}</h2>
+                                <p class="team-card-job">Main Caster
+                                    / {{ panelist.role }}</p>
+                                <p class="team-card-description">{{ panelist.short_bio|safe }}</p>
+                                <ul class="team-card-social">
+                                    {% for sm in panelist.social_media.all %}
+                                        <li class="social-item"><a
+                                                href="{{ sm.user_url }}"
+                                                target="_blank"><i
+                                                class="fa {{ sm.social_network }}"></i></a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+
+        </div>
+    </section>
+{% endblock %}

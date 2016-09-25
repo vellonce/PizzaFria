@@ -3,11 +3,12 @@ import os
 
 import audiotools
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from pymediainfo import MediaInfo
 
-from blog.models import Tag
+from blog.models import Tag, Post
 from podcasting.models import Episode as EpisodePodcasting, EmbedMedia, \
     Enclosure
 
@@ -30,6 +31,8 @@ class MediaAccount(models.Model):
 
 @python_2_unicode_compatible
 class Panelist(models.Model):
+    user = models.ForeignKey(User, verbose_name='Usuario', null=True,
+                             blank=True)
     name = models.CharField(max_length=128)
     alias = models.CharField(max_length=128, blank=True, null=True)
     about = models.TextField(null=True, blank=True)
@@ -45,6 +48,7 @@ class Panelist(models.Model):
 
 @python_2_unicode_compatible
 class EpisodePodcast(models.Model):
+    post = models.ForeignKey(Post, null=True, blank=True)
     episode = models.ForeignKey(EpisodePodcasting)
     number_of_episode = models.CharField(max_length=10, default='00')
     file = models.FileField(upload_to="episodes", null=True, blank=True)

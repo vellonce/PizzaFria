@@ -146,8 +146,8 @@
 
         <!-- ===== LOGO ===== -->
         <h1 class="logo"><a href="/"><img itemprop="logo" src="{% static 'assets/img/logo_pf.png' %}"
-                                                   alt="Soundcast - Podcast Responsive Theme"
-                                                   title="Soundcast - Podcast Responsive Theme"/></a>
+                                          alt="PizzaFria - Un podcast sobre viajes en el tiempo"
+                                          title="PizzaFria - Un podcast sobre viajes en el tiempo"/></a>
         </h1>
 
         <!-- ===== NAVIGATION ===== -->
@@ -232,10 +232,12 @@
                 <div class="col-sm-3 mb-40">
                     <h2 class="title-separator white">Mapa del sitio</h2>
                     <ul class="footer-list">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="podcasts.html">Podcasts</a></li>
-                        <li><a href="about-us.html">About Us</a></li>
-                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="index.html">The Ark</a></li>
+                        <li><a href="podcasts.html">Podcast</a></li>
+                        <li><a href="podcasts.html">Video</a></li>
+                        <li><a href="podcasts.html">Blog</a></li>
+                        <li><a href="{% url 'about' %}">Nosotros</a></li>
+                        <li><a href="{% url 'contact_us' %}">Contacto</a></li>
                     </ul>
                 </div>
 
@@ -244,27 +246,16 @@
                     <h2 class="title-separator white">&Uacute;ltimos episodios</h2>
                     <ul class="footer-complement">
                         <li>
-                            <a href="{% url "episode_detail" latest.episode.slug %}">
-                                {{ latest.episode.title }}
+                            <a href="#">
+                                Ultimo elemento
                             </a>
-                            <span>{{ latest.episode.published|date:"Y-m-d" }}</span>
+                            <span>2016-12-12</span>
                         </li>
                         <li>
-                            {% if object_list %}
-                            {% for episode in object_list %}
-                                {% if forloop.first %}
-                                    <a href="{% url "episode_detail" episode.episode.slug %}">
-                                        {{ episode.episode.title }}
-                                    </a>
-                                    <span>{{ episode.episode.published|date:"Y-m-d" }}</span>
-                                {% endif %}
-                            {% endfor %}
-                            {% else %}
-                                <a href="{% url "episode_detail" second.episode.slug %}">
-                                    {{ second.episode.title }}
-                                </a>
-                                <span>{{ second.episode.published|date:"Y-m-d" }}</span>
-                            {% endif %}
+                            <a href="#">
+                                Pen&uacute;ltimo elemento
+                            </a>
+                            <span>2016-12-12</span>
                         </li>
                     </ul>
                 </div>
@@ -327,7 +318,7 @@
 
                 <!-- ===== CREDIT LOGO ===== -->
                 <div class="col-sm-6 text-right">
-                    Pizzafr&iacute;a - 2016. All rights reserved.
+                    Pizzafr&iacute;a - 2016. Todos los derechos reservados.
                 </div>
 
             </div>

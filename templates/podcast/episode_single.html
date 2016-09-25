@@ -16,10 +16,12 @@
 
 {% block menu %}
     <ul class="menu">
-        <li class="menuitem"><a href="{% url 'home' %}">Inicio</a></li>
-        <li class="menuitem active"><a href="podcasts.html">Podcasts</a></li>
-        <li class="menuitem"><a href="about-us.html">Nosotros</a></li>
-        <li class="menuitem"><a href="contact.html">Contacto</a></li>
+        <li class="menuitem"><a href="{% url 'home' %}">The Ark</a></li>
+        <li class="menuitem active"><a href="podcasts.html">Podcast</a></li>
+        <li class="menuitem"><a href="podcasts.html">Video</a></li>
+        <li class="menuitem"><a href="podcasts.html">Blog</a></li>
+        <li class="menuitem"><a href="{% url 'about' %}">Nosotros</a></li>
+        <li class="menuitem"><a href="{% url 'contact_us' %}">Contacto</a></li>
     </ul>
 {% endblock %}
 {% block content %}
@@ -32,7 +34,8 @@
                 <!-- ===== BREADCRUMB ===== -->
                 <ol class="breadcrumb" itemscope
                     itemtype="http://schema.org/BreadcrumbList">
-                    <li itemprop="itemListElement"><a href="{% url 'home' %}">Inicio</a>
+                    <li itemprop="itemListElement"><a href="{% url 'home' %}">The
+                        Ark</a>
                     </li>
                     <li itemprop="itemListElement"><a href="#">Podcast</a></li>
                 </ol>

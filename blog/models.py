@@ -62,9 +62,18 @@ class Post(models.Model):
         help_text='preferentemente corto. Texto para mostrar en página '
                   'como previo')
     content = models.TextField(verbose_name='Contenido')
+    main_image = models.ForeignKey(Gallery, related_name="main_images",
+                                   verbose_name='Imagen principal (1400x1400)')
     images = models.ManyToManyField(Gallery)
     tags = models.ManyToManyField(Tag)
     author = models.ForeignKey(User, verbose_name='Autor')
 
     def __str__(self):
         return self.title + ' (' + self.entry_type + ')'
+
+
+class VideoPost(models.Model):
+    post = models.ForeignKey(Post, verbose_name='Entrada')
+    url = models.URLField(verbose_name='URL del video', blank=True, null=True)
+    video_file = models.FileField(upload_to='videos', blank=True, null=True,
+                                  verbose_name='Subir Video')

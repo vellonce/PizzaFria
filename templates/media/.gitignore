@@ -1,2 +1,8 @@
-*
-!.gitignore
+*.jpg
+*.png
+*.gif
+*.mp4
+*.avi
+*.mpeg
+*.mp3
+*.wav

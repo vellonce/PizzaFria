@@ -1,0 +1,75 @@
+{% extends "site_base.html" %}
+{% load staticfiles %}
+{% block title %}
+    PizzaFr&iacute;a - Un podcast sobre viajes en el tiempo
+{% endblock %}
+{% block ogtitle %}PizzaFría{% endblock %}
+{% block ogurl %}{{ domain }}{{ request.get_full_path }}{% endblock %}
+{% block ogdescription %}Un podcast sobre viajes en el tiempo. PizzaFr&iacute;a
+    es un podcast semanal acerca de pel&iacute;culas, series, videojuegos y
+    todos aquellos temas de los que los peculiares integrantes del panel
+    disfrutan platicar.{% endblock %}
+{% block ogimage %}{{ domain }}
+    {% static 'assets/img/logo_pf.png' %}{% endblock %}
+
+{% block siteurl %}{{ domain }}{{ request.get_full_path }}{% endblock %}
+{% block twitter_handle %}pizzafriamx{% endblock %}
+{% block twtitle %}PizzaFría{% endblock %}
+{% block twdescription %}Un podcast sobre viajes en el tiempo. PizzaFr&iacute;a
+    es un podcast semanal acerca de pel&iacute;culas, series, videojuegos y
+    todos aquellos temas de los que los peculiares integrantes del panel
+    disfrutan platicar.{% endblock %}
+{% block twimage %}{{ domain }}
+    {{ domain }}{% static 'assets/img/logo_pf.png' %}
+{% endblock %}
+{% block menu %}
+    <ul class="menu">
+        <li class="menuitem"><a href="{% url 'home' %}">The Ark</a></li>
+        <li class="menuitem"><a href="podcasts.html">Podcast</a></li>
+        <li class="menuitem"><a href="podcasts.html">Video</a></li>
+        <li class="menuitem"><a href="podcasts.html">Blog</a></li>
+        <li class="menuitem"><a href="{% url 'about' %}">Nosotros</a>
+        </li>
+        <li class="menuitem active"><a href="#">Contacto</a></li>
+    </ul>
+{% endblock %}
+{% block main_header %}
+    <header class="page-header-podcast"
+            style="background-image: url({% static 'assets/img/pf_cover.jpg' %})">
+        <div class="page-header-inner">
+            <div class="container">
+
+                <!-- ===== BREADCRUMB ===== -->
+                <ol class="breadcrumb" itemscope
+                    itemtype="http://schema.org/BreadcrumbList">
+                    <li itemprop="itemListElement"><a href="{% url 'home' %}">The
+                        Ark</a>
+                    </li>
+                    <li itemprop="itemListElement"><a href="#">Contacto</a></li>
+                </ol>
+
+                <!-- ===== PAGE HEADER CONTENT ===== -->
+                <div class="page-header-content text-center">
+                    <h2>Contacto</h2>
+                </div>
+
+            </div>
+        </div>
+    </header>
+{% endblock %}
+{% block content %}
+    <!-- ===== ABOUT US ===== -->
+    <section id="about-us" class="section-negative">
+        <div class="container text-center">
+
+            <!-- ===== SECTION TITLE ===== -->
+            <h2 class="title-default text-center">Gracias!</h2>
+
+            <p class="page-description mb-70">
+                Revisaremos tu mensaje tan pronto como nos sea posible!
+                (recuerda que somos godinez)
+            </p>
+
+        </div>
+    </section>
+{% endblock %}

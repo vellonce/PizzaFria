@@ -129,8 +129,8 @@
 	/* ========================= */
 	/* 		  CONTACT AJAX	     */
 	/* ========================= */
-	
-		$('#form-contact').on('submit', function(event){
+
+    /*$('#form-contact').on('submit', function(event){
 			
 			// If to check input validation
 			if( $('.form-control.error').length <= 0 ){
@@ -166,7 +166,7 @@
 				event.preventDefault();
 				
 			}
-			
-		});
+
+     });*/
 
 })(jQuery);

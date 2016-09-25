@@ -1,0 +1,137 @@
+{% extends "site_base.html" %}
+{% load staticfiles %}
+{% block title %}
+    PizzaFr&iacute;a - Un podcast sobre viajes en el tiempo
+{% endblock %}
+{% block ogtitle %}PizzaFría{% endblock %}
+{% block ogurl %}{{ domain }}{{ request.get_full_path }}{% endblock %}
+{% block ogdescription %}Un podcast sobre viajes en el tiempo. PizzaFr&iacute;a
+    es un podcast semanal acerca de pel&iacute;culas, series, videojuegos y
+    todos aquellos temas de los que los peculiares integrantes del panel
+    disfrutan platicar.{% endblock %}
+{% block ogimage %}{{ domain }}
+    {% static 'assets/img/logo_pf.png' %}{% endblock %}
+
+{% block siteurl %}{{ domain }}{{ request.get_full_path }}{% endblock %}
+{% block twitter_handle %}pizzafriamx{% endblock %}
+{% block twtitle %}PizzaFría{% endblock %}
+{% block twdescription %}Un podcast sobre viajes en el tiempo. PizzaFr&iacute;a
+    es un podcast semanal acerca de pel&iacute;culas, series, videojuegos y
+    todos aquellos temas de los que los peculiares integrantes del panel
+    disfrutan platicar.{% endblock %}
+{% block twimage %}{{ domain }}
+    {{ domain }}{% static 'assets/img/logo_pf.png' %}
+{% endblock %}
+{% block menu %}
+    <ul class="menu">
+        <li class="menuitem"><a href="{% url 'home' %}">The Ark</a></li>
+        <li class="menuitem"><a href="podcasts.html">Podcast</a></li>
+        <li class="menuitem"><a href="podcasts.html">Video</a></li>
+        <li class="menuitem"><a href="podcasts.html">Blog</a></li>
+        <li class="menuitem"><a href="{% url 'about' %}">Nosotros</a>
+        </li>
+        <li class="menuitem active"><a href="#">Contacto</a></li>
+    </ul>
+{% endblock %}
+{% block main_header %}
+    <header class="page-header-podcast"
+            style="background-image: url({% static 'assets/img/pf_cover.jpg' %})">
+        <div class="page-header-inner">
+            <div class="container">
+
+                <!-- ===== BREADCRUMB ===== -->
+                <ol class="breadcrumb" itemscope
+                    itemtype="http://schema.org/BreadcrumbList">
+                    <li itemprop="itemListElement"><a href="{% url 'home' %}">The
+                        Ark</a>
+                    </li>
+                    <li itemprop="itemListElement"><a href="#">Contacto</a></li>
+                </ol>
+
+                <!-- ===== PAGE HEADER CONTENT ===== -->
+                <div class="page-header-content text-center">
+                    <h2>Contacto</h2>
+                </div>
+
+            </div>
+        </div>
+    </header>
+{% endblock %}
+{% block content %}
+    <!-- ===== SECTION ===== -->
+    <section class="section-negative">
+        <div class="container">
+
+            <!-- ===== PAGE CONTENT ===== -->
+            <div class="page-content mt-60">
+
+                <!-- ===== PAGE TITLE & DESCRIPTION ===== -->
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2 text-center">
+                        <h2 class="title-default mb-10">Contáctanos</h2>
+                        <p class="page-description mb-70">
+                            Env&iacute;anos tus comentarios, recomendaciones y
+                            nude pics ;)
+                            <br>
+                            &Oacute; env&iacute;anos un correo a <a
+                                href="mailto:hellocutiepie@pizzafria.com">hellocutiepie@pizzafria.com</a>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- ===== FORM CONTACT ===== -->
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <form action="." method="POST"
+                              id="form-contact"
+                              class="form-contact form-validate">
+                            {% csrf_token %}
+                            <fieldset>
+                                <div class="mb-20">
+                                    <label for="name" class="label-control">Nombre*
+                                        :</label>
+                                    <input type="text" name="contact_name"
+                                           class="form-control" id="name"
+                                           required/>
+                                </div>
+                                <div class="mb-20">
+                                    <label for="email" class="label-control">Email*
+                                        :</label>
+                                    <input type="email" name="contact_email"
+                                           class="form-control" id="email"
+                                           required/>
+                                </div>
+                                <div class="mb-20">
+                                    <label for="subject" class="label-control">Asunto*
+                                        :</label>
+                                    <input type="text" name="subject"
+                                           class="form-control" id="subject"
+                                           required/>
+                                </div>
+                                <div class="mb-20">
+                                    <label for="message" class="label-control">Mensaje*
+                                        :</label>
+                                    <textarea name="content" id="message"
+                                              rows="6" class="form-control"
+                                              required></textarea>
+                                </div>
+                                <div class="mb-20 text-right">
+                                    <input type="submit"
+                                           class="btn btn-success btn-lg"
+                                           value="Submit"/>
+                                </div>
+                                <div class="form-callback success">
+                                    <p>Success! Thank you for contact us.</p>
+                                </div>
+                                <div class="form-callback error">
+                                    <p>Error! Something went wrong.</p>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+{% endblock %}
