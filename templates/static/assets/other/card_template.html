@@ -1,0 +1,47 @@
+<div class="col-sm-6 mb-40">
+    <div class="podcast-card boxed">
+        <figure class="podcast-image">
+            <!--add class player if type audio or video -->
+            <a
+                    href="#" class="episode_url"><img
+                    src=""
+                    alt=""
+                    title=""/></a>
+        </figure>
+        <div class="podcast-content">
+            <h2 class="podcast-title"><a
+                    href="#" class="episode_url"></a>
+            </h2>
+            <ul class="podcast-meta">
+                <li class="item podcast-date subtitle">
+                    {{ post_subtitle }}
+                </li>
+                <li class="item podcast-date published">
+                    {{ post_published }}
+                </li>
+            </ul>
+            <p class="podcast-excerpt"><a
+                    href="#" class="episode_url">
+                {{ post_intro }}
+            </a></p>
+            <ul class="podcast-meta">
+                <li class="item">
+
+                    <a href="#blog"
+                       class="podcast-tag post-type">
+                        Post
+                    </a> <!-- change this depending on the post type -->
+                </li>
+                <li class="item post-tags">
+
+                    <a href="#" class="podcast-tag"
+                       rel="tag">
+                        {{ tag }}
+                    </a> <!-- repeat for each tag -->
+
+
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -2474,10 +2474,10 @@ form .form-callback.error {
 }
 
 @media screen and (min-width: 768px) {
-
-.podcast-card.boxed .podcast-title {
-	height: 50px;
-}
+    /* custom fix
+    .podcast-card.boxed .podcast-title {
+        height: 50px;
+    }*/
 
 .page-pagination a {
 	display: table-cell;

@@ -71,7 +71,7 @@ PizzaFr&iacute;a - Un podcast sobre viajes en el tiempo
             <!-- ===== SECTION TITLE ===== -->
             <h2 class="title-default">M&aacute;s Episodios</h2>
 
-            <div class="row">
+            <div class="row" id="postContainer">
                 {% for post in object_list %}
                     {% if forloop.first %}
                         <!-- ===== PODCAST CARD FULL ===== -->
@@ -85,11 +85,18 @@ PizzaFr&iacute;a - Un podcast sobre viajes en el tiempo
                                         title="{{ post.title }}"/></a>
                                 </figure>
                                 <div class="podcast-content">
-                                    <span class="podcast-date">{{ post.published|date:"Y-m-d" }}</span>
-                                    <h2 class="podcast-title"><a
-                                            href="{% url "episode_detail" post.slug %}">Episodio
-                                        #{{ post.number_of_episode }} -
-                                        {{ post.title }}</a></h2>
+                                    <h2 class="podcast-title">
+                                        <a href='{% url "episode_detail" post.slug %}'>
+                                            {{ post.title }}</a>
+                                    </h2>
+                                    <ul class="podcast-meta">
+                                        <li class="item podcast-date">
+                                            {{ post.subtitle }}
+                                        </li>
+                                        <li class="item podcast-date">
+                                            {{ post.published|date:"Y-m-d" }}
+                                        </li>
+                                    </ul>
                                     <p class="podcast-excerpt"><a
                                             href="{% url "episode_detail" post.slug %}">
                                         {{ post.intro|safe }}
@@ -136,22 +143,30 @@ PizzaFr&iacute;a - Un podcast sobre viajes en el tiempo
                         </div>
                     {% else %}
                         <!-- ===== PODCAST CARD BOXED ===== -->
-                        <div class="col-sm-6 mb-40">
+                        <div class="col-sm-6 mb-40 card_post">
                             <div class="podcast-card boxed">
                                 <figure class="podcast-image{% if post.entry_type == 'audio' or post.entry_type == 'video' %} player{% endif %}">
-                                    <a
-                                        href="{% url "episode_detail" post.slug %}"><img
+                                    <a class="episode_url"
+                                       href="{% url "episode_detail" post.slug %}"><img
                                         src="{{ post.main_image.photo.url }}"
                                         alt="{{ post.title }}"
                                         title="{{ post.title }}"/></a>
                                 </figure>
                                 <div class="podcast-content">
-                                    <span class="podcast-date">{{ post.published|date:"Y-m-d" }}</span>
                                     <h2 class="podcast-title"><a
-                                            href="{% url "episode_detail" post.slug %}">Episodio
-                                        #{{ post.number_of_episode }}
-                                        - {{ post.title }}</a></h2>
+                                            class="episode_url"
+                                            href="{% url "episode_detail" post.slug %}">{{ post.title }}</a>
+                                    </h2>
+                                    <ul class="podcast-meta">
+                                        <li class="item podcast-date subtitle">
+                                            {{ post.subtitle }}
+                                        </li>
+                                        <li class="item podcast-date published">
+                                            {{ post.published|date:"Y-m-d" }}
+                                        </li>
+                                    </ul>
                                     <p class="podcast-excerpt"><a
+                                            class="episode_url"
                                             href="{% url "episode_detail" post.slug %}">
                                         {{ post.intro|safe|truncatewords:14 }}
                                     </a></p>
@@ -179,7 +194,7 @@ PizzaFr&iacute;a - Un podcast sobre viajes en el tiempo
                                                 </a>
                                             {% endif %}
                                         </li>
-                                        <li class="item">
+                                        <li class="item post-tags">
                                             {% for tag in post.tags.all %}
                                                 <a href="#" class="podcast-tag"
                                                    rel="tag">
@@ -195,11 +210,14 @@ PizzaFr&iacute;a - Un podcast sobre viajes en el tiempo
                     {% endif %}
 
                 {% endfor %}
+            </div>
+            <div class="row">
 
                 <!-- ===== CHECK MORE ===== -->
-                <div class="col-sm-12 mb-50">
-                    <a href="podcasts.html"
-                       class="btn btn-primary btn-block btn-lg">Ver m&aacute;s episodios</a>
+                <div class="col-sm-12 mb-50" id="loadMoreContainer">
+                    <a href="#" id="loadMore"
+                       class="btn btn-primary btn-block btn-lg">Ver
+                        m&aacute;s</a>
                 </div>
 
             </div>
@@ -280,4 +298,59 @@ PizzaFr&iacute;a - Un podcast sobre viajes en el tiempo
 
         </div>
     </section>
+{% endblock %}
+{% block custom_js %}
+    <script type="text/javascript">
+        var offset = 7;
+
+        $(document).on('ready', function () {
+            $('#loadMore').on('click', function (e) {
+                e.preventDefault();
+                $(this).button('loading');
+                $.ajax(
+                        {
+                            url: "{% url 'get_posts' %}",
+                            type: 'get',
+                            data: {offset: offset},
+                            success: function (data) {
+                                data.posts.forEach(function (post) {
+                                    console.log(post);
+                                    var single_url = "{% url "episode_detail" slug='xxxxxxxxxxxxxxxxxx' %}";
+                                    single_url = single_url.replace('xxxxxxxxxxxxxxxxxx', post['slug']);
+                                    var card = $('.card_post').first();
+                                    card = card.clone();
+                                    card.find('.episode_url').attr('href', single_url);
+                                    card.find('img').attr({
+                                        "src": "/media/" + post['main_image__photo'],
+                                        "title": post['title'],
+                                        "alt": post['title']
+                                    });
+                                    card.find('.podcast-title a').text(post['title']);
+                                    card.find('.subtitle').text(post['subtitle']);
+                                    card.find('.published').text(post['published']);
+                                    card.find('.podcast-excerpt a').html(post['intro'].split(" ").splice(0, 14).join(" "));
+                                    if (post['entry_type'] == 'post') {
+                                        card.find('.post-type').attr('href', '#blog').text('Post');
+                                    } else if (post['entry_type'] == 'audio') {
+                                        card.find('.post-type').attr('href', '#podcast').text('Podcast');
+                                    } else {
+                                        card.find('.post-type').attr('href', '#video').text('Video');
+                                    }
+                                    card.find('.post-tags').html('');
+                                    if (post.tags != null) {
+                                        post.tags.forEach(function (tag) {
+                                            var aTag = $('<a>').addClass('podcast-tag').text('tag').attr('href', '#' + tag);
+                                            card.find('.post-tags').append(aTag);
+                                        });
+                                    }
+                                    $('#postContainer').append(card);
+                                });
+                                $('#loadMore').button('reset');
+                                offset = data.offset;
+                            }
+                        }
+                );
+            })
+        });
+    </script>
 {% endblock %}

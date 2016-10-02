@@ -1,6 +1,11 @@
 # Create your views here.
+import json
+from datetime import datetime
+
 from django.conf import settings
 from django.core.mail import send_mail
+from django.http import JsonResponse
+from django.utils.datetime_safe import strftime
 from django.views.generic import TemplateView, FormView, ListView, DetailView
 
 from blog.forms import ContactForm
@@ -48,7 +53,7 @@ class ContactView(FormView):
 
 class HomeEpisodeList(ListView):
     model = Post
-    paginate_by = 11
+    paginate_by = 7
     template_name = "podcast/home.html"
 
     def get_queryset(self):
@@ -75,6 +80,43 @@ class HomeEpisodeList(ListView):
         context['panelists'] = Panelist.objects.filter(status=True)
 
         return context
+
+
+class DateTimeEncoder(json.JSONEncoder):
+    # default JSONEncoder cannot serialize datetime.datetime objects
+    def default(self, obj):
+        if isinstance(obj, datetime):
+            encoded_object = obj.strftime('%Y-%m-%d')
+        else:
+            encoded_object = super(self, obj)
+        return encoded_object
+
+
+def get_posts(request):
+    # start
+    offset = request.GET.get('offset', 7)
+    # take the next x elements following start
+    take = request.GET.get('take', 6)
+    final_offset = int(offset) + int(take)
+    last = EpisodePodcast.objects.exclude(
+        episode__published__isnull=True).first()
+    posts = Post.objects.exclude(
+        published=None
+    ).exclude(
+        pk=last.post.pk
+    ).order_by('-published').values(
+        'title', 'subtitle', 'slug', 'published', 'intro', 'tags',
+        'main_image__photo', 'entry_type'
+    )
+    posts = posts[offset:final_offset]
+    for post in posts:
+        post['published'] = strftime(post['published'], '%Y-%m-%d')
+    response = dict(
+        offset=final_offset,
+        posts=list(posts)
+    )
+    return JsonResponse(response, safe=False)
+
 
 
 class EpisodeSingle(DetailView):
