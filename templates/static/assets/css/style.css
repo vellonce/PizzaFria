@@ -1737,7 +1737,7 @@ form .form-callback.error {
 	display: block;
 }
 
-.podcast-card .podcast-image a:before {
+.podcast-card .podcast-image.player a:before {
 	content: "\f04b";
 	font-family: FontAwesome;
 	position: absolute;

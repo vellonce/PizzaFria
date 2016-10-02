@@ -48,7 +48,7 @@ class ContactView(FormView):
 
 class HomeEpisodeList(ListView):
     model = Post
-    paginate_by = 10
+    paginate_by = 11
     template_name = "podcast/home.html"
 
     def get_queryset(self):
@@ -58,7 +58,7 @@ class HomeEpisodeList(ListView):
             published=None
         ).exclude(
             pk=last.post.pk
-        ).order_by('published')
+        ).order_by('-published')
 
         return episodes
 
