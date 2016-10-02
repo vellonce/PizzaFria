@@ -47,7 +47,9 @@ INSTALLED_APPS = (
     'podcasting',
     'imagekit',
     'sorl.thumbnail',
-    'blog'
+    'blog',
+    'django_extensions',
+    'werkzeug'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -74,7 +76,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.media'
+                'django.template.context_processors.media',
+                'blog.context_processor.latest_entries'
             ],
         },
     },

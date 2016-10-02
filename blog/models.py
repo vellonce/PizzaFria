@@ -5,9 +5,11 @@ from PIL import Image
 from autoslug import AutoSlugField
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils.six import python_2_unicode_compatible
 from resizeimage import resizeimage
 
 
+@python_2_unicode_compatible
 class Tag(models.Model):
     tag = models.CharField(max_length=64)
 
@@ -15,10 +17,11 @@ class Tag(models.Model):
         return self.tag
 
 
+@python_2_unicode_compatible
 class Gallery(models.Model):
     photo = models.ImageField(upload_to='images', verbose_name='Archivo')
     title = models.CharField(max_length=64, blank=True, verbose_name='Título')
-    description = models.CharField(max_length=140)
+    description = models.CharField(max_length=140, blank=True)
 
     def save(self, *args, **kwargs):
         if self.photo and not self.id:
@@ -36,19 +39,26 @@ class Gallery(models.Model):
                 ]
                 for size in sizes:
                     new_path = base_path + size['size'] + image_name
-                    with open(new_path, 'r+b') as f:
+                    with open(path, 'r+b') as f:
                         with Image.open(f) as image:
                             cover = resizeimage.resize_thumbnail(
                                 image, size['size_arr'])
                             cover.save(new_path, image.format)
         super(Gallery, self).save(*args, **kwargs)
 
+    def __str__(self):
+        return 'image: ' + self.title
 
+
+@python_2_unicode_compatible
 class Post(models.Model):
+    PODCAST_EPISODE = 'audio'
+    VIDEO_CLIP = 'video'
+    BLOG_POST = 'blog'
     POSTS_TYPES = (
-        ('video', 'Video'),
-        ('audio', 'Audio'),
-        ('blog', 'Entrada de Blog'),
+        (VIDEO_CLIP, 'Video'),
+        (PODCAST_EPISODE, 'Podcast'),
+        (BLOG_POST, 'Post'),
     )
     entry_type = models.CharField(max_length=64, choices=POSTS_TYPES)
     title = models.CharField(max_length=128, verbose_name='Título')
@@ -72,8 +82,12 @@ class Post(models.Model):
         return self.title + ' (' + self.entry_type + ')'
 
 
+@python_2_unicode_compatible
 class VideoPost(models.Model):
     post = models.ForeignKey(Post, verbose_name='Entrada')
     url = models.URLField(verbose_name='URL del video', blank=True, null=True)
     video_file = models.FileField(upload_to='videos', blank=True, null=True,
                                   verbose_name='Subir Video')
+
+    def __str__(self):
+        return "Video file: " + self.post.title

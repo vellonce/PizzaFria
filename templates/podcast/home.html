@@ -24,11 +24,11 @@ PizzaFr&iacute;a - Un podcast sobre viajes en el tiempo
 {% block menu %}
     <ul class="menu">
         <li class="menuitem active"><a href="{% url 'home' %}">The Ark</a></li>
-        <li class="menuitem"><a href="podcasts.html">Podcast</a></li>
-        <li class="menuitem"><a href="podcasts.html">Video</a></li>
-        <li class="menuitem"><a href="podcasts.html">Blog</a></li>
+        <li class="menuitem"><a href="#podcast">Podcast</a></li>
+        <li class="menuitem"><a href="#video">Video</a></li>
+        <li class="menuitem"><a href="#blog">Blog</a></li>
         <li class="menuitem"><a href="{% url 'about' %}">Nosotros</a></li>
-        <li class="menuitem"><a href="contact.html">Contacto</a></li>
+        <li class="menuitem"><a href="{% url 'contact_us' %}">Contacto</a></li>
     </ul>
 {% endblock %}
 {% block main_header %}
@@ -72,29 +72,30 @@ PizzaFr&iacute;a - Un podcast sobre viajes en el tiempo
             <h2 class="title-default">M&aacute;s Episodios</h2>
 
             <div class="row">
-                {% for episode in object_list %}
+                {% for post in object_list %}
                     {% if forloop.first %}
                         <!-- ===== PODCAST CARD FULL ===== -->
                         <div class="col-sm-12 mb-40">
                             <div class="podcast-card full">
                                 <figure class="podcast-image"><a
-                                        href="{% url "episode_detail" episode.episode.slug %}"><img
-                                        src="{{ episode.episode.original_image.url }}"
-                                        alt="{{ episode.episode.title }}" title="{{ episode.episode.title }}"/></a>
+                                        href="{% url "episode_detail" post.slug %}"><img
+                                        src="{{ post.main_image.photo.url }}"
+                                        alt="{{ post.title }}"
+                                        title="{{ post.title }}"/></a>
                                 </figure>
                                 <div class="podcast-content">
-                                    <span class="podcast-date">{{ episode.episode.published|date:"Y-m-d" }}</span>
+                                    <span class="podcast-date">{{ post.published|date:"Y-m-d" }}</span>
                                     <h2 class="podcast-title"><a
-                                            href="{% url "episode_detail" episode.episode.slug %}">Episodio
-                                        #{{ episode.number_of_episode }} -
-                                        {{ episode.episode.title }}</a></h2>
+                                            href="{% url "episode_detail" post.slug %}">Episodio
+                                        #{{ post.number_of_episode }} -
+                                        {{ post.title }}</a></h2>
                                     <p class="podcast-excerpt"><a
-                                            href="{% url "episode_detail" episode.episode.slug %}">
-                                        {{ episode.episode.description|safe }}
+                                            href="{% url "episode_detail" post.slug %}">
+                                        {{ post.intro|safe }}
                                     </a></p>
                                     <ul class="podcast-meta">
                                         <li class="item">
-                                            {% for tag in episode.tags.all %}
+                                            {% for tag in post.tags.all %}
                                                 <a href="#" class="podcast-tag"
                                                    rel="tag">
                                                     {{ tag }}{% if not forloop.last %},&nbsp;{% endif %}
@@ -103,12 +104,13 @@ PizzaFr&iacute;a - Un podcast sobre viajes en el tiempo
                                         </li>
                                         <li class="item"><i
                                                 class="fa fa-clock-o"></i>
-                                            {% if episode.episode.hours %}
-                                                {{ episode.episode.hours|stringformat:"02d" }}
-                                                :{% endif %}{{ episode.episode.minutes|stringformat:"02d" }}:{{ episode.episode.seconds|stringformat:"02d" }}
+                                            {% if post.hours %}
+                                                {{ post.hours|stringformat:"02d" }}
+                                                :{% endif %}{{ post.minutes|stringformat:"02d" }}
+                                            :{{ post.seconds|stringformat:"02d" }}
                                         </li>
                                         <li class="item"><a
-                                                href="{% url "episode_detail" episode.episode.slug %}"
+                                                href="{% url "episode_detail" post.slug %}"
                                                 class="podcast-play"><i
                                                 class="fa fa-play"></i> Reproducir Episodio</a>
                                         </li>
@@ -121,40 +123,53 @@ PizzaFr&iacute;a - Un podcast sobre viajes en el tiempo
                         <div class="col-sm-6 mb-40">
                             <div class="podcast-card boxed">
                                 <figure class="podcast-image"><a
-                                        href="{% url "episode_detail" episode.episode.slug %}"><img
-                                        src="{{ episode.episode.original_image.url }}"
-                                        alt="{{ episode.episode.title }}" title="{{ episode.episode.title }}"/></a>
+                                        href="{% url "episode_detail" post.slug %}"><img
+                                        src="{{ post.main_image.photo.url }}"
+                                        alt="{{ post.title }}"
+                                        title="{{ post.title }}"/></a>
                                 </figure>
                                 <div class="podcast-content">
-                                    <span class="podcast-date">{{ episode.episode.published|date:"Y-m-d" }}</span>
+                                    <span class="podcast-date">{{ post.published|date:"Y-m-d" }}</span>
                                     <h2 class="podcast-title"><a
-                                            href="{% url "episode_detail" episode.episode.slug %}">Episodio
-                                        #{{ episode.number_of_episode }} - {{ episode.episode.title }}</a></h2>
+                                            href="{% url "episode_detail" post.slug %}">Episodio
+                                        #{{ post.number_of_episode }}
+                                        - {{ post.title }}</a></h2>
                                     <p class="podcast-excerpt"><a
-                                            href="{% url "episode_detail" episode.episode.slug %}">
-                                        {{ episode.episode.description|safe|truncatewords:14 }}
+                                            href="{% url "episode_detail" post.slug %}">
+                                        {{ post.intro|safe|truncatewords:14 }}
                                     </a></p>
                                     <ul class="podcast-meta">
                                         <li class="item">
-                                            {% for tag in episode.tags.all %}
+                                            {% if post.entry_type == 'audio' %}
+                                                <a href="#podcast"
+                                                   class="podcast-tag"
+                                                   rel="tag">
+                                                    Podcast
+                                                </a>
+                                            {% endif %}
+                                            {% if post.entry_type == 'video' %}
+                                                <a href="#video"
+                                                   class="podcast-tag"
+                                                   rel="tag">
+                                                    Video
+                                                </a>
+                                            {% endif %}
+                                            {% if post.entry_type == 'blog' %}
+                                                <a href="#blog"
+                                                   class="podcast-tag"
+                                                   rel="tag">
+                                                    Post
+                                                </a>
+                                            {% endif %}
+                                        </li>
+                                        <li class="item">
+                                            {% for tag in post.tags.all %}
                                                 <a href="#" class="podcast-tag"
                                                    rel="tag">
                                                     {{ tag }}{% if not forloop.last %},&nbsp;{% endif %}
                                                 </a>
                                             {% endfor %}
 
-                                        </li>
-                                        <li class="item"><i
-                                                class="fa fa-clock-o"></i>
-                                            {% if episode.episode.hours %}
-                                                {{ episode.episode.hours|stringformat:"02d" }}
-                                                :{% endif %}{{ episode.episode.minutes|stringformat:"02d" }}
-                                            :{{ episode.episode.seconds|stringformat:"02d" }}
-                                        </li>
-                                        <li class="item"><a
-                                                href="{% url "episode_detail" episode.episode.slug %}"
-                                                class="podcast-play"><i
-                                                class="fa fa-play"></i> Reproducir Episodio</a>
                                         </li>
                                     </ul>
                                 </div>

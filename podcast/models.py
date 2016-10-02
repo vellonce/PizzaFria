@@ -59,6 +59,7 @@ class EpisodePodcast(models.Model):
         return self.episode.title
 
     def save(self, *args, **kwargs):
+        is_new = False if self.pk else True
         super(EpisodePodcast, self).save(*args, **kwargs)
         tags = self.episode.keywords
         tags = tags.split(',')
@@ -68,7 +69,7 @@ class EpisodePodcast(models.Model):
             tag, created = Tag.objects.get_or_create(tag=tag)
             self.tags.add(tag)
 
-        if self.file:
+        if is_new and self.file:
             url = 'http://{0}{1}'.format(settings.SITE_URL, self.file.url)
             em = EmbedMedia.objects.filter(episode=self.episode)
             if not em:

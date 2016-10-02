@@ -174,48 +174,6 @@
 
     {% endblock %}
 
-    <!-- ===== DONATE ===== -->
-    {% comment %}<section id="donate" class="section-highlight text-center">
-        <div class="container">
-
-            <!-- ===== SECTION TITLE ===== -->
-            <h2 class="title-default">We need your help</h2>
-            <p class="section-description">Help us support the show! Lorem ipsum
-                dolor sit amet, consectetur adipisicing elit. <br/> Vel modi rem
-                laudantium, alias minus temporibus nihil reiciendis vero.</p>
-
-            <!-- ===== DONATE VALUES ===== -->
-            <div class="row mb-50">
-
-                <div class="col-lg-3 col-sm-6 mb-20">
-                    <a href="#"
-                       class="btn btn-default btn-round btn-lg btn-block">U$
-                        5</a>
-                </div>
-
-                <div class="col-lg-3 col-sm-6 mb-20">
-                    <a href="#"
-                       class="btn btn-default btn-round btn-lg btn-block">U$
-                        10</a>
-                </div>
-
-                <div class="col-lg-3 col-sm-6 mb-20">
-                    <a href="#"
-                       class="btn btn-default btn-round btn-lg btn-block">U$
-                        25</a>
-                </div>
-
-                <div class="col-lg-3 col-sm-6 mb-20">
-                    <a href="#"
-                       class="btn btn-default btn-round btn-lg btn-block">U$
-                        50</a>
-                </div>
-
-            </div>
-
-        </div>
-    </section>{% endcomment %}
-
 
 </main>
 
@@ -245,40 +203,18 @@
                 <div class="col-sm-6 mb-40">
                     <h2 class="title-separator white">&Uacute;ltimos episodios</h2>
                     <ul class="footer-complement">
-                        <li>
-                            <a href="#">
-                                Ultimo elemento
-                            </a>
-                            <span>2016-12-12</span>
-                        </li>
-                        <li>
-                            <a href="#">
-                                Pen&uacute;ltimo elemento
-                            </a>
-                            <span>2016-12-12</span>
-                        </li>
+                        {% for entry in latest_entries %}
+                            <li>
+                                <a href="#">
+                                    {{ entry.title }}
+                                </a>
+                                <span>{{ entry.published|date:'Y-m-d' }}</span>
+                            </li>
+                        {% endfor %}
                     </ul>
                 </div>
-
                 <!-- ===== PODCASTS EPISODES ===== -->
-                {% comment %}
-                <div class="col-sm-3 mb-40">
-                    <h2 class="title-separator white">Who is helping?</h2>
-                    <ul class="footer-complement">
-                        <li>
-                            <a href="#">@reidarking</a>
-                            <span>Donation - U$ 10</span>
-                        </li>
-                        <li>
-                            <a href="#">@reidarking</a>
-                            <span>Donation - U$ 5</span>
-                        </li>
-                        <li>
-                            <a href="#">@reidarking</a>
-                            <span>Donation - U$ 50</span>
-                        </li>
-                    </ul>
-                </div>{% endcomment %}
+
 
                 <!-- ===== SOCIAL CONNECTION ===== -->
                 <div class="col-sm-3 mb-40">
