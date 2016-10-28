@@ -25,9 +25,9 @@
 {% block menu %}
     <ul class="menu">
         <li class="menuitem"><a href="{% url 'home' %}">The Ark</a></li>
-        <li class="menuitem"><a href="podcasts.html">Podcast</a></li>
-        <li class="menuitem"><a href="podcasts.html">Video</a></li>
-        <li class="menuitem"><a href="podcasts.html">Blog</a></li>
+        <li class="menuitem"><a href="{% url 'podcast_list' %}">Podcast</a></li>
+        <li class="menuitem"><a href="{% url 'video_list' %}">Video</a></li>
+        <li class="menuitem"><a href="{% url 'blog_list' %}">Blog</a></li>
         <li class="menuitem active"><a href="{% url 'about' %}">Nosotros</a>
         </li>
         <li class="menuitem"><a href="{% url 'contact_us' %}">Contacto</a></li>
