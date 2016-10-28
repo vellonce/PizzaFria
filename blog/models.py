@@ -25,6 +25,7 @@ class Gallery(models.Model):
 
     def save(self, *args, **kwargs):
         if self.photo and not self.id:
+            super(Gallery, self).save(*args, **kwargs)
             path = self.photo.path
             print path
             image_name = path.split('/')

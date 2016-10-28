@@ -190,10 +190,10 @@
                 <div class="col-sm-3 mb-40">
                     <h2 class="title-separator white">Mapa del sitio</h2>
                     <ul class="footer-list">
-                        <li><a href="index.html">The Ark</a></li>
-                        <li><a href="podcasts.html">Podcast</a></li>
-                        <li><a href="podcasts.html">Video</a></li>
-                        <li><a href="podcasts.html">Blog</a></li>
+                        <li><a href="{% url "home" %}">The Ark</a></li>
+                        <li><a href="{% url "podcast_list" %}">Podcast</a></li>
+                        <li><a href="{% url "video_list" %}">Video</a></li>
+                        <li><a href="{% url "blog_list" %}">Blog</a></li>
                         <li><a href="{% url 'about' %}">Nosotros</a></li>
                         <li><a href="{% url 'contact_us' %}">Contacto</a></li>
                     </ul>
@@ -205,7 +205,7 @@
                     <ul class="footer-complement">
                         {% for entry in latest_entries %}
                             <li>
-                                <a href="#">
+                                <a href="{% url "episode_detail" slug=entry.slug %}">
                                     {{ entry.title }}
                                 </a>
                                 <span>{{ entry.published|date:'Y-m-d' }}</span>

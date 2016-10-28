@@ -1,25 +1,28 @@
 {% extends "site_base.html" %}
 {% load staticfiles %}
 {% block title %}
-{{ object.episode.title }}
+    {{ object.title }}
 {% endblock %}
-{% block ogtitle %}{{ object.episode.title }}{% endblock %}
+{% block ogtitle %}{{ object.title }}{% endblock %}
 {% block ogurl %}{{ domain }}{{ request.get_full_path }}{% endblock %}
-{% block ogdescription %}{{ object.episode.description }}{% endblock %}
-{% block ogimage %}{{ domain }}{{ object.episode.original_image.url }}{% endblock %}
+{% block ogdescription %}{{ object.description }}{% endblock %}
+{% block ogimage %}{{ domain }}{{ object.main_image.photo.url }}{% endblock %}
 
 {% block siteurl %}{{ domain }}{{ request.get_full_path }}{% endblock %}
 {% block twitter_handle %}pizzafriamx{% endblock %}
-{% block twtitle %}{{ object.episode.title }}{% endblock %}
-{% block twdescription %}{{ object.episode.description }}{% endblock %}
-{% block twimage %}{{ domain }}{{ object.episode.original_image.url }}{% endblock %}
+{% block twtitle %}{{ object.title }}{% endblock %}
+{% block twdescription %}{{ object.description }}{% endblock %}
+{% block twimage %}{{ domain }}{{ object.main_image.photo.url }}{% endblock %}
 
 {% block menu %}
     <ul class="menu">
         <li class="menuitem"><a href="{% url 'home' %}">The Ark</a></li>
-        <li class="menuitem active"><a href="podcasts.html">Podcast</a></li>
-        <li class="menuitem"><a href="podcasts.html">Video</a></li>
-        <li class="menuitem"><a href="podcasts.html">Blog</a></li>
+        <li class="menuitem{% if object.entry_type == 'audio' %} active{% endif %}">
+            <a href="podcasts.html">Podcast</a></li>
+        <li class="menuitem{% if object.entry_type == 'video' %} active{% endif %}">
+            <a href="podcasts.html">Video</a></li>
+        <li class="menuitem{% if object.entry_type == 'blog' %} active{% endif %}">
+            <a href="podcasts.html">Blog</a></li>
         <li class="menuitem"><a href="{% url 'about' %}">Nosotros</a></li>
         <li class="menuitem"><a href="{% url 'contact_us' %}">Contacto</a></li>
     </ul>
@@ -27,7 +30,7 @@
 {% block content %}
     <!-- ===== PAGE HEADER ===== -->
     <header class="page-header-podcast"
-            style="background-image: url({{ object.episode.original_image.url }})">
+            style="background-image: url({{ object.main_image.photo.url }})">
         <div class="page-header-inner">
             <div class="container">
 
@@ -42,51 +45,57 @@
 
                 <!-- ===== PAGE HEADER CONTENT ===== -->
                 <div class="page-header-content text-center">
-                    <h2>{{ object.episode.title }}</h2>
-                    <p>{{ object.episode.description }}</p>
+                    <h2>{{ object.title }}</h2>
+                    <p>{{ object.description }}</p>
                 </div>
 
             </div>
         </div>
     </header>
-
-    <!-- ===== PODCAST PLAYER ===== -->
-    <div class="podcast-player">
-        <div class="podcast-player-inner">
-            <div class="container">
-                <audio src="http://dts.podtrac.com/redirect.mp3/pizzafria.com/media/{{ latest.file }}"></audio>
+    {% if object.entry_type == "audio" %}
+        <!-- ===== PODCAST PLAYER ===== -->
+        <div class="podcast-player">
+            <div class="podcast-player-inner">
+                <div class="container">
+                    <audio src="http://dts.podtrac.com/redirect.mp3/pizzafria.com/media/{{ episode.file }}"></audio>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- ===== PODCAST META ===== -->
-    <div class="podcast-meta-element">
-        <span class="podcast-meta-item"><i class="fa fa-calendar"></i>{{ object.episode.published|date:"Y-m-d" }}</span>
-        <span class="podcast-meta-item"><i class="fa fa-clock-o"></i>{% if object.episode.hours %}{{ object.episode.hours|stringformat:"02d" }}:{% endif %}{{ object.episode.minutes|stringformat:"02d" }}:{{ object.episode.seconds|stringformat:"02d" }}</span>
-        <a class="podcast-meta-item" href="#">
-            <i class="fa fa-tag"></i>
-            {% for tag in object.tags.all %}{% if forloop.first %}{{ tag }}
-            {% endif %}{% endfor %}
-        </a>
-        <a href="http://dts.podtrac.com/redirect.mp3/pizzafria.com/media/{{ object.file }}"
-                download class="podcast-meta-item"><i
-                class="fa fa-download"></i> Descargar (MP3)</a>
-    </div>
-
-    <!-- ===== PODCAST LINKS ===== -->
-    <div class="podcast-links">
-        <div class="container">
-            <ul class="podcast-links-list">
-                {% for time_mark in time_marks %}
-                    <li><a href="#" class="btn btn-success btn-sm skip-to" data-seconds="{{ time_mark.seconds }}">{{ time_mark.human_time }}</a>
-                        <a href="#"
-                           class="podcast-link-cite skip-to"
-                           data-seconds="{{ time_mark.seconds }}">{{ time_mark.mark }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
+        <!-- ===== PODCAST META ===== -->
+        <div class="podcast-meta-element">
+            <span class="podcast-meta-item"><i
+                    class="fa fa-calendar"></i>{{ episode.episode.published|date:"Y-m-d" }}</span>
+            <span class="podcast-meta-item"><i
+                    class="fa fa-clock-o"></i>{% if episode.episode.hours %}
+                {{ episode.episode.hours|stringformat:"02d" }}
+                :{% endif %}{{ episode.episode.minutes|stringformat:"02d" }}:{{ episode.episode.seconds|stringformat:"02d" }}</span>
+            <a class="podcast-meta-item" href="#">
+                <i class="fa fa-tag"></i>
+                {% for tag in object.tags.all %}{% if forloop.first %}{{ tag }}
+                {% endif %}{% endfor %}
+            </a>
+            <a href="http://dts.podtrac.com/redirect.mp3/pizzafria.com/media/{{ episode.file }}"
+               download class="podcast-meta-item"><i
+                    class="fa fa-download"></i> Descargar (MP3)</a>
         </div>
-    </div>
+
+        <!-- ===== PODCAST LINKS ===== -->
+        <div class="podcast-links">
+            <div class="container">
+                <ul class="podcast-links-list">
+                    {% for time_mark in time_marks %}
+                        <li><a href="#" class="btn btn-success btn-sm skip-to"
+                               data-seconds="{{ time_mark.seconds }}">{{ time_mark.human_time }}</a>
+                            <a href="#"
+                               class="podcast-link-cite skip-to"
+                               data-seconds="{{ time_mark.seconds }}">{{ time_mark.mark }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endif %}
 
     <!-- ===== SINGLE PAGE CONTENT ===== -->
     <div class="section-negative">
@@ -100,70 +109,27 @@
                     <!-- ===== PAGE MAIN CONTENT ===== -->
                     <div class="page-content">
                         <!-- TODO: change this when the wysiwyg editor is implemented -->
-                        <p>{{ object.episode.description }}</p>
+                        <p>{{ object.content|safe }}</p>
                         <!-- ===== GALLERY WITH ZOOM ===== -->
-                        <!--
+
                         <div class="page-gallery">
-                            <div class="col-md-4 col-xs-6 nopadding">
-                                <figure class="gallery-item">
-                                    <a href="assets/img/gallery/large/image-2.jpg"
-                                       class="gallery-zoom">
-                                        <img src="assets/img/gallery/thumb/image-2.jpg"
-                                             alt="Gallery" title="Gallery"/>
-                                    </a>
-                                </figure>
-                            </div>
-                            <div class="col-md-4 col-xs-6 nopadding">
-                                <figure class="gallery-item">
-                                    <a href="assets/img/gallery/large/image-1.jpg"
-                                       class="gallery-zoom"
-                                       title="This is a caption">
-                                        <img src="assets/img/gallery/thumb/image-1.jpg"
-                                             alt="Gallery" title="Gallery"/>
-                                    </a>
-                                    <figcaption>This is a caption</figcaption>
-                                </figure>
-                            </div>
-                            <div class="col-md-4 col-xs-6 nopadding">
-                                <figure class="gallery-item">
-                                    <a href="assets/img/gallery/large/image-3.jpg"
-                                       class="gallery-zoom">
-                                        <img src="assets/img/gallery/thumb/image-3.jpg"
-                                             alt="Gallery" title="Gallery"/>
-                                    </a>
-                                </figure>
-                            </div>
-                            <div class="col-md-4 col-xs-6 nopadding">
-                                <figure class="gallery-item">
-                                    <a href="assets/img/gallery/large/image-3.jpg"
-                                       class="gallery-zoom"
-                                       title="This is a caption">
-                                        <img src="assets/img/gallery/thumb/image-3.jpg"
-                                             alt="Gallery" title="Gallery"/>
-                                    </a>
-                                    <figcaption>This is a caption</figcaption>
-                                </figure>
-                            </div>
-                            <div class="col-md-4 col-xs-6 nopadding">
-                                <figure class="gallery-item">
-                                    <a href="assets/img/gallery/large/image-2.jpg"
-                                       class="gallery-zoom">
-                                        <img src="assets/img/gallery/thumb/image-2.jpg"
-                                             alt="Gallery" title="Gallery"/>
-                                    </a>
-                                </figure>
-                            </div>
-                            <div class="col-md-4 col-xs-6 nopadding">
-                                <figure class="gallery-item">
-                                    <a href="assets/img/gallery/large/image-1.jpg"
-                                       class="gallery-zoom">
-                                        <img src="assets/img/gallery/thumb/image-1.jpg"
-                                             alt="Gallery" title="Gallery"/>
-                                    </a>
-                                </figure>
-                            </div>
+                            {% for image in object.images.all %}
+                                <div class="col-md-4 col-xs-6 nopadding">
+                                    <figure class="gallery-item">
+                                        <a href="{{ image.photo.url }}"
+                                           class="gallery-zoom"
+                                           title="{{ image.title }}">
+                                            <img src="{{ image.photo.url }}"
+                                                 alt="{{ image.title }}"
+                                                 title="{{ image.title }}"/>
+                                        </a>
+                                        <figcaption>{{ image.title }}
+                                        </figcaption>
+                                    </figure>
+                                </div>
+                            {% endfor %}
+
                         </div>
-                         -->
                     </div>
 
                     <!-- ===== HR ===== -->
@@ -173,19 +139,20 @@
                     <div class="page-pagination">
                     {% if prev %}
                         <!-- ===== PREV ===== -->
-                        <a href="{% url 'episode_detail' prev.episode.slug %}"
+                        <a href="{% url 'episode_detail' prev.slug %}"
                            class="page-pagination-prev">
                             <i class="fa fa-long-arrow-left"></i>
-                            <span>{{ prev.episode.published }}</span>
-                            <p>{{ prev.episode.title }}</p>
+                            <span>{{ prev.published }}</span>
+                            <p>{{ prev.title }}</p>
                         </a>
                     {% endif %}
                     {% if next %}
                         <!-- ===== NEXT ===== -->
-                        <a href="{% url 'episode_detail' next.episode.slug %}" class="page-pagination-next">
+                        <a href="{% url 'episode_detail' next.slug %}"
+                           class="page-pagination-next">
                             <i class="fa fa-long-arrow-right"></i>
-                            <span>{{ next.episode.published }}</span>
-                            <p>{{ next.episode.title }}</p>
+                            <span>{{ next.published }}</span>
+                            <p>{{ next.title }}</p>
                         </a>
                     {% endif %}
                     </div>

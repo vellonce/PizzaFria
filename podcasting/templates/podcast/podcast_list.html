@@ -1,0 +1,170 @@
+{% extends "site_base.html" %}
+{% load staticfiles %}
+{% block title %}
+    PizzaFr&iacute;a - Un podcast sobre viajes en el tiempo
+{% endblock %}
+{% block ogtitle %}PizzaFría{% endblock %}
+{% block ogurl %}{{ domain }}{{ request.get_full_path }}{% endblock %}
+{% block ogdescription %}Un podcast sobre viajes en el tiempo. PizzaFr&iacute;a
+    es un podcast semanal acerca de pel&iacute;culas, series, videojuegos y
+    todos aquellos temas de los que los peculiares integrantes del panel
+    disfrutan platicar.{% endblock %}
+{% block ogimage %}{{ domain }}
+    {% static 'assets/img/logo_pf.png' %}{% endblock %}
+
+{% block siteurl %}{{ domain }}{{ request.get_full_path }}{% endblock %}
+{% block twitter_handle %}pizzafriamx{% endblock %}
+{% block twtitle %}PizzaFría{% endblock %}
+{% block twdescription %}Un podcast sobre viajes en el tiempo. PizzaFr&iacute;a
+    es un podcast semanal acerca de pel&iacute;culas, series, videojuegos y
+    todos aquellos temas de los que los peculiares integrantes del panel
+    disfrutan platicar.{% endblock %}
+{% block twimage %}{{ domain }}
+    {{ domain }}{% static 'assets/img/logo_pf.png' %}
+{% endblock %}
+{% block menu %}
+    <ul class="menu">
+        <li class="menuitem"><a href="{% url 'home' %}">The Ark</a></li>
+        <li class="menuitem{% if type == 'audio' %} active{% endif %}"><a
+                href="{% url 'podcast_list' %}">Podcast</a></li>
+        <li class="menuitem{% if type == 'video' %} active{% endif %}"><a
+                href="{% url 'video_list' %}">Video</a></li>
+        <li class="menuitem{% if type == 'post' %} active{% endif %}"><a
+                href="{% url 'blog_list' %}">Blog</a></li>
+        <li class="menuitem"><a href="{% url 'about' %}">Nosotros</a></li>
+        <li class="menuitem"><a href="{% url 'contact_us' %}">Contacto</a></li>
+    </ul>
+{% endblock %}
+{% if not object_list %}
+    {% block main_header %}
+        {% if not object_list %}
+            <!-- ===== PAGE HEADER ===== -->
+            <section class="page-error"
+                     style="background-image: url({% static 'images/terminator.jpeg' %})">
+                <div class="page-error-inner">
+                    <div class="container">
+
+                        <!-- ===== PAGE HEADER CONTENT ===== -->
+                        <div class="page-error-content text-center">
+                            <h2>Alright everyone... Chill!</h2>
+                            <p class="mb-40">Parece que aún no hay contenido
+                                para
+                                ésta sección. <br/> No te preocupes...
+                                We'll be back.</p>
+                            <a href="{% url 'home' %}" class="btn btn-success">Regresar
+                                a inicio</a>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+    {% endblock %}
+{% endif %}
+{% block content %}
+    <!-- ===== PODCAST LIST ===== -->
+    <section id="#episodes" class="section-positive">
+        <div class="container">
+
+            <!-- ===== SECTION TITLE ===== -->
+            <h2 class="title-default">&nbsp</h2>
+
+            <div class="row" id="postContainer">
+                <!-- ===== PODCAST CARD BOXED ===== -->
+
+                {% for post in object_list %}
+                    <!-- ===== PODCAST CARD FULL ===== -->
+                    <div class="col-sm-12 mb-40">
+                        <div class="podcast-card full">
+                            <figure class="podcast-image{% if post.entry_type == 'audio' or post.entry_type == 'video' %} player{% endif %}">
+                                <a
+                                        href="{% url "episode_detail" post.slug %}"><img
+                                        src="{{ post.main_image.photo.url }}"
+                                        alt="{{ post.title }}"
+                                        title="{{ post.title }}"/></a>
+                            </figure>
+                            <div class="podcast-content">
+                                <h2 class="podcast-title">
+                                    <a href='{% url "episode_detail" post.slug %}'>
+                                        {{ post.title }}</a>
+                                </h2>
+                                <ul class="podcast-meta">
+                                    <li class="item podcast-date">
+                                        {{ post.subtitle }}
+                                    </li>
+                                    <li class="item podcast-date">
+                                        {{ post.published|date:"Y-m-d" }}
+                                    </li>
+                                </ul>
+                                <p class="podcast-excerpt"><a
+                                        href="{% url "episode_detail" post.slug %}">
+                                    {{ post.intro|safe }}
+                                </a></p>
+                                <ul class="podcast-meta">
+                                    <li class="item">
+                                        {% if post.entry_type == 'audio' %}
+                                            <a href="{% url 'podcast_list' %}"
+                                               class="podcast-tag"
+                                               rel="tag">
+                                                Podcast
+                                            </a>
+                                        {% endif %}
+                                        {% if post.entry_type == 'video' %}
+                                            <a href="{% url 'video_list' %}"
+                                               class="podcast-tag"
+                                               rel="tag">
+                                                Video
+                                            </a>
+                                        {% endif %}
+                                        {% if post.entry_type == 'blog' %}
+                                            <a href="{% url 'blog_list' %}"
+                                               class="podcast-tag"
+                                               rel="tag">
+                                                Post
+                                            </a>
+                                        {% endif %}
+                                    </li>
+                                    <li class="item">
+                                        {% for tag in post.tags.all %}
+                                            <a href="#" class="podcast-tag"
+                                               rel="tag">
+                                                {{ tag }}
+                                                {% if not forloop.last %}
+                                                    ,
+                                                    &nbsp;{% endif %}
+                                            </a>
+                                        {% endfor %}
+
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <!-- ===== PAGINATION ===== -->
+            {% if is_paginated %}
+                <div class="col-sm-12 text-center mb-50">
+                    <ul class="pagination">
+                        {% if page_obj.has_previous %}
+                            <li>
+                                <a href="?page={{ page_obj.previous_page_number }}">anterior</a>
+                            </li>
+                        {% endif %}
+                        <li><a href="#"
+                               class="current-page">P&aacute;gina {{ page_obj.number }}
+                            de {{ page_obj.paginator.num_pages }}</a></li>
+                        {% if page_obj.has_next %}
+                            <li><a href="?page={{ page_obj.next_page_number }}">siguiente</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            {% endif %}
+
+        </div>
+    </section>
+{% endblock %}
+{% block custom_js %}
+
+{% endblock %}

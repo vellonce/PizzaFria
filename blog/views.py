@@ -82,6 +82,59 @@ class HomeEpisodeList(ListView):
         return context
 
 
+class PodcastList(ListView):
+    template_name = 'podcast/podcast_list.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        episodes = Post.objects.exclude(
+            published=None
+        ).filter(
+            entry_type=Post.PODCAST_EPISODE
+        ).order_by('-published')
+        return episodes
+
+    def get_context_data(self, **kwargs):
+        context = super(PodcastList, self).get_context_data(**kwargs)
+        context['type'] = 'audio'
+        return context
+
+
+class VideoList(ListView):
+    template_name = 'podcast/podcast_list.html'
+
+    def get_queryset(self):
+        episodes = Post.objects.exclude(
+            published=None
+        ).filter(
+            entry_type=Post.VIDEO_CLIP
+        ).order_by('-published')
+        return episodes
+
+    def get_context_data(self, **kwargs):
+        context = super(VideoList, self).get_context_data(**kwargs)
+        context['type'] = 'video'
+        return context
+
+
+class BlogList(ListView):
+    template_name = 'podcast/podcast_list.html'
+
+    def get_queryset(self):
+        episodes = Post.objects.exclude(
+            published=None
+        ).filter(
+            entry_type=Post.BLOG_POST
+        ).order_by('-published')
+        return episodes
+
+    def get_context_data(self, **kwargs):
+        context = super(BlogList, self).get_context_data(**kwargs)
+        context['type'] = 'blog'
+        return context
+
+
+
 class DateTimeEncoder(json.JSONEncoder):
     # default JSONEncoder cannot serialize datetime.datetime objects
     def default(self, obj):
@@ -125,7 +178,7 @@ class EpisodeSingle(DetailView):
     def get_object(self, queryset=None):
         slug = self.kwargs.get(self.slug_field, None)
         if slug:
-            return EpisodePodcast.objects.get(episode__slug=slug)
+            return Post.objects.get(slug=slug)
 
     def get_context_data(self, **kwargs):
         context = super(EpisodeSingle, self).get_context_data(**kwargs)
@@ -133,18 +186,18 @@ class EpisodeSingle(DetailView):
         context['feed_type'] = 'mp3'
         context['itunes_url'] = settings.ITUNES_URL
         context['domain'] = settings.PODCAST_DOMAIN
-        next_episode = EpisodePodcast.objects.filter(
+        next_episode = Post.objects.filter(
             pk__gt=self.object.pk
         ).exclude(
-            episode__published__isnull=True
+            published__isnull=True
         ).order_by('pk')
 
         next_episode = next_episode.first()
 
-        prev_episode = EpisodePodcast.objects.filter(
+        prev_episode = Post.objects.filter(
             pk__lt=self.object.pk
         ).exclude(
-            episode__published__isnull=True
+            published__isnull=True
         ).order_by('-pk')
         prev_episode = prev_episode.first()
 
@@ -153,24 +206,31 @@ class EpisodeSingle(DetailView):
 
         # Time marks
         time_marks = []
-        timemarks = self.object.episode.tracklist
-        if timemarks:
-            timemarks = timemarks.splitlines()
-            for timemark in timemarks:
-                timemark = timemark.split('-')
-                try:
-                    seconds = timemark[0]
-                    mark = timemark[1]
-                except ValueError:
-                    print 'malformed timemark', timemark
-                    continue
-                m, s = divmod(int(seconds), 60)
-                h, m = divmod(m, 60)
-                if h:
-                    human_time = "%d:%02d:%02d" % (h, m, s)
-                else:
-                    human_time = "%02d:%02d" % (m, s)
-                time_marks.append(dict(human_time=human_time,
-                                       seconds=seconds, mark=mark))
+        if self.object.entry_type == Post.PODCAST_EPISODE:
+            episode = self.object.episodepodcast_set.first()
+            context['episode'] = episode
+            context['minutes'] = episode.episode.hours * 60 + \
+                                 episode.episode.minutes
+            episode = episode.episode
+
+            timemarks = episode.tracklist
+            if timemarks:
+                timemarks = timemarks.splitlines()
+                for timemark in timemarks:
+                    timemark = timemark.split('-')
+                    try:
+                        seconds = timemark[0]
+                        mark = timemark[1]
+                    except ValueError:
+                        print 'malformed timemark', timemark
+                        continue
+                    m, s = divmod(int(seconds), 60)
+                    h, m = divmod(m, 60)
+                    if h:
+                        human_time = "%d:%02d:%02d" % (h, m, s)
+                    else:
+                        human_time = "%02d:%02d" % (m, s)
+                    time_marks.append(dict(human_time=human_time,
+                                           seconds=seconds, mark=mark))
         context['time_marks'] = time_marks
         return context

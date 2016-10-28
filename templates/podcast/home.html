@@ -23,10 +23,10 @@ PizzaFr&iacute;a - Un podcast sobre viajes en el tiempo
 {% endblock %}
 {% block menu %}
     <ul class="menu">
-        <li class="menuitem active"><a href="{% url 'home' %}">The Ark</a></li>
-        <li class="menuitem"><a href="#podcast">Podcast</a></li>
-        <li class="menuitem"><a href="#video">Video</a></li>
-        <li class="menuitem"><a href="#blog">Blog</a></li>
+        <li class="menuitem active"><a href="{% url "home" %}">The Ark</a></li>
+        <li class="menuitem"><a href="{% url "podcast_list" %}">Podcast</a></li>
+        <li class="menuitem"><a href="{% url "video_list" %}">Video</a></li>
+        <li class="menuitem"><a href="{% url "blog_list" %}">Blog</a></li>
         <li class="menuitem"><a href="{% url 'about' %}">Nosotros</a></li>
         <li class="menuitem"><a href="{% url 'contact_us' %}">Contacto</a></li>
     </ul>
@@ -104,21 +104,21 @@ PizzaFr&iacute;a - Un podcast sobre viajes en el tiempo
                                     <ul class="podcast-meta">
                                         <li class="item">
                                             {% if post.entry_type == 'audio' %}
-                                                <a href="#podcast"
+                                                <a href="{% url 'podcast_list' %}"
                                                    class="podcast-tag"
                                                    rel="tag">
                                                     Podcast
                                                 </a>
                                             {% endif %}
                                             {% if post.entry_type == 'video' %}
-                                                <a href="#video"
+                                                <a href="{% url 'video_list' %}"
                                                    class="podcast-tag"
                                                    rel="tag">
                                                     Video
                                                 </a>
                                             {% endif %}
                                             {% if post.entry_type == 'blog' %}
-                                                <a href="#blog"
+                                                <a href="{% url 'blog_list' %}"
                                                    class="podcast-tag"
                                                    rel="tag">
                                                     Post
@@ -173,21 +173,21 @@ PizzaFr&iacute;a - Un podcast sobre viajes en el tiempo
                                     <ul class="podcast-meta">
                                         <li class="item">
                                             {% if post.entry_type == 'audio' %}
-                                                <a href="#podcast"
+                                                <a href="{% url 'podcast_list' %}"
                                                    class="podcast-tag"
                                                    rel="tag">
                                                     Podcast
                                                 </a>
                                             {% endif %}
                                             {% if post.entry_type == 'video' %}
-                                                <a href="#video"
+                                                <a href="{% url 'video_list' %}"
                                                    class="podcast-tag"
                                                    rel="tag">
                                                     Video
                                                 </a>
                                             {% endif %}
                                             {% if post.entry_type == 'blog' %}
-                                                <a href="#blog"
+                                                <a href="{% url 'blog_list' %}"
                                                    class="podcast-tag"
                                                    rel="tag">
                                                     Post
