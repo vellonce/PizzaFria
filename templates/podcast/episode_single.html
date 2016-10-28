@@ -18,11 +18,11 @@
     <ul class="menu">
         <li class="menuitem"><a href="{% url 'home' %}">The Ark</a></li>
         <li class="menuitem{% if object.entry_type == 'audio' %} active{% endif %}">
-            <a href="podcasts.html">Podcast</a></li>
+            <a href="{% url 'podcast_list' %}">Podcast</a></li>
         <li class="menuitem{% if object.entry_type == 'video' %} active{% endif %}">
-            <a href="podcasts.html">Video</a></li>
+            <a href="{% url 'video_list' %}">Video</a></li>
         <li class="menuitem{% if object.entry_type == 'blog' %} active{% endif %}">
-            <a href="podcasts.html">Blog</a></li>
+            <a href="{% url 'blog_list' %}">Blog</a></li>
         <li class="menuitem"><a href="{% url 'about' %}">Nosotros</a></li>
         <li class="menuitem"><a href="{% url 'contact_us' %}">Contacto</a></li>
     </ul>
