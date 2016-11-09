@@ -301,7 +301,7 @@ PizzaFr&iacute;a - Un podcast sobre viajes en el tiempo
 {% endblock %}
 {% block custom_js %}
     <script type="text/javascript">
-        var offset = 7;
+        var offset = 8;
 
         $(document).on('ready', function () {
             $('#loadMore').on('click', function (e) {
@@ -321,7 +321,7 @@ PizzaFr&iacute;a - Un podcast sobre viajes en el tiempo
                                     card = card.clone();
                                     card.find('.episode_url').attr('href', single_url);
                                     card.find('img').attr({
-                                        "src": "/media/" + post['main_image__photo'],
+                                        "src": post['main_image__photo'],
                                         "title": post['title'],
                                         "alt": post['title']
                                     });

@@ -9,9 +9,10 @@ from django.utils.datetime_safe import strftime
 from django.views.generic import TemplateView, FormView, ListView, DetailView
 
 from blog.forms import ContactForm
+from oembed_consumer import Consumer
 from podcast.models import EpisodePodcast, Panelist
 from podcasting.models import Show
-from .models import Post
+from .models import Post, VideoPost
 
 
 class AboutView(TemplateView):
@@ -147,26 +148,35 @@ class DateTimeEncoder(json.JSONEncoder):
 
 def get_posts(request):
     # start
-    offset = request.GET.get('offset', 7)
+    offset = request.GET.get('offset', 8)
     # take the next x elements following start
     take = request.GET.get('take', 6)
     final_offset = int(offset) + int(take)
     last = EpisodePodcast.objects.exclude(
         episode__published__isnull=True).first()
     posts = Post.objects.exclude(
-        published=None
-    ).exclude(
+        published=None,
         pk=last.post.pk
-    ).order_by('-published').values(
-        'title', 'subtitle', 'slug', 'published', 'intro', 'tags',
-        'main_image__photo', 'entry_type'
-    )
+    ).order_by('-published')
     posts = posts[offset:final_offset]
+    post_list = []
     for post in posts:
-        post['published'] = strftime(post['published'], '%Y-%m-%d')
+        published = strftime(post.published, '%Y-%m-%d')
+        tags = post.tags.all()
+        post_dict = dict(
+            title=post.title,
+            subtitle=post.subtitle,
+            slug=post.subtitle,
+            published=published,
+            intro=post.intro,
+            main_image__photo=post.main_image.photo.url,
+            entry_type=post.entry_type,
+            tags=[tag.tag for tag in tags]
+        )
+        post_list.append(post_dict)
     response = dict(
         offset=final_offset,
-        posts=list(posts)
+        posts=list(post_list)
     )
     return JsonResponse(response, safe=False)
 
@@ -232,5 +242,19 @@ class EpisodeSingle(DetailView):
                         human_time = "%02d:%02d" % (m, s)
                     time_marks.append(dict(human_time=human_time,
                                            seconds=seconds, mark=mark))
+        elif self.object.entry_type == Post.VIDEO_CLIP:
+            video = VideoPost.objects.get(post=self.object)
+            context['episode'] = video
+            if video.video_file:
+                context['type'] = 'player'
+            else:
+                context['type'] = 'embed'
+                consumer = Consumer()
+                # This returns a dict with the oembed data
+                embed = consumer.get_oembed(video.url)
+                print embed
+                context['embed'] = embed[0].get('html', None)
+                context['embed'].replace()
+
         context['time_marks'] = time_marks
         return context

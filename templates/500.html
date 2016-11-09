@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<!-- saved from url=(0028)http://localhost:8000/video/ -->
+<html lang="en"
+      class=" js flexbox flexboxlegacy canvas canvastext webgl touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <!-- =================================== -->
+    <!-- 		  COMPATIBILITY 			 -->
+    <!-- =================================== -->
+
+    <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <![endif]-->
+
+
+    <!-- =================================== -->
+    <!-- 			  TITLE 			 	 -->
+    <!-- =================================== -->
+
+    <title>
+        PizzaFría - Un podcast sobre viajes en el tiempo
+    </title>
+
+    <!-- =================================== -->
+    <!-- 			MORDERNIZR 			 	 -->
+    <!-- =================================== -->
+
+    <script src="./500_files/modernizr.js"></script>
+
+    <!-- =================================== -->
+    <!-- 			  STYLES 				 -->
+    <!-- =================================== -->
+
+    <!-- BOOTSTRAP MIN -->
+    <link href="./500_files/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MEDIA ELEMENT -->
+    <link href="./500_files/mediaelementplayer.min.css" rel="stylesheet">
+
+    <!-- MAGNIFIC POPUP CSS -->
+    <link href="./500_files/magnific-popup.css" rel="stylesheet">
+
+    <!-- THEME CSS -->
+    <link href="./500_files/style.css" rel="stylesheet">
+
+    <!-- GOOGLE FONTS -->
+    <link href="./500_files/css" rel="stylesheet" type="text/css">
+    <link href="./500_files/css(1)" rel="stylesheet" type="text/css">
+
+    <!-- FONT AWESOME -->
+    <link href="./500_files/font-awesome.min.css" rel="stylesheet">
+
+    <!-- =================================== -->
+    <!-- 		 	THEME COLOR 			 -->
+    <!-- =================================== -->
+
+    <meta name="theme-color" content="#fff">
+
+    <!-- =================================== -->
+    <!-- 			CONDITIONAL 			 -->
+    <!-- =================================== -->
+
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+			<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    <!-- =================================== -->
+    <!-- 			 VIEWPORT 				 -->
+    <!-- =================================== -->
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
+
+    <!-- =================================== -->
+    <!-- 			 CONTENT 				 -->
+    <!-- =================================== -->
+
+    <meta name="keywords"
+          content="podcast, comics, películas, videojuegos, ciencia ficci&amp;pacute;n, marvel, dc, playstation, xbox">
+    <meta name="description" content="PizzaFría es un podcast semanal acerca de películas,
+                series, videojuegos y todos aquellos temas de los que los peculiares integrantes del panel disfrutan platicar.">
+
+    <!-- =================================== -->
+    <!-- 			 ROBOTS 				 -->
+    <!-- =================================== -->
+
+    <meta name="GOOGLEBOT" content="INDEX, FOLLOW">
+    <meta name="robots" content="index, follow">
+    <meta name="msnbot" content="NOODP">
+
+    <!-- =================================== -->
+    <!-- 			 FACEBOOK 				 -->
+    <!-- =================================== -->
+
+    <meta property="og:locale" content="es">
+    <meta property="og:url" content="/video/">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="PizzaFría">
+    <meta property="og:description" content="Un podcast sobre viajes en el tiempo. PizzaFría
+    es un podcast semanal acerca de películas, series, videojuegos y
+    todos aquellos temas de los que los peculiares integrantes del panel
+    disfrutan platicar.">
+    <meta property="og:image" content="
+    /static/assets/img/logo_pf.png">
+    <meta property="og:site_name" content="PizzaFría">
+
+    <!-- =================================== -->
+    <!-- 			  TWITTER 				 -->
+    <!-- =================================== -->
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="/video/">
+    <meta name="twitter:creator" content="pizzafriamx">
+    <meta name="twitter:title" content="PizzaFría">
+    <meta name="twitter:description" content="Un podcast sobre viajes en el tiempo. PizzaFría
+    es un podcast semanal acerca de películas, series, videojuegos y
+    todos aquellos temas de los que los peculiares integrantes del panel
+    disfrutan platicar.">
+    <meta name="twitter:domain" content="PizzaFría">
+    <meta name="twitter:image" content="
+    /static/assets/img/logo_pf.png
+">
+
+    <!-- =================================== -->
+    <!-- 			  FAVICON 				 -->
+    <!-- =================================== -->
+
+
+    <link rel="apple-touch-icon" sizes="180x180"
+          href="http://localhost:8000/static/assets/img/apple-touch-icon.png">
+    <link rel="icon" type="image/png"
+          href="http://localhost:8000/static/assets/img/favicon-32x32.png"
+          sizes="32x32">
+    <link rel="icon" type="image/png"
+          href="http://localhost:8000/static/assets/img/favicon-16x16.png"
+          sizes="16x16">
+    <link rel="manifest"
+          href="http://localhost:8000/static/assets/img/manifest.json">
+    <link rel="mask-icon"
+          href="http://localhost:8000/static/assets/img/safari-pinned-tab.svg"
+          color="#5bbad5">
+    <link rel="shortcut icon"
+          href="http://localhost:8000/static/assets/img/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="PizzaFría">
+    <meta name="application-name" content="PizzaFría">
+    <meta name="msapplication-config"
+          content="/static/assets/img/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+
+    <meta name="chromesniffer" id="chromesniffer_meta"
+          content="{&quot;jQuery&quot;:&quot;1.11.1&quot;,&quot;Modernizr&quot;:&quot;2.8.2&quot;}">
+    <script type="text/javascript"
+            src="chrome-extension://homgcnaoacgigpkkljjjekpignblkeae/detector.js"></script>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebSite">
+
+<!-- ===== HEADER ===== -->
+<header class="header sticky" itemscope=""
+        itemtype="http://schema.org/Organization">
+    <div class="container">
+
+        <!-- ===== LOGO ===== -->
+        <h1 class="logo" data-unsp-sanitized="clean"><a
+                href="http://localhost:8000/" data-unsp-sanitized="clean"><img
+                itemprop="logo" src="./500_files/logo_pf.png"
+                alt="PizzaFria - Un podcast sobre viajes en el tiempo"
+                title="PizzaFria - Un podcast sobre viajes en el tiempo"></a>
+        </h1>
+
+        <!-- ===== NAVIGATION ===== -->
+        <nav class="navigation">
+            <!-- ===== MENU ===== -->
+
+            <ul class="menu">
+                <li class="menuitem"><a href="http://localhost:8000/"
+                                        data-unsp-sanitized="clean">The Ark</a>
+                </li>
+                <li class="menuitem"><a href="http://localhost:8000/podcast/"
+                                        data-unsp-sanitized="clean">Podcast</a>
+                </li>
+                <li class="menuitem active"><a
+                        href="http://localhost:8000/video/"
+                        data-unsp-sanitized="clean">Video</a></li>
+                <li class="menuitem"><a href="http://localhost:8000/blog/"
+                                        data-unsp-sanitized="clean">Blog</a>
+                </li>
+                <li class="menuitem"><a href="http://localhost:8000/about/"
+                                        data-unsp-sanitized="clean">Nosotros</a>
+                </li>
+                <li class="menuitem"><a href="http://localhost:8000/contact_us/"
+                                        data-unsp-sanitized="clean">Contacto</a>
+                </li>
+            </ul>
+
+            <!-- ===== HAMBURGUER ICON ===== -->
+            <a href="http://localhost:8000/video/#" class="btn-hamburguer-menu"
+               data-unsp-sanitized="clean"><i class="fa fa-bars"></i></a>
+        </nav>
+
+    </div>
+</header>
+
+<!-- ===== LASTEST PODCAST (HERO) ===== -->
+
+
+<!-- ===== PAGE HEADER ===== -->
+<section class="page-error"
+         style="background-image: url(/static/images/terminator.jpeg)">
+    <div class="page-error-inner">
+        <div class="container">
+
+            <!-- ===== PAGE HEADER CONTENT ===== -->
+            <div class="page-error-content text-center">
+                <h2 data-unsp-sanitized="clean">Alright everyone... Chill!</h2>
+                <p class="mb-40">Parece que aún no hay contenido
+                    para
+                    ésta sección. <br> No te preocupes...
+                    We'll be back.</p>
+                <a href="http://localhost:8000/" class="btn btn-success"
+                   data-unsp-sanitized="clean">Regresar
+                    a inicio</a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ===== MAIN ===== -->
+<main id="main" class="main">
+
+
+    <!-- ===== PODCAST LIST ===== -->
+    <section id="#episodes" class="section-positive">
+        <div class="container">
+
+            <!-- ===== SECTION TITLE ===== -->
+            <h2 class="title-default" data-unsp-sanitized="clean">&nbsp;</h2>
+
+            <div class="row" id="postContainer">
+                <!-- ===== PODCAST CARD BOXED ===== -->
+
+
+            </div>
+            <!-- ===== PAGINATION ===== -->
+
+
+        </div>
+    </section>
+
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+
+    <!-- ===== FOOTER CONTENT INFORMATION ===== -->
+    <section class="section-positive">
+        <div class="container">
+
+            <div class="row mt-70 mb-30">
+
+                <!-- ===== SITEMAP ===== -->
+                <div class="col-sm-3 mb-40">
+                    <h2 class="title-separator white"
+                        data-unsp-sanitized="clean">Mapa del sitio</h2>
+                    <ul class="footer-list">
+                        <li><a href="http://localhost:8000/"
+                               data-unsp-sanitized="clean">The Ark</a></li>
+                        <li><a href="http://localhost:8000/podcast/"
+                               data-unsp-sanitized="clean">Podcast</a></li>
+                        <li><a href="http://localhost:8000/video/"
+                               data-unsp-sanitized="clean">Video</a></li>
+                        <li><a href="http://localhost:8000/blog/"
+                               data-unsp-sanitized="clean">Blog</a></li>
+                        <li><a href="http://localhost:8000/about/"
+                               data-unsp-sanitized="clean">Nosotros</a></li>
+                        <li><a href="http://localhost:8000/contact_us/"
+                               data-unsp-sanitized="clean">Contacto</a></li>
+                    </ul>
+                </div>
+
+                <!-- ===== PODCASTS EPISODES ===== -->
+                <div class="col-sm-6 mb-40">
+                    <h2 class="title-separator white"
+                        data-unsp-sanitized="clean">Últimos episodios</h2>
+                    <ul class="footer-complement">
+
+                        <li>
+                            <a href="http://localhost:8000/slice/review-de-la-ps4-consola"
+                               data-unsp-sanitized="clean">
+                                Review de la PS4 (consola)
+                            </a>
+                            <span>2016-10-04</span>
+                        </li>
+
+                        <li>
+                            <a href="http://localhost:8000/slice/dark-souls"
+                               data-unsp-sanitized="clean">
+                                Dark Souls
+                            </a>
+                            <span>2016-08-07</span>
+                        </li>
+
+                    </ul>
+                </div>
+                <!-- ===== PODCASTS EPISODES ===== -->
+
+
+                <!-- ===== SOCIAL CONNECTION ===== -->
+                <div class="col-sm-3 mb-40">
+                    <h2 class="title-separator white"
+                        data-unsp-sanitized="clean">Somos sociales</h2>
+                    <ul class="social-list">
+                        <li class="social-item"><a
+                                href="https://www.facebook.com/PizzaFriaQro/"
+                                target="_blank" data-unsp-sanitized="clean"><i
+                                class="fa fa-facebook"></i></a></li>
+                        <li class="social-item"><a
+                                href="https://twitter.com/pizzafriamx"
+                                target="_blank" data-unsp-sanitized="clean"><i
+                                class="fa fa-twitter"></i></a></li>
+                        <li class="social-item"><a
+                                href="https://plus.google.com/109607531865662536407"
+                                target="_blank" data-unsp-sanitized="clean"><i
+                                class="fa fa-google-plus"></i></a></li>
+                        <li class="social-item"><a
+                                href="https://www.youtube.com/channel/UCWAE19AYPJurbzhZaz2yTYg"
+                                target="_blank" data-unsp-sanitized="clean"><i
+                                class="fa fa-youtube"></i></a></li>
+                        <li class="social-item"><a
+                                href="https://open.spotify.com/user/periclesdorantes"
+                                target="_blank" data-unsp-sanitized="clean"><i
+                                class="fa fa-spotify"></i></a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===== FOOTER INFORMATION ===== -->
+    <section class="footer-credits">
+        <div class="container">
+
+            <div class="row">
+
+                <!-- ===== CREDIT LOGO ===== -->
+                <div class="col-sm-6 footer-logo">
+                    <h2 data-unsp-sanitized="clean"><a
+                            href="http://localhost:8000/"
+                            data-unsp-sanitized="clean"><img
+                            src="./500_files/logo_pf.png"
+                            alt="PizzaFría - Un podcast sobre viajes en el tiempo"
+                            title="PizzaFría - Un podcast sobre viajes en el tiempo"></a>
+                    </h2>
+                </div>
+
+                <!-- ===== CREDIT LOGO ===== -->
+                <div class="col-sm-6 text-right">
+                    Pizzafría - 2016. Todos los derechos reservados.
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+</footer>
+
+<!-- =================================== -->
+<!-- 			  SCRIPTS 				 -->
+<!-- =================================== -->
+
+<!-- JQUERY -->
+<script src="./500_files/jquery-1.11.min.js"></script>
+
+<!-- BOOTSTRAP JS -->
+<script src="./500_files/bootstrap.min.js"></script>
+
+<!-- MEDIA ELEMENT -->
+<script src="./500_files/mediaelement-and-player.min.js"></script>
+
+<!-- MAGNIFIC POPUP -->
+<script src="./500_files/magnific-popup.min.js"></script>
+
+<!-- FORM VALIDATE -->
+<script src="./500_files/validate.min.js"></script>
+
+<!-- PLACEHOLDER FOR IE -->
+<script src="./500_files/placeholder.min.js"></script>
+
+<!-- THEME JS -->
+<script src="./500_files/main.js"></script>
+
+<!-- CUSTOM JS -->
+
+
+<script src="./500_files/50_c211e.js"></script>
+</body>
+<script type="text/javascript">(function () {
+    var a = !0;
+    window.onfocus = window.onblur = function (b) {
+        a = "focus" === (b || event).type
+    };
+    var b = document.createEvent("Event");
+    b.initEvent("ajaxUpdated", !0, !0);
+    var c = function () {
+        a && 4 === this.readyState && 200 === this.status && document.dispatchEvent(b)
+    }, d = window.XMLHttpRequest.prototype.open;
+    window.XMLHttpRequest.prototype.open = function () {
+        arguments.callee.caller;
+        return this.addEventListener("readystatechange", c, !0), d.apply(this, [].slice.call(arguments))
+    }
+})()</script>
+</html>

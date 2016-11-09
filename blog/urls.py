@@ -20,5 +20,4 @@ urlpatterns = [
     url(r"^feed/", include("podcasting.urls_feeds")),
     url(r'^get_posts/$', get_posts,
         name='get_posts'),
-
 ]

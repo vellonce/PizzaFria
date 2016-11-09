@@ -32,3 +32,6 @@ wheel==0.24.0
 python-resize-image
 django-extensions
 werkzeug
+beautifulsoup4
+python-oembed
+pytz

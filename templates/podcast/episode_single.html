@@ -95,6 +95,20 @@
                 </ul>
             </div>
         </div>
+    {% elif object.entry_type == 'video' %}
+        <div class="podcast-player">
+            <div class="podcast-player-inner">
+                <div class="container">
+                    {% if episode.url %}
+                        {{ embed|safe }}
+                    {% else %}
+                        <video src="{{ episode.video_file.url }}"
+                               width="100%"></video>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
     {% endif %}
 
     <!-- ===== SINGLE PAGE CONTENT ===== -->
