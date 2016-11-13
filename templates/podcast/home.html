@@ -127,14 +127,16 @@ PizzaFr&iacute;a - Un podcast sobre viajes en el tiempo
                                         </li>
                                         <li class="item">
                                             {% for tag in post.tags.all %}
-                                                <a href="{% url 'search_list' %}?q={{ tag }}"
-                                                   class="podcast-tag"
-                                                   rel="tag">
-                                                    {{ tag }}
-                                                    {% if not forloop.last %}
-                                                        ,
-                                                        &nbsp;{% endif %}
-                                                </a>
+                                                {% if forloop.counter0 < 5 %}
+                                                    <a href="{% url 'search_list' %}?q={{ tag }}"
+                                                       class="podcast-tag"
+                                                       rel="tag">
+                                                        {{ tag }}
+                                                        {% if not forloop.last %}
+                                                            ,
+                                                            &nbsp;{% endif %}
+                                                    </a>
+                                                {% endif %}
                                             {% endfor %}
 
                                         </li>
@@ -197,11 +199,13 @@ PizzaFr&iacute;a - Un podcast sobre viajes en el tiempo
                                         </li>
                                         <li class="item post-tags">
                                             {% for tag in post.tags.all %}
+                                                {% if forloop.counter0 < 5 %}
                                                 <a href="{% url 'search_list' %}?q={{ tag }}"
                                                    class="podcast-tag"
                                                    rel="tag">
                                                     {{ tag }}{% if not forloop.last %},&nbsp;{% endif %}
                                                 </a>
+                                                {% endif %}
                                             {% endfor %}
 
                                         </li>
@@ -340,9 +344,13 @@ PizzaFr&iacute;a - Un podcast sobre viajes en el tiempo
                                     }
                                     card.find('.post-tags').html('');
                                     if (post.tags != null) {
+                                        var count = 0;
                                         post.tags.forEach(function (tag) {
-                                            var aTag = $('<a>').addClass('podcast-tag').text('tag').attr('href', '{% url 'search_list' %}?q=' + tag);
-                                            card.find('.post-tags').append(aTag);
+                                            if (count < 5) {
+                                                var aTag = $('<a>').addClass('podcast-tag').text('tag').attr('href', '{% url 'search_list' %}?q=' + tag);
+                                                card.find('.post-tags').append(aTag);
+                                                count++;
+                                            }
                                         });
                                     }
                                     $('#postContainer').append(card);
