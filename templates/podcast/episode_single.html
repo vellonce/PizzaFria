@@ -5,13 +5,13 @@
 {% endblock %}
 {% block ogtitle %}{{ object.title }}{% endblock %}
 {% block ogurl %}{{ domain }}{{ request.get_full_path }}{% endblock %}
-{% block ogdescription %}{{ object.description }}{% endblock %}
+{% block ogdescription %}{{ object.intro }}{% endblock %}
 {% block ogimage %}{{ domain }}{{ object.main_image.photo.url }}{% endblock %}
 
 {% block siteurl %}{{ domain }}{{ request.get_full_path }}{% endblock %}
 {% block twitter_handle %}pizzafriamx{% endblock %}
 {% block twtitle %}{{ object.title }}{% endblock %}
-{% block twdescription %}{{ object.description }}{% endblock %}
+{% block twdescription %}{{ object.intro }}{% endblock %}
 {% block twimage %}{{ domain }}{{ object.main_image.photo.url }}{% endblock %}
 
 {% block menu %}
