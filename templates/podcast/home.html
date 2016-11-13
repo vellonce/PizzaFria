@@ -344,7 +344,7 @@ PizzaFr&iacute;a - Un podcast sobre viajes en el tiempo
                                         var count = 0;
                                         post.tags.forEach(function (tag) {
                                             if (count < 4) {
-                                                var aTag = $('<a>').addClass('podcast-tag').text(tag).attr('href', '{% url 'search_list' %}?q=' + tag);
+                                                var aTag = $('<a>').addClass('podcast-tag').html(tag + '&nbsp;&nbsp;').attr('href', '{% url 'search_list' %}?q=' + tag);
                                                 card.find('.post-tags').append(aTag);
                                                 count++;
                                             }
