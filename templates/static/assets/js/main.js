@@ -135,7 +135,7 @@
 	/* ========================= */
 	/* 		  EASTER EGG	     */
 	/* ========================= */
-	var easter_egg = new Konami('http://pizzafria.com');
+    var easter_egg = new Konami('https://www.youtube.com/watch?v=7HrnWC8zBcE');
 	/* ========================= */
 	/* 		  CONTACT AJAX	     */
 	/* ========================= */

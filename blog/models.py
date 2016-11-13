@@ -45,7 +45,8 @@ class Gallery(models.Model):
                             cover = resizeimage.resize_thumbnail(
                                 image, size['size_arr'])
                             cover.save(new_path, image.format)
-        super(Gallery, self).save(*args, **kwargs)
+        else:
+            super(Gallery, self).save(*args, **kwargs)
 
     def __str__(self):
         return 'image: ' + self.title
