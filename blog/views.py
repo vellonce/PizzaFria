@@ -183,7 +183,7 @@ def get_posts(request):
         post_dict = dict(
             title=post.title,
             subtitle=post.subtitle,
-            slug=post.subtitle,
+            slug=post.slug,
             published=published,
             intro=post.intro,
             main_image__photo=post.main_image.photo.url,
