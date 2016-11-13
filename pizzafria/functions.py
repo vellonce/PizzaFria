@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
 
-from blog.models import Post, Gallery
+from blog.models import Post, Gallery, Tag
 from podcast.models import EpisodePodcast
 
 
@@ -28,6 +28,13 @@ def make_posts_for_podcasts():
         post.save()
         episode.post = post
         episode.save()
+        tags = episode.episode.keywords
+        tags = tags.split(',')
+        post.tags.clear()
+        for tag in tags:
+            tag = tag.strip()
+            tag, created = Tag.objects.get_or_create(tag=tag)
+            post.tags.add(tag)
 
 
 def link_episodes_to_post():
