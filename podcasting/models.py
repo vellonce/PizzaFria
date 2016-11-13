@@ -17,6 +17,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 from django.contrib.sites.models import Site
+from tinymce.models import HTMLField
 
 # until the 1.4 shim is released
 # https://groups.google.com/d/msg/django-developers/EI-ihJ4CLqw/ZE8kw-JhQtAJ
@@ -173,7 +174,7 @@ class Show(models.Model):
         _("iTunes"), default=True,
         help_text=_("Checked if the podcast is submitted to iTunes"))
 
-    description = models.TextField(
+    description = HTMLField(
         _("description"), max_length=4000, help_text=_("""
             This is your chance to tell potential subscribers all about your
             podcast. Describe your subject matter, media format,
@@ -312,7 +313,7 @@ class Episode(models.Model):
         _("subtitle"), max_length=255, blank=True,
         help_text=_("Looks best if only a few words like a tagline."))
 
-    description = models.TextField(
+    description = HTMLField(
         _("description"), max_length=4000, blank=True, help_text=_("""
             This is your chance to tell potential subscribers all about your podcast.
             Describe your subject matter, media format, episode schedule, and other

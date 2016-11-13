@@ -4,7 +4,7 @@ __author__ = 'iwdev1'
 from django.conf.urls import url, include
 
 from blog.views import HomeEpisodeList, EpisodeSingle, get_posts, \
-    PodcastList, VideoList, BlogList
+    PodcastList, VideoList, BlogList, SearchList
 
 urlpatterns = [
     url(r'^$', HomeEpisodeList.as_view(),
@@ -17,6 +17,8 @@ urlpatterns = [
         name='video_list'),
     url(r'^blog/$', BlogList.as_view(),
         name='blog_list'),
+    url(r'^search/$', SearchList.as_view(),
+        name='search_list'),
     url(r"^feed/", include("podcasting.urls_feeds")),
     url(r'^get_posts/$', get_posts,
         name='get_posts'),

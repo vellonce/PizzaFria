@@ -127,7 +127,8 @@ PizzaFr&iacute;a - Un podcast sobre viajes en el tiempo
                                         </li>
                                         <li class="item">
                                             {% for tag in post.tags.all %}
-                                                <a href="#" class="podcast-tag"
+                                                <a href="{% url 'search_list' %}?q={{ tag }}"
+                                                   class="podcast-tag"
                                                    rel="tag">
                                                     {{ tag }}
                                                     {% if not forloop.last %}
@@ -196,7 +197,8 @@ PizzaFr&iacute;a - Un podcast sobre viajes en el tiempo
                                         </li>
                                         <li class="item post-tags">
                                             {% for tag in post.tags.all %}
-                                                <a href="#" class="podcast-tag"
+                                                <a href="{% url 'search_list' %}?q={{ tag }}"
+                                                   class="podcast-tag"
                                                    rel="tag">
                                                     {{ tag }}{% if not forloop.last %},&nbsp;{% endif %}
                                                 </a>
@@ -339,7 +341,7 @@ PizzaFr&iacute;a - Un podcast sobre viajes en el tiempo
                                     card.find('.post-tags').html('');
                                     if (post.tags != null) {
                                         post.tags.forEach(function (tag) {
-                                            var aTag = $('<a>').addClass('podcast-tag').text('tag').attr('href', '#' + tag);
+                                            var aTag = $('<a>').addClass('podcast-tag').text('tag').attr('href', '{% url 'search_list' %}?q=' + tag);
                                             card.find('.post-tags').append(aTag);
                                         });
                                     }

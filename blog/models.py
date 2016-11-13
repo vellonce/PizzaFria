@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils.six import python_2_unicode_compatible
 from resizeimage import resizeimage
-
+from tinymce.models import HTMLField
 
 @python_2_unicode_compatible
 class Tag(models.Model):
@@ -72,7 +72,7 @@ class Post(models.Model):
         verbose_name='Texto introductorio',
         help_text='preferentemente corto. Texto para mostrar en página '
                   'como previo')
-    content = models.TextField(verbose_name='Contenido')
+    content = HTMLField(verbose_name='Contenido')
     main_image = models.ForeignKey(Gallery, related_name="main_images",
                                    verbose_name='Imagen principal (1400x1400)')
     images = models.ManyToManyField(Gallery)

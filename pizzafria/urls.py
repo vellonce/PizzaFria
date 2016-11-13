@@ -17,6 +17,8 @@ urlpatterns = [
     url(r"^podcasts/", include("podcasting.urls")),
     url(r"^feeds/podcasts/", include("podcasting.urls_feeds")),
 
+    url(r'^tinymce/', include('tinymce.urls')),
+
     url(r'^static/(?P<path>.*)$', django.views.static.serve,
      {'document_root': settings.STATIC_ROOT}),
     url(r'^media/(?P<path>.*)$', django.views.static.serve,

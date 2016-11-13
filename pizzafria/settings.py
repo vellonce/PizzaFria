@@ -48,9 +48,13 @@ INSTALLED_APPS = (
     'imagekit',
     'sorl.thumbnail',
     'blog',
-    'django_extensions',
-    'werkzeug'
+    'tinymce'
 )
+TINYMCE_DEFAULT_CONFIG = {
+    'theme': "advanced",
+    'height': 500,
+    'relative_urls': False
+}
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',

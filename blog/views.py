@@ -2,6 +2,7 @@
 import json
 from datetime import datetime
 
+from bs4 import BeautifulSoup
 from django.conf import settings
 from django.core.mail import send_mail
 from django.http import JsonResponse
@@ -135,6 +136,22 @@ class BlogList(ListView):
         return context
 
 
+class SearchList(ListView):
+    template_name = 'podcast/podcast_list.html'
+
+    def get_queryset(self):
+        tag = self.request.GET.get('q', '')
+        if bool(tag.strip()):
+            episodes = Post.objects.exclude(
+                published=None
+            ).filter(
+                tags__tag__icontains=tag
+            ).order_by('-published')
+            return episodes
+        else:
+            return None
+
+
 
 class DateTimeEncoder(json.JSONEncoder):
     # default JSONEncoder cannot serialize datetime.datetime objects
@@ -253,8 +270,13 @@ class EpisodeSingle(DetailView):
                 # This returns a dict with the oembed data
                 embed = consumer.get_oembed(video.url)
                 print embed
-                context['embed'] = embed[0].get('html', None)
-                context['embed'].replace()
+                iframe = embed[0].get('html', None)
+                if iframe:
+                    soup = BeautifulSoup(iframe, 'html.parser')
+                    soup.iframe.attrs['src'] += '&vq=highres'
+                    soup.iframe.attrs['width'] = "100%"
+                    soup.iframe.attrs['height'] = "100%"
+                    context['embed'] = str(soup)
 
         context['time_marks'] = time_marks
         return context

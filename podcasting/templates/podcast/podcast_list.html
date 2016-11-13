@@ -126,12 +126,12 @@
                                     </li>
                                     <li class="item">
                                         {% for tag in post.tags.all %}
-                                            <a href="#" class="podcast-tag"
+                                            <a href="{% url 'search_list' %}?q={{ tag }}"
+                                               class="podcast-tag"
                                                rel="tag">
                                                 {{ tag }}
                                                 {% if not forloop.last %}
-                                                    ,
-                                                    &nbsp;{% endif %}
+                                                    ,&nbsp;{% endif %}
                                             </a>
                                         {% endfor %}
 

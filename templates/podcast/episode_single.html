@@ -46,7 +46,7 @@
                 <!-- ===== PAGE HEADER CONTENT ===== -->
                 <div class="page-header-content text-center">
                     <h2>{{ object.title }}</h2>
-                    <p>{{ object.description }}</p>
+                    <p>{{ object.intro|safe }}</p>
                 </div>
 
             </div>
@@ -70,9 +70,11 @@
                     class="fa fa-clock-o"></i>{% if episode.episode.hours %}
                 {{ episode.episode.hours|stringformat:"02d" }}
                 :{% endif %}{{ episode.episode.minutes|stringformat:"02d" }}:{{ episode.episode.seconds|stringformat:"02d" }}</span>
-            <a class="podcast-meta-item" href="#">
+            <a class="podcast-meta-item" href="{% url 'search_list' %}?q=
+                    {% for tag in object.tags.all %}{% if forloop.first %}{{ tag }}{% endif %}{% endfor %}">
                 <i class="fa fa-tag"></i>
-                {% for tag in object.tags.all %}{% if forloop.first %}{{ tag }}
+                {% for tag in object.tags.all %}
+                    {% if forloop.first %}{{ tag }}
                 {% endif %}{% endfor %}
             </a>
             <a href="http://dts.podtrac.com/redirect.mp3/pizzafria.com/media/{{ episode.file }}"
@@ -98,7 +100,7 @@
     {% elif object.entry_type == 'video' %}
         <div class="podcast-player">
             <div class="podcast-player-inner">
-                <div class="container">
+                <div class="container video-container">
                     {% if episode.url %}
                         {{ embed|safe }}
                     {% else %}
@@ -233,7 +235,9 @@
                             <h2 class="title-separator">Tags</h2>
                             <ul class="tag-list">
                                 {% for tag in object.tags.all %}
-                                    <li class="tag-item"><a href="#" rel="tag">{{ tag }}</a>
+                                    <li class="tag-item"><a
+                                            href="{% url 'search_list' %}?q={{ tag }}"
+                                            rel="tag">{{ tag }}</a>
                                     </li>
                                 {% endfor %}
                             </ul>

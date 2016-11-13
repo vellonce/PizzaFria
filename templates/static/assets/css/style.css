@@ -2812,3 +2812,32 @@ a.current-page:hover {
 .mejs-container.svg.mejs-video.mejs-long-video {
     max-width: 100% !important;
 }
+
+.video-container {
+    height: 640px;
+}
+
+@media screen and (max-width: 656px) {
+    .video-container {
+        width: 412px !important;
+        height: 240px !important;
+        padding: 0;
+    }
+
+    .page-header-podcast {
+        height: 300px !important;
+    }
+
+    .mejs-container.mejs-video.mejs-long-video {
+        height: 265px !important;
+        width: 100% !important;
+    }
+
+    .mejs-layer {
+        width: 100% !important;
+    }
+
+    video {
+        height: 230px !important;
+    }
+}

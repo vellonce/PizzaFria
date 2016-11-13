@@ -6,12 +6,12 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils.html import strip_tags
 from pymediainfo import MediaInfo
 
-from blog.models import Tag, Post
+from blog.models import Tag, Post, Gallery
 from podcasting.models import Episode as EpisodePodcasting, EmbedMedia, \
     Enclosure
-
 
 @python_2_unicode_compatible
 class MediaAccount(models.Model):
@@ -53,7 +53,6 @@ class EpisodePodcast(models.Model):
     number_of_episode = models.CharField(max_length=10, default='00')
     file = models.FileField(upload_to="episodes", null=True, blank=True)
     panel = models.ManyToManyField(Panelist)
-    tags = models.ManyToManyField(Tag)
 
     def __str__(self):
         return self.episode.title
@@ -61,13 +60,35 @@ class EpisodePodcast(models.Model):
     def save(self, *args, **kwargs):
         is_new = False if self.pk else True
         super(EpisodePodcast, self).save(*args, **kwargs)
-        tags = self.episode.keywords
-        tags = tags.split(',')
-        self.tags.clear()
-        for tag in tags:
-            tag = tag.strip()
-            tag, created = Tag.objects.get_or_create(tag=tag)
-            self.tags.add(tag)
+        if self.post is None:
+            picture = Gallery.objects.create(
+                photo=self.episode.original_image,
+                title='',
+                description=''
+            )
+
+            user = User.objects.get(pk=1)
+            intro = strip_tags(self.episode.description)
+            post = Post(
+                entry_type=Post.PODCAST_EPISODE,
+                title=self.episode.title,
+                subtitle=self.episode.subtitle,
+                published=self.episode.published,
+                intro=intro[:256],
+                content=self.episode.description,
+                main_image=picture,
+                author=user,
+            )
+            post.save()
+            self.post = post
+            self.save()
+            tags = self.episode.keywords
+            tags = tags.split(',')
+            post.tags.clear()
+            for tag in tags:
+                tag = tag.strip()
+                tag, created = Tag.objects.get_or_create(tag=tag)
+                post.tags.add(tag)
 
         if is_new and self.file:
             url = 'http://{0}{1}'.format(settings.SITE_URL, self.file.url)

@@ -8,6 +8,12 @@
 		$('video, audio').mediaelementplayer({
 			audioWidth: '100%'
 		});
+	$('.skip-to').on('click', function (e) {
+		e.preventDefault();
+		var myplayer = jQuery('audio')["0"];
+		var seconds = $(this).data('seconds');
+		myplayer.player.setCurrentTime(parseFloat(seconds));
+	});
 	
 	/* ============================================= */
 	/* 		  HAMBURGUER MENU TO SHOW MAIN MENU	     */
@@ -125,7 +131,11 @@
 			$('html, body').animate({ scrollTop: ($(to).offset().top)}, 1000);
 			return false;
 		});
-	
+
+	/* ========================= */
+	/* 		  EASTER EGG	     */
+	/* ========================= */
+	var easter_egg = new Konami('http://pizzafria.com');
 	/* ========================= */
 	/* 		  CONTACT AJAX	     */
 	/* ========================= */
