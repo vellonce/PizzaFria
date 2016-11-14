@@ -67,7 +67,8 @@ class Post(models.Model):
     subtitle = models.CharField(max_length=128, verbose_name='Sub Título',
                                 blank=True)
     slug = AutoSlugField("slug", populate_from="title", unique="True")
-    published = models.DateTimeField(verbose_name='Publicado el', null=True)
+    published = models.DateTimeField(verbose_name='Publicado el', null=True,
+                                     blank=True)
     intro = models.TextField(
         max_length=256,
         verbose_name='Texto introductorio',
@@ -75,13 +76,14 @@ class Post(models.Model):
                   'como previo')
     content = HTMLField(verbose_name='Contenido')
     main_image = models.ForeignKey(Gallery, related_name="main_images",
-                                   verbose_name='Imagen principal (1400x1400)')
-    images = models.ManyToManyField(Gallery)
+                                   verbose_name='Imagen principal mayor a(1600x700)')
+    images = models.ManyToManyField(Gallery, null=True)
     tags = models.ManyToManyField(Tag)
     author = models.ForeignKey(User, verbose_name='Autor')
 
     def __str__(self):
-        return self.title + ' (' + self.entry_type + ')'
+        published = str(self.published) if self.published else 'No'
+        return self.title + ' (' + self.entry_type + ') Publicado:' + published
 
 
 @python_2_unicode_compatible
