@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
-import urllib2
-
 from bs4 import BeautifulSoup
 
 from python_recipes import unique_from_array, validate_url, get_url_domain
 
 __author__ = 'velocidad'
-from urllib2 import urlopen, URLError
-from urlparse import urlsplit
+from urllib.request import urlopen, URLError
+from urllib.parse import urlsplit
 
 # noinspection PyPackageRequirements
 
@@ -463,8 +461,7 @@ class Consumer(object):
         and a response code 200 for success, 400 for errors
         @rtype: tuple
         """
-        req = urllib2.Request(url, headers={'User-Agent': "Magic Browser"})
-        response = urllib2.urlopen(req)
+        response = urlopen(url)
         text = response.read()
         code = response.getcode()
         if 200 >= code < 400:
@@ -596,8 +593,7 @@ class Consumer(object):
         @return: a tuple containing a dict and a response code
         @rtype: tuple
         """
-        req = urllib2.Request(url, headers={'User-Agent': "Magic Browser"})
-        response = urllib2.urlopen(req)
+        response = urlopen(url)
         text = response.read()
         code = response.getcode()
         if 200 >= code < 300 and text:
@@ -725,15 +721,11 @@ def test_this():
     pp = pprint.PrettyPrinter(indent=4)
     keys = []
     for url in test_urls:
-        print "\n________________________________"
-        print url
-        print "\n"
         embed = consumer.get_oembed(url)
         pp.pprint(embed)
         keys += embed.keys()
 
     keys = unique_from_array(keys)
-    print keys
 
 
 if __name__ == "__main__":

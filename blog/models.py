@@ -27,7 +27,6 @@ class Gallery(models.Model):
         if self.photo and not self.id:
             super(Gallery, self).save(*args, **kwargs)
             path = self.photo.path
-            print path
             image_name = path.split('/')
             image_name = image_name[-1]
             base_path = path[:-len(image_name)]
@@ -64,22 +63,37 @@ class Post(models.Model):
     )
     entry_type = models.CharField(max_length=64, choices=POSTS_TYPES)
     title = models.CharField(max_length=128, verbose_name='Título')
-    subtitle = models.CharField(max_length=128, verbose_name='Sub Título',
-                                blank=True)
+    subtitle = models.CharField(
+        max_length=128,
+        verbose_name='Sub Título',
+        blank=True
+    )
     slug = AutoSlugField("slug", populate_from="title", unique="True")
-    published = models.DateTimeField(verbose_name='Publicado el', null=True,
-                                     blank=True)
+    published = models.DateTimeField(
+        verbose_name='Publicado el',
+        null=True,
+        blank=True
+    )
     intro = models.TextField(
         max_length=256,
         verbose_name='Texto introductorio',
         help_text='preferentemente corto. Texto para mostrar en página '
-                  'como previo')
+                  'como previo'
+    )
     content = HTMLField(verbose_name='Contenido')
-    main_image = models.ForeignKey(Gallery, related_name="main_images",
-                                   verbose_name='Imagen principal mayor a(1600x700)')
-    images = models.ManyToManyField(Gallery, null=True)
+    main_image = models.ForeignKey(
+        Gallery,
+        related_name="main_images",
+        verbose_name='Imagen principal mayor a(1600x700)',
+        on_delete=models.PROTECT
+    )
+    images = models.ManyToManyField(Gallery)
     tags = models.ManyToManyField(Tag)
-    author = models.ForeignKey(User, verbose_name='Autor')
+    author = models.ForeignKey(
+        User,
+        verbose_name='Autor',
+        on_delete=models.PROTECT
+    )
 
     def __str__(self):
         published = str(self.published) if self.published else 'No'
@@ -88,10 +102,18 @@ class Post(models.Model):
 
 @python_2_unicode_compatible
 class VideoPost(models.Model):
-    post = models.ForeignKey(Post, verbose_name='Entrada')
+    post = models.ForeignKey(
+        Post,
+        verbose_name='Entrada',
+        on_delete=models.PROTECT
+    )
     url = models.URLField(verbose_name='URL del video', blank=True, null=True)
-    video_file = models.FileField(upload_to='videos', blank=True, null=True,
-                                  verbose_name='Subir Video')
+    video_file = models.FileField(
+        upload_to='videos',
+        blank=True,
+        null=True,
+        verbose_name='Subir Video'
+    )
 
     def __str__(self):
         return "Video file: " + self.post.title

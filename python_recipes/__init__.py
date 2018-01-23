@@ -8,7 +8,7 @@ import re
 import string
 import time
 from functools import wraps
-from urlparse import urlparse
+from urllib.parse import urlsplit, urlencode
 
 import pytz
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -113,9 +113,9 @@ def get_week_start_datetime_end_datetime_tuple(
     @param week: integer 1 or 2 digits
     @return: tuple of the first and the last day datetime objects
 
-    >>> get_week_start_datetime_end_datetime_tuple(2013, 01, 01)
+    >>> get_week_start_datetime_end_datetime_tuple(2013, 1, 1)
     datetime.datetime(2012, 12, 31, 0, 0), datetime.datetime(2013, 1, 7, 0, 0)
-    >>> get_week_start_datetime_end_datetime_tuple(2013, 03, 01)
+    >>> get_week_start_datetime_end_datetime_tuple(2013, 3, 1)
     datetime.datetime(2013, 02, 25, 0, 0), datetime.datetime(2013, 1, 4, 0, 0)
 
     """
@@ -205,7 +205,7 @@ def validate_url(url):
     False
 
     """
-    o = urlparse(url)
+    o = urlsplit(url)
     if o.netloc != '':
         return True
     else:
@@ -224,34 +224,11 @@ def get_url_domain(url):
 
     """
     if validate_url(url):
-        parsed_uri = urlparse(url)
+        parsed_uri = urlsplit(url)
         domain = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_uri)
         return domain
     else:
         return None
-
-
-def validate_username(strng):
-    """Checks for a valid username (alphanumeric with underscores/hypens/dots)
-
-    @param strng: string object, the string to validate
-    @return: boolean, True if valid, False if not
-    >>> validate_string("http://google.com")
-    False
-    >>> validate_string("así.es_el-abarrote01")
-    True
-    """
-    if not isinstance(strng, str) and not isinstance(strng, unicode):
-        return False
-    if isinstance(strng, str):
-        strng = unicode(strng.decode("utf-8"))
-    pattern = re.compile(r'[^\w\s\-\._"]', re.UNICODE)
-
-    string_arr = strng.split(" ")
-    for i in string_arr:
-        if i == "" or pattern.search(i):
-            return False
-    return True
 
 
 def validate_string(strng):
@@ -265,10 +242,8 @@ def validate_string(strng):
     True
 
     """
-    if not isinstance(strng, str) and not isinstance(strng, unicode):
+    if not isinstance(strng, str):
         return False
-    if isinstance(strng, str):
-        strng = unicode(strng.decode("utf-8"))
     pattern = re.compile(r'[^\w\s\-\'\."]', re.UNICODE)
     string_arr = strng.split(" ")
     for i in string_arr:
@@ -317,7 +292,7 @@ def get_post_data(post):
         else:
             # si es un numero entero
             if dato % 1 == 0:
-                datos_post[str(postdata)] = long(dato)
+                datos_post[str(postdata)] = int(dato)
             else:
                 # si tiene decimales
                 datos_post[str(postdata)] = float(dato)
@@ -396,7 +371,7 @@ def is_number(number):
     else:
         # si es un numero entero
         if dato % 1 == 0:
-            dato = long(dato)
+            dato = int(dato)
         else:
             # si tiene decimales
             dato = float(dato)
@@ -501,7 +476,7 @@ def timed(f):
         start = time.time()
         result = f(*args, **kwds)
         elapsed = time.time() - start
-        print "%s took %d seconds to finish" % (f.__name__, elapsed)
+        print("%s took %d seconds to finish" % (f.__name__, elapsed))
         return result
 
     return wrapper

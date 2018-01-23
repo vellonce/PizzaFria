@@ -1,26 +1,26 @@
 # -*- coding: utf-8 -*-
 import django.views.static
 from django.conf import settings
-from django.conf.urls import include, url
+from django.urls import path, include, re_path
 from django.contrib import admin
 
 from blog import urls
 from blog.views import AboutView, ContactView, ThanksView
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
+    path('admin/', admin.site.urls),
 
-    url(r'^', include(urls)),
-    url(r"^about/$", AboutView.as_view(), name='about'),
-    url(r"^contact_us/$", ContactView.as_view(), name='contact_us'),
-    url(r"^thanks/$", ThanksView.as_view()),
-    url(r"^podcasts/", include("podcasting.urls")),
-    url(r"^feeds/podcasts/", include("podcasting.urls_feeds")),
+    path('', include(urls)),
+    re_path(r"^about/$", AboutView.as_view(), name='about'),
+    re_path(r"^contact_us/$", ContactView.as_view(), name='contact_us'),
+    re_path(r"^thanks/$", ThanksView.as_view()),
+    path("podcasts/", include("podcasting.urls")),
+    path("feeds/podcasts/", include("podcasting.urls_feeds")),
 
-    url(r'^tinymce/', include('tinymce.urls')),
+    path('tinymce/', include('tinymce.urls')),
 
-    url(r'^static/(?P<path>.*)$', django.views.static.serve,
-     {'document_root': settings.STATIC_ROOT}),
-    url(r'^media/(?P<path>.*)$', django.views.static.serve,
-     {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}),
+    re_path(r'^static/(?P<path>.*)$', django.views.static.serve,
+        {'document_root': settings.STATIC_ROOT}),
+    re_path(r'^media/(?P<path>.*)$', django.views.static.serve,
+        {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}),
 ]

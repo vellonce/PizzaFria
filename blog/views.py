@@ -249,7 +249,7 @@ class EpisodeSingle(DetailView):
                         seconds = timemark[0]
                         mark = timemark[1]
                     except ValueError:
-                        print 'malformed timemark', timemark
+                        print('malformed timemark', timemark)
                         continue
                     m, s = divmod(int(seconds), 60)
                     h, m = divmod(m, 60)
@@ -269,7 +269,6 @@ class EpisodeSingle(DetailView):
                 consumer = Consumer()
                 # This returns a dict with the oembed data
                 embed = consumer.get_oembed(video.url)
-                print embed
                 iframe = embed[0].get('html', None)
                 if iframe:
                     soup = BeautifulSoup(iframe, 'html.parser')

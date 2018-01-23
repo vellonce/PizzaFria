@@ -10,7 +10,7 @@ except ImportError:
 
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.utils.encoding import python_2_unicode_compatible
@@ -28,10 +28,7 @@ if not hasattr(settings, "AUTH_USER_MODEL"):
 from autoslug import AutoSlugField
 
 # optional external dependencies
-try:
-    from licenses.models import License
-except:
-    License = None
+from licenses.models import License
 
 try:
     from imagekit.models import ImageSpecField
@@ -108,11 +105,18 @@ class Show(models.Model):
     )
     uuid = UUIDField(_("id"), unique=True)
 
-    created = models.DateTimeField(_("created"), auto_now_add=True,
-                                   editable=False)
+    created = models.DateTimeField(
+        _("created"),
+        auto_now_add=True,
+        editable=False
+    )
     updated = models.DateTimeField(_("updated"), auto_now=True, editable=False)
-    published = models.DateTimeField(_("published"), null=True, blank=True,
-                                     editable=False)
+    published = models.DateTimeField(
+        _("published"),
+        null=True,
+        blank=True,
+        editable=False
+    )
 
     sites = models.ManyToManyField(Site, verbose_name=_('Sites'))
 
@@ -122,10 +126,13 @@ class Show(models.Model):
         cached before refreshing."""))
 
     owner = models.ForeignKey(
-        settings.AUTH_USER_MODEL, related_name="podcast_shows",
+        settings.AUTH_USER_MODEL,
+        related_name="podcast_shows",
         verbose_name=_("owner"),
         help_text=_(
-            """Make certain the user account has a name and e-mail address."""))
+            """Make certain the user account has a name and e-mail address."""),
+        on_delete=models.PROTECT
+    )
 
     editor_email = models.EmailField(
         _("editor email"), blank=True,
@@ -137,45 +144,64 @@ class Show(models.Model):
             "Email address of the person responsible for channel publishing."))
 
     if 'licenses' in settings.INSTALLED_APPS:
-        license = models.ForeignKey(License, verbose_name=_("license"))
+        license = models.ForeignKey(
+            License,
+            verbose_name=_("license"),
+            on_delete=models.PROTECT
+        )
     else:
         license = models.CharField(
-            _("license"), max_length=255,
+            _("license"),
+            max_length=255,
             help_text=_(
-                "To publish a podcast to iTunes it is required to set a license type."))
+                "To publish a podcast to iTunes it is required to set a license type.")
+        )
 
     organization = models.CharField(
-        _("organization"), max_length=255,
+        _("organization"),
+        max_length=255,
         help_text=_(
-            "Name of the organization, company or Web site producing the podcast."))
-    link = models.URLField(_("link"), help_text=_("""URL of either the main website or the
-        podcast section of the main website."""))
+            "Name of the organization, company or Web site producing the podcast.")
+    )
+    link = models.URLField(
+        _("link"),
+        help_text=_("""URL of either the main website or the
+        podcast section of the main website.""")
+    )
 
     enable_comments = models.BooleanField(default=True)
 
     author_text = models.CharField(
-        _("author text"), max_length=255, help_text=_("""
+        _("author text"),
+        max_length=255,
+        help_text=_("""
             This tag contains the name of the person or company that is most
             widely attributed to publishing the Podcast and will be
             displayed immediately underneath the title of the Podcast.
             The suggested format is: 'email@example.com (Full Name)'
             but 'Full Name' only, is acceptable. Multiple authors
-            should be comma separated."""))
+            should be comma separated.""")
+    )
 
     title = models.CharField(_("title"), max_length=255)
     slug = AutoSlugField(_("slug"), populate_from="title", unique="True")
 
     subtitle = models.CharField(
         _("subtitle"), max_length=255,
-        help_text=_("Looks best if only a few words, like a tagline."))
+        help_text=_("Looks best if only a few words, like a tagline.")
+    )
 
     # If the show is not on iTunes, many fields may be ignored in your user forms
     on_itunes = models.BooleanField(
-        _("iTunes"), default=True,
-        help_text=_("Checked if the podcast is submitted to iTunes"))
+        _("iTunes"),
+        default=True,
+        help_text=_("Checked if the podcast is submitted to iTunes")
+    )
 
     description = HTMLField(
-        _("description"), max_length=4000, help_text=_("""
+        _("description"),
+        max_length=4000,
+        help_text=_("""
             This is your chance to tell potential subscribers all about your
             podcast. Describe your subject matter, media format,
             episode schedule, and other relevant info so that they
@@ -185,10 +211,14 @@ class Show(models.Model):
             your description. Note that iTunes removes podcasts that
             include lists of irrelevant words in the itunes:summary,
             description, or itunes:keywords tags. This field can be up
-            to 4000 characters."""))
+            to 4000 characters.""")
+    )
 
     original_image = ImageField(
-        _("image"), upload_to=get_show_upload_folder, blank=True, help_text=_("""
+        _("image"),
+        upload_to=get_show_upload_folder,
+        blank=True,
+        help_text=_("""
             A podcast must have 1400 x 1400 pixel cover art in JPG or PNG
             format using RGB color space. See our technical spec for
             details. To be eligible for featuring on iTunes Stores,
@@ -201,60 +231,87 @@ class Show(models.Model):
             display in iTunes, image must be <a
             href="http://answers.yahoo.com/question/index?qid=20080501164348AAjvBvQ">
             saved to file's <strong>metadata</strong></a> before
-            enclosure uploading!"""))
+            enclosure uploading!""")
+    )
 
     if ResizeToFill:
-        admin_thumb_sm = ImageSpecField(source="original_image",
-                                        processors=[ResizeToFill(50, 50)],
-                                        options={"quality": 100})
-        admin_thumb_lg = ImageSpecField(source="original_image",
-                                        processors=[ResizeToFill(450, 450)],
-                                        options={"quality": 100})
-        img_show_sm = ImageSpecField(source="original_image",
-                                     processors=[ResizeToFill(120, 120)],
-                                     options={"quality": 100})
-        img_show_lg = ImageSpecField(source="original_image",
-                                     processors=[ResizeToFill(550, 550)],
-                                     options={"quality": 100})
-        img_itunes_sm = ImageSpecField(source="original_image",
-                                       processors=[ResizeToFill(144, 144)],
-                                       options={"quality": 100})
-        img_itunes_lg = ImageSpecField(source="original_image",
-                                       processors=[ResizeToFill(1400, 1400)],
-                                       options={"quality": 100})
+        admin_thumb_sm = ImageSpecField(
+            source="original_image",
+            processors=[ResizeToFill(50, 50)],
+            options={"quality": 100}
+        )
+        admin_thumb_lg = ImageSpecField(
+            source="original_image",
+            processors=[ResizeToFill(450, 450)],
+            options={"quality": 100}
+        )
+        img_show_sm = ImageSpecField(
+            source="original_image",
+            processors=[ResizeToFill(120, 120)],
+            options={"quality": 100}
+        )
+        img_show_lg = ImageSpecField(
+            source="original_image",
+            processors=[ResizeToFill(550, 550)],
+            options={"quality": 100}
+        )
+        img_itunes_sm = ImageSpecField(
+            source="original_image",
+            processors=[ResizeToFill(144, 144)],
+            options={"quality": 100}
+        )
+        img_itunes_lg = ImageSpecField(
+            source="original_image",
+            processors=[ResizeToFill(1400, 1400)],
+            options={"quality": 100}
+        )
 
     feedburner = models.URLField(
-        _("feedburner url"), blank=True,
+        _("feedburner url"),
+        blank=True,
         help_text=_("""Fill this out after saving this show and at least one
             episode. URL should look like "http://feeds.feedburner.com/TitleOfShow".
             See <a href="http://code.google.com/p/django-podcast/">documentation</a>
-            for more. <a href="http://www.feedburner.com/fb/a/ping">Manually ping</a>"""))
+            for more. <a href="http://www.feedburner.com/fb/a/ping">Manually ping</a>""")
+    )
 
     # iTunes specific fields
     explicit = models.PositiveSmallIntegerField(
-        _("explicit"), default=1, choices=EXPLICIT_CHOICES,
-        help_text=_("``Clean`` will put the clean iTunes graphic by it."))
+        _("explicit"),
+        default=1,
+        choices=EXPLICIT_CHOICES,
+        help_text=_("``Clean`` will put the clean iTunes graphic by it.")
+    )
     redirect = models.URLField(
-        _("redirect"), blank=True,
+        _("redirect"),
+        blank=True,
         help_text=_("""The show's new URL feed if changing
             the URL of the current show feed. Must continue old feed for at least
-            two weeks and write a 301 redirect for old feed."""))
+            two weeks and write a 301 redirect for old feed.""")
+    )
     keywords = models.CharField(
-        _("keywords"), max_length=255, blank=True,
+        _("keywords"),
+        max_length=255,
+        blank=True,
         help_text=_("""A comma-demlimitedlist of up to 12 words for iTunes
-            searches. Perhaps include misspellings of the title."""))
+            searches. Perhaps include misspellings of the title.""")
+    )
     itunes = models.URLField(
-        _("itunes store url"), blank=True,
+        _("itunes store url"),
+        blank=True,
         help_text=_("""Fill this out after saving this show and at least one
             episode. URL should look like:
             "http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=000000000".
-            See <a href="http://code.google.com/p/django-podcast/">documentation</a> for more."""))
+            See <a href="http://code.google.com/p/django-podcast/">documentation</a> for more.""")
+    )
 
     twitter_tweet_prefix = models.CharField(
-        _("Twitter tweet prefix"), max_length=80,
+        _("Twitter tweet prefix"),
+        max_length=80,
         help_text=_(
             "Enter a short ``tweet_text`` prefix for new episodes on this show."),
-        blank=True)
+        blank=True
+    )
 
     objects = ShowManager()
     tags = TaggableManager(blank=True)
@@ -290,31 +347,51 @@ class Episode(models.Model):
     SIXTY_CHOICES = tuple((x, x) for x in range(60))
     uuid = UUIDField("ID", unique=True)
 
-    created = models.DateTimeField(_("created"), auto_now_add=True,
-                                   editable=False)
+    created = models.DateTimeField(
+        _("created"),
+        auto_now_add=True,
+        editable=False
+    )
     updated = models.DateTimeField(_("updated"), auto_now=True, editable=False)
-    published = models.DateTimeField(_("published"), null=True, blank=True,
-                                     editable=False)
+    published = models.DateTimeField(
+        _("published"),
+        null=True,
+        blank=True,
+        editable=False)
 
-    shows = models.ForeignKey(Show, verbose_name=_("Podcasts"))
+    shows = models.ForeignKey(
+        Show,
+        verbose_name=_("Podcasts"),
+        on_delete=models.PROTECT
+    )
 
     enable_comments = models.BooleanField(default=True)
 
-    author_text = models.CharField(_("author text"), max_length=255, blank=True,
-                                   help_text=_("""
+    author_text = models.CharField(
+        _("author text"),
+        max_length=255,
+        blank=True,
+        help_text=_("""
         The person or musician name(s) featured on this specific episode.
         The suggested format is: 'email@example.com (Full Name)' but 'Full Name' only,
-        is acceptable. Multiple authors should be comma separated."""))
+        is acceptable. Multiple authors should be comma separated.""")
+    )
 
     title = models.CharField(_("title"), max_length=255)
     slug = AutoSlugField(_("slug"), populate_from="title", unique="True")
 
     subtitle = models.CharField(
-        _("subtitle"), max_length=255, blank=True,
-        help_text=_("Looks best if only a few words like a tagline."))
+        _("subtitle"),
+        max_length=255,
+        blank=True,
+        help_text=_("Looks best if only a few words like a tagline.")
+    )
 
     description = HTMLField(
-        _("description"), max_length=4000, blank=True, help_text=_("""
+        _("description"),
+        max_length=4000,
+        blank=True,
+        help_text=_("""
             This is your chance to tell potential subscribers all about your podcast.
             Describe your subject matter, media format, episode schedule, and other
             relevant info so that they know what they'll be getting when they
@@ -322,17 +399,25 @@ class Episode(models.Model):
             that you want your podcast to match, then build them into your
             description. Note that iTunes removes podcasts that include lists of
             irrelevant words in the itunes:summary, description, or
-            itunes:keywords tags. This field can be up to 4000 characters."""))
+            itunes:keywords tags. This field can be up to 4000 characters.""")
+    )
     tracklist = models.TextField(
-        _("tracklist"), blank=True,
+        _("tracklist"),
+        blank=True,
         help_text=_(
-            """One track per line, machine will automatically add the numbers. Format: seconds-description"""))
+            """One track per line, machine will automatically add the numbers. Format: seconds-description""")
+    )
 
-    tweet_text = models.CharField(_("tweet text"), max_length=140,
-                                  editable=False)
+    tweet_text = models.CharField(
+        _("tweet text"),
+        max_length=140,
+        editable=False
+    )
 
     original_image = ImageField(
-        _("image"), upload_to=get_episode_upload_folder, blank=True,
+        _("image"),
+        upload_to=get_episode_upload_folder,
+        blank=True,
         help_text=_("""
             A podcast must have 1400 x 1400 pixel cover art in JPG or PNG
             format using RGB color space. See our technical spec for
@@ -346,46 +431,71 @@ class Episode(models.Model):
             display in iTunes, image must be <a
             href="http://answers.yahoo.com/question/index?qid=20080501164348AAjvBvQ">
             saved to file's <strong>metadata</strong></a> before
-            enclosure uploading!"""))
+            enclosure uploading!""")
+    )
 
     if ImageSpecField:
-        admin_thumb_sm = ImageSpecField(source="original_image",
-                                        processors=[ResizeToFill(50, 50)],
-                                        options={"quality": 100})
-        admin_thumb_lg = ImageSpecField(source="original_image",
-                                        processors=[ResizeToFill(450, 450)],
-                                        options={"quality": 100})
-        img_episode_sm = ImageSpecField(source="original_image",
-                                        processors=[ResizeToFill(120, 120)],
-                                        options={"quality": 100})
-        img_episode_lg = ImageSpecField(source="original_image",
-                                        processors=[ResizeToFill(550, 550)],
-                                        options={"quality": 100})
-        img_itunes_sm = ImageSpecField(source="original_image",
-                                       processors=[ResizeToFill(144, 144)],
-                                       options={"quality": 100})
-        img_itunes_lg = ImageSpecField(source="original_image",
-                                       processors=[ResizeToFill(1400, 1400)],
-                                       options={"quality": 100})
+        admin_thumb_sm = ImageSpecField(
+            source="original_image",
+            processors=[ResizeToFill(50, 50)],
+            options={"quality": 100}
+        )
+        admin_thumb_lg = ImageSpecField(
+            source="original_image",
+            processors=[ResizeToFill(450, 450)],
+            options={"quality": 100}
+        )
+        img_episode_sm = ImageSpecField(
+            source="original_image",
+            processors=[ResizeToFill(120, 120)],
+            options={"quality": 100}
+        )
+        img_episode_lg = ImageSpecField(
+            source="original_image",
+            processors=[ResizeToFill(550, 550)],
+            options={"quality": 100}
+        )
+        img_itunes_sm = ImageSpecField(
+            source="original_image",
+            processors=[ResizeToFill(144, 144)],
+            options={"quality": 100}
+        )
+        img_itunes_lg = ImageSpecField(
+            source="original_image",
+            processors=[ResizeToFill(1400, 1400)],
+            options={"quality": 100}
+        )
 
     # iTunes specific fields
     hours = models.SmallIntegerField(_("hours"), default=0)
-    minutes = models.SmallIntegerField(_("minutes"), default=0,
-                                       choices=SIXTY_CHOICES)
-    seconds = models.SmallIntegerField(_("seconds"), default=0,
-                                       choices=SIXTY_CHOICES)
+    minutes = models.SmallIntegerField(
+        _("minutes"), default=0,
+        choices=SIXTY_CHOICES
+    )
+    seconds = models.SmallIntegerField(
+        _("seconds"),
+        default=0,
+        choices=SIXTY_CHOICES
+    )
     keywords = models.CharField(
-        _("keywords"), max_length=255, blank=True,
+        _("keywords"),
+        max_length=255,
+        blank=True,
         help_text=_("A comma-delimited list of words for searches, up to 12; "
-                    "perhaps include misspellings."))
+                    "perhaps include misspellings.")
+    )
     explicit = models.PositiveSmallIntegerField(
-        _("explicit"), choices=Show.EXPLICIT_CHOICES,
+        _("explicit"),
+        choices=Show.EXPLICIT_CHOICES,
         help_text=_("``Clean`` will put the clean iTunes graphic by it."),
-        default=1)
+        default=1
+    )
     block = models.BooleanField(
-        _("block"), default=False,
+        _("block"),
+        default=False,
         help_text=_("Check to block this episode from iTunes because <br />its "
-                    "content might cause the entire show to be <br />removed from iTunes."""))
+                    "content might cause the entire show to be <br />removed from iTunes.""")
+    )
 
     objects = EpisodeManager()
     tags = TaggableManager(blank=True)
@@ -488,27 +598,41 @@ class Enclosure(models.Model):
             saved to file's <strong>metadata</strong></a> before enclosure uploading!<br /><br />
             For best results, choose an attractive, original, and square JPEG (.jpg) or PNG (.png)
             image at a size of 1400x1400 pixels. The image will be
-            scaled down to 50x50 pixels at smallest in iTunes."""))
+            scaled down to 50x50 pixels at smallest in iTunes.""")
+    )
 
     size = models.PositiveIntegerField(
         _("size"),
         help_text=_("The length attribute is the file size in bytes. "
                     "Find this information in the files properties "
-                    "(on a Mac, ``Get Info`` and refer to the size row)"))
+                    "(on a Mac, ``Get Info`` and refer to the size row)")
+    )
     mime = models.CharField(
-        _("mime format"), max_length=4, choices=MIME_CHOICES,
+        _("mime format"),
+        max_length=4,
+        choices=MIME_CHOICES,
         help_text=_("Supports mime types of: {0}".format(
-            ", ".join([mime[0] for mime in MIME_CHOICES]))))
+            ", ".join([mime[0] for mime in MIME_CHOICES])))
+    )
     bitrate = models.CharField(
-        _("bit rate"), max_length=5, default="192",
+        _("bit rate"),
+        max_length=5,
+        default="192",
         help_text=_(
-            "Measured in kilobits per second (kbps), often 128 or 192."))
+            "Measured in kilobits per second (kbps), often 128 or 192.")
+    )
     sample = models.CharField(
-        _("sample rate"), max_length=5, default="44.1",
-        help_text=_("Measured in kilohertz (kHz), often 44.1."))
+        _("sample rate"),
+        max_length=5,
+        default="44.1",
+        help_text=_("Measured in kilohertz (kHz), often 44.1.")
+    )
     channel = models.CharField(
-        _("channel"), max_length=1, default=2,
-        help_text=_("Number of channels; 2 for stereo, 1 for mono."))
+        _("channel"),
+        max_length=1,
+        default=2,
+        help_text=_("Number of channels; 2 for stereo, 1 for mono.")
+    )
     duration = models.IntegerField(
         _("duration"),
         help_text=_(
@@ -534,7 +658,11 @@ class EmbedMedia(models.Model):
     Ideally this will be used with django-embed-video which supports
     easy embeding for YouTube and Vimeo videos and music from SoundCloud.
     """
-    episode = models.ForeignKey(Episode, verbose_name=_("episode"))
+    episode = models.ForeignKey(
+        Episode,
+        verbose_name=_("episode"),
+        on_delete=models.PROTECT
+    )
 
     if EmbedVideoField:
         url = EmbedVideoField(_("url"), help_text=_("URL of the media file"))

@@ -8,7 +8,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'pizza_db',
         'USER': 'root',
-        'PASSWORD': 'A8d32e08.',
+        'PASSWORD': '',
         'HOST': '',
         'PORT': '',
     }

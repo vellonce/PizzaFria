@@ -13,4 +13,3 @@ def generate_tags():
             tag = tag.strip()
             tag, created = Tag.objects.get_or_create(tag=tag)
             episode.tags.add(tag)
-        print episode.tags.all()

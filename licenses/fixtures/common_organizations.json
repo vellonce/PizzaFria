@@ -1,0 +1,24 @@
+[
+    {
+        "pk": 1,
+        "model": "licenses.organization",
+        "fields": {
+            "name": "Free Software Foundation",
+            "slug": "free-software-foundation",
+            "abbreviation": "FSF",
+            "website": "http://www.fsf.org/",
+            "description": "The Free Software Foundation (FSF) is a non-profit corporation founded by Richard Stallman on 4 October 1985 to support the free software movement, a copyleft-based movement which aims to promote the universal freedom to distribute and modify computer software without restriction.\n-- http://en.wikipedia.org/wiki/Free_Software_Foundation"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "licenses.organization",
+        "fields": {
+            "name": "Creative Commons",
+            "slug": "creative-commons",
+            "abbreviation": "CC",
+            "website": "http://creativecommons.org/",
+            "description": "Creative Commons (CC) is a non-profit organization devoted to expanding the range of creative works available for others to build upon legally and to share.[1] The organization has released several copyright licenses known as Creative Commons licenses. These licenses allow creators to easily communicate which rights they reserve, and which rights they waive for the benefit of other creators.\n-- http://en.wikipedia.org/wiki/Creative_Commons"
+        }
+    }
+]

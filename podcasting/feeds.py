@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import datetime
 
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils.feedgenerator import rfc2822_date, Rss201rev2Feed, Atom1Feed
 from django.shortcuts import get_object_or_404
 

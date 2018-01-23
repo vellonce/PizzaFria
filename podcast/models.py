@@ -31,8 +31,13 @@ class MediaAccount(models.Model):
 
 @python_2_unicode_compatible
 class Panelist(models.Model):
-    user = models.ForeignKey(User, verbose_name='Usuario', null=True,
-                             blank=True)
+    user = models.ForeignKey(
+        User,
+        verbose_name='Usuario',
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT
+    )
     name = models.CharField(max_length=128)
     alias = models.CharField(max_length=128, blank=True, null=True)
     about = models.TextField(null=True, blank=True)
@@ -48,8 +53,13 @@ class Panelist(models.Model):
 
 @python_2_unicode_compatible
 class EpisodePodcast(models.Model):
-    post = models.ForeignKey(Post, null=True, blank=True)
-    episode = models.ForeignKey(EpisodePodcasting)
+    post = models.ForeignKey(
+        Post,
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT
+    )
+    episode = models.ForeignKey(EpisodePodcasting, on_delete=models.PROTECT)
     number_of_episode = models.CharField(max_length=10, default='00')
     file = models.FileField(upload_to="episodes", null=True, blank=True)
     panel = models.ManyToManyField(Panelist)

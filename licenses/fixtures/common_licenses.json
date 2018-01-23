@@ -1,0 +1,170 @@
+[
+    {
+        "pk": 1,
+        "model": "licenses.license",
+        "fields": {
+            "name": "Public domain",
+            "slug": "public-domain ",
+            "organization": null,
+            "abbreviation": "PD",
+            "url": "http://en.wikipedia.org/wiki/Public_domain",
+            "logo": "",
+            "description": "Public domain is not realy a license. It is deactivated therefor.",
+            "is_active": false
+        }
+    },
+    {
+        "pk": 2,
+        "model": "licenses.license",
+        "fields": {
+            "name": "GNU General Public License, version 3",
+            "slug": "gnu-general-public-license-v3",
+            "organization": 1,
+            "abbreviation": "GPLv3",
+            "url": "http://www.gnu.org/licenses/gpl.html",
+            "logo": "http://www.gnu.org/graphics/gplv3-88x31.png",
+            "description": "See also http://en.wikipedia.org/wiki/GNU_General_Public_License",
+            "is_active": true
+        }
+    },
+    {
+        "pk": 3,
+        "model": "licenses.license",
+        "fields": {
+            "name": "GNU Lesser General Public License, version 3",
+            "slug": "gnu-lesser-general-public-license-v3",
+            "organization": 1,
+            "abbreviation": "LGPLv3",
+            "url": "http://www.gnu.org/licenses/lgpl.html",
+            "logo": "http://www.gnu.org/graphics/lgplv3-88x31.png",
+            "description": "",
+            "is_active": true
+        }
+    },
+    {
+        "pk": 4,
+        "model": "licenses.license",
+        "fields": {
+            "name": "GNU Affero General Public License, version 3",
+            "slug": "gnu-affero-general-public-license-v3",
+            "organization": 1,
+            "abbreviation": "AGPL",
+            "url": "http://www.gnu.org/licenses/agpl.html",
+            "logo": "http://www.gnu.org/graphics/agplv3-88x31.png",
+            "description": "There is only one version of the AGPL, so the abbreviation doesn't include the version number.",
+            "is_active": true
+        }
+    },
+    {
+        "pk": 5,
+        "model": "licenses.license",
+        "fields": {
+            "name": "GNU Free Documentation License, version 1.2",
+            "slug": "gnu-free-documentation-license",
+            "organization": 1,
+            "abbreviation": "FDLv1.2",
+            "url": "http://www.gnu.org/licenses/fdl.html",
+            "logo": "",
+            "description": "",
+            "is_active": true
+        }
+    },
+    {
+        "pk": 6,
+        "model": "licenses.license",
+        "fields": {
+            "name": "Creative Commons Attribution 3.0 Unported License",
+            "slug": "creative-commons-attribution-3",
+            "organization": 2,
+            "abbreviation": "CC-BY",
+            "url": "http://creativecommons.org/licenses/by/3.0/",
+            "logo": "http://i.creativecommons.org/l/by/3.0/88x31.png",
+            "description": "",
+            "is_active": true
+        }
+    },
+    {
+        "pk": 7,
+        "model": "licenses.license",
+        "fields": {
+            "name": "Creative Commons Attribution-Share Alike 3.0 Unported License",
+            "slug": "creative-commons-attribution-share-alike-3",
+            "organization": 2,
+            "abbreviation": "CC-BY-SA",
+            "url": "http://creativecommons.org/licenses/by-sa/3.0/",
+            "logo": "http://i.creativecommons.org/l/by-sa/3.0/88x31.png",
+            "description": "",
+            "is_active": true
+        }
+    },
+    {
+        "pk": 8,
+        "model": "licenses.license",
+        "fields": {
+            "name": "New and Simplified BSD licenses",
+            "slug": "bsd-license",
+            "organization": null,
+            "abbreviation": "BSD",
+            "url": "http://www.opensource.org/licenses/bsd-license.php",
+            "logo": "",
+            "description": "",
+            "is_active": true
+        }
+    },
+    {
+        "pk": 9,
+        "model": "licenses.license",
+        "fields": {
+            "name": "Apache License, version 2.0",
+            "slug": "apache-license",
+            "organization": null,
+            "abbreviation": "Apache",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html",
+            "logo": "",
+            "description": "",
+            "is_active": true
+        }
+    },
+    {
+        "pk": 10,
+        "model": "licenses.license",
+        "fields": {
+            "name": "The MIT License",
+            "slug": "mit-license",
+            "organization": null,
+            "abbreviation": "MIT",
+            "url": "http://www.opensource.org/licenses/mit-license.php",
+            "logo": "",
+            "description": "",
+            "is_active": true
+        }
+    },
+    {
+        "pk": 11,
+        "model": "licenses.license",
+        "fields": {
+            "name": "GNU General Public License, version 2",
+            "slug": "gnu-general-public-license-v2",
+            "organization": 1,
+            "abbreviation": "GPLv2",
+            "url": "http://www.gnu.org/licenses/gpl-2.0.html",
+            "logo": "",
+            "description": "See also http://en.wikipedia.org/wiki/GNU_General_Public_License#Version_2",
+            "is_active": true
+        }
+    },
+    {
+        "pk": 12,
+        "model": "licenses.license",
+        "fields": {
+            "name": "GNU Lesser General Public License, version 2.1",
+            "slug": "gnu-lesser-general-public-license-v2.1",
+            "organization": 1,
+            "abbreviation": "LGPLv2.1",
+            "url": "http://www.gnu.org/licenses/lgpl-2.1.html",
+            "logo": "",
+            "description": "",
+            "is_active": true
+        }
+    }
+]
