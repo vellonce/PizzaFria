@@ -13,7 +13,7 @@ DATABASES = {
         'PORT': '',
     }
 }
-
+DEBUG = True
 ALLOWED_HOSTS = []
 
 STATIC_ROOT = ''
