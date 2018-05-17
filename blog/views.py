@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 from django.conf import settings
 from django.core.mail import send_mail
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
 from django.utils.datetime_safe import strftime
 from django.views.generic import TemplateView, FormView, ListView, DetailView
 
@@ -205,7 +206,7 @@ class EpisodeSingle(DetailView):
     def get_object(self, queryset=None):
         slug = self.kwargs.get(self.slug_field, None)
         if slug:
-            return Post.objects.get(slug=slug)
+            return get_object_or_404(Post, slug=slug)
 
     def get_context_data(self, **kwargs):
         context = super(EpisodeSingle, self).get_context_data(**kwargs)
