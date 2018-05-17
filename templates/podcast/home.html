@@ -46,7 +46,7 @@ PizzaFr&iacute;a - Un podcast sobre viajes en el tiempo
                 <li class="item"><i class="fa fa-clock-o"></i>
                     {% if latest.episode.hours %}{{ latest.episode.hours|stringformat:"02d" }}:{% endif %}{{ latest.episode.minutes|stringformat:"02d" }}:{{ latest.episode.seconds|stringformat:"02d" }}</li>
                 <li class="item"><a
-                        href="http://dts.podtrac.com/redirect.mp3/pizzafria.com/media/{{ latest.file }}"
+                        href="https://dts.podtrac.com/redirect.mp3/pizzafria.com/media/{{ latest.file }}"
                         download class="podcast-hero-download"><i
                         class="fa fa-download"></i> Descargar</a></li>
             </ul>
@@ -57,7 +57,7 @@ PizzaFr&iacute;a - Un podcast sobre viajes en el tiempo
     <div class="podcast-hero-player-content">
         <div class="container">
             <!-- ===== CUSTOM PLAYER ===== -->
-            <audio src="http://dts.podtrac.com/redirect.mp3/pizzafria.com/media/{{ latest.file }}"></audio>
+            <audio src="https://dts.podtrac.com/redirect.mp3/pizzafria.com/media/{{ latest.file }}"></audio>
         </div>
     </div>
     </div>
