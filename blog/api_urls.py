@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from django.urls import path, include, re_path
+from rest_framework import routers
+from blog.api import
 
-from blog.views import HomeEpisodeList, EpisodeSingle, get_posts, \
-    PodcastList, VideoList, BlogList, SearchList
 
 urlpatterns = [
-    re_path(r'^$', HomeEpisodeList.as_view(), name='home'),
+    re_path(r'^episodes/$', HomeEpisodeList.as_view(), name='home'),
     re_path(
         r'^slice/(?P<slug>[-\w]+)$',
         EpisodeSingle.as_view(),

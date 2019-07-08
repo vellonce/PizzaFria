@@ -5,12 +5,15 @@ from .settings import *
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'pizza_db',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '',
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "pizza_db",
+        "USER": "root",
+        "PASSWORD": "A8d32e08.",
+        "HOST": "pizzafria.com",
+        "PORT": "",
+        "OPTIONS": {
+            "init_command": "SET sql_mode='STRICT_TRANS_TABLES'"
+        },
     }
 }
 DEBUG = True

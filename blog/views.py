@@ -11,6 +11,7 @@ from django.utils.datetime_safe import strftime
 from django.views.generic import TemplateView, FormView, ListView, DetailView
 
 from blog.forms import ContactForm
+from blog.common import home_elements
 from oembed_consumer import Consumer
 from podcast.models import EpisodePodcast, Panelist
 from podcasting.models import Show
@@ -60,15 +61,7 @@ class HomeEpisodeList(ListView):
     template_name = "podcast/home.html"
 
     def get_queryset(self):
-        last = EpisodePodcast.objects.exclude(
-            episode__published__isnull=True).first()
-        episodes = Post.objects.exclude(
-            published=None
-        ).exclude(
-            pk=last.post.pk
-        ).order_by('-published')
-
-        return episodes
+        return home_elements()
 
     def get_context_data(self, **kwargs):
         context = super(HomeEpisodeList, self).get_context_data(**kwargs)
@@ -167,9 +160,11 @@ class DateTimeEncoder(json.JSONEncoder):
 def get_posts(request):
     # start
     offset = request.GET.get('offset', 8)
+    offset = int(offset)
     # take the next x elements following start
     take = request.GET.get('take', 6)
-    final_offset = int(offset) + int(take)
+    take = int(take)
+    final_offset = offset + take
     last = EpisodePodcast.objects.exclude(
         episode__published__isnull=True).first()
     posts = Post.objects.exclude(
